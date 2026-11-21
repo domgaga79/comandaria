@@ -12,12 +12,23 @@ Capturas da interface com dados fictícios.
 
 Selecione uma mesa ou abra uma comanda por cliente. O total fica ao lado do carrinho.
 
-### Outras telas
+### Cozinha
 
-| Cozinha | Pedido por QR Code | Entrada da equipe |
-| --- | --- | --- |
-| ![Painel da cozinha com três pedidos e seus itens](docs/telas/cozinha.png) | <img src="docs/telas/pedido-qr.png" width="270" alt="Cardápio por QR Code com um item no carrinho"> | ![Tela de login da Comandaria Express](docs/telas/login.png) |
-| Acompanhe o tempo de preparo e marque itens como prontos. | Consulte o cardápio da mesa e envie o pedido. | Entre com Google quando o OAuth estiver configurado. |
+![Painel da cozinha com três pedidos, tempos de espera e itens em preparo](docs/telas/cozinha.png)
+
+### Dashboard
+
+![Dashboard administrativo com os atalhos da operação e o uso do plano Pro](docs/telas/dashboard.png)
+
+### Relatórios
+
+![Relatório com faturamento, ticket médio, produtos mais vendidos e pedidos do período](docs/telas/relatorios.png)
+
+### Pedido por QR Code e login
+
+| Pedido por QR Code | Entrada da equipe |
+| --- | --- |
+| <img src="docs/telas/pedido-qr.png" width="270" alt="Cardápio por QR Code com um item no carrinho"> | ![Tela de login da Comandaria Express](docs/telas/login.png) |
 
 ## Fluxo de trabalho
 
