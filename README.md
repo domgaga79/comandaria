@@ -6,15 +6,18 @@ Sistema de comandas para restaurantes, bares e lanchonetes. A equipe registra pe
 
 Capturas da interface com dados fictícios.
 
-| Atendimento | Cozinha |
-| --- | --- |
-| ![Tela de atendimento com mesas, catálogo e carrinho destacado](docs/telas/atendimento.png) | ![Painel da cozinha com três pedidos e seus itens](docs/telas/cozinha.png) |
-| Selecione uma mesa ou abra uma comanda por cliente. O total fica ao lado do carrinho. | Acompanhe o tempo de cada pedido, marque itens como prontos e imprima a comanda. |
+### Atendimento
 
-| Pedido por QR Code | Entrada da equipe |
-| --- | --- |
-| <img src="docs/telas/pedido-qr.png" width="270" alt="Cardápio por QR Code com um item no carrinho"> | ![Tela de login da Comandaria Express](docs/telas/login.png) |
-| O cliente consulta o cardápio, adiciona itens e envia o pedido à equipe. | A tela de entrada oferece acesso por Google quando o OAuth está configurado. |
+![Tela de atendimento com a marca Comandaria Express no topo, mesas, catálogo e carrinho](docs/telas/atendimento-com-logo.png)
+
+Selecione uma mesa ou abra uma comanda por cliente. O total fica ao lado do carrinho.
+
+### Outras telas
+
+| Cozinha | Pedido por QR Code | Entrada da equipe |
+| --- | --- | --- |
+| ![Painel da cozinha com três pedidos e seus itens](docs/telas/cozinha.png) | <img src="docs/telas/pedido-qr.png" width="270" alt="Cardápio por QR Code com um item no carrinho"> | ![Tela de login da Comandaria Express](docs/telas/login.png) |
+| Acompanhe o tempo de preparo e marque itens como prontos. | Consulte o cardápio da mesa e envie o pedido. | Entre com Google quando o OAuth estiver configurado. |
 
 ## Fluxo de trabalho
 
