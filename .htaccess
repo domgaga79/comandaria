@@ -1,0 +1,33 @@
+Options -Indexes
+
+DirectoryIndex public/index.php
+
+RewriteEngine On
+RewriteBase /
+
+# Se já acessou /public diretamente, deixa passar
+RewriteRule ^public/ - [L]
+
+# Bloqueia pastas internas
+RewriteRule ^(core|config|helpers|database|sql|storage|vendor)(/|$) - [F,L]
+
+# Se existir arquivo/pasta real na raiz atual, deixa passar
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Raiz do sistema
+RewriteRule ^$ public/index.php [L]
+
+# Regra específica para dashboard (vem antes da genérica)
+RewriteRule ^dashboard$ public/dashboard.php [L]
+
+# Tudo que for chamado sem /public busca dentro de /public
+RewriteRule ^(.+)$ public/$1 [L,QSA]
+
+# php -- BEGIN cPanel-generated handler, do not edit
+# Set the “ea-php82” package as the default “PHP” programming language.
+<IfModule mime_module>
+  AddHandler application/x-httpd-ea-php82___lsphp .php .php8 .phtml
+</IfModule>
+# php -- END cPanel-generated handler, do not edit

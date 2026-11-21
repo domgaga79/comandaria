@@ -1,0 +1,8 @@
+/vendor/
+.env
+.env.*
+error_log
+*.log
+*.bak
+*.sql.gz
+*.zip

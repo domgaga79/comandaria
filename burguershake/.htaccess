@@ -1,0 +1,23 @@
+Options -Indexes
+
+DirectoryIndex public/index.php
+
+RewriteEngine On
+RewriteBase /burguershake/
+
+# Se já acessou /public diretamente, deixa passar
+RewriteRule ^public/ - [L]
+
+# Bloqueia pastas internas
+RewriteRule ^(core|config|helpers|database|sql|storage|vendor)(/|$) - [F,L]
+
+# Se existir arquivo/pasta real na raiz atual, deixa passar
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Raiz do sistema
+RewriteRule ^$ public/index.php [L]
+
+# Tudo que for chamado sem /public busca dentro de /public
+RewriteRule ^(.+)$ public/$1 [L,QSA]

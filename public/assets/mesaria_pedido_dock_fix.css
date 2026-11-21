@@ -1,0 +1,135 @@
+/* =========================================================
+   MESARIA EXPRESS - DOCK "SEU PEDIDO"
+   Ajuste mobile: dock vazio compacto, sem respiro inferior exagerado
+   Arquivo: assets/mesaria_pedido_dock_fix.css
+========================================================= */
+
+:root {
+    --mesaria-pedido-dock-h: 85px;
+    --mesaria-pedido-dock-gap: 15px;
+}
+
+html {
+    scroll-padding-bottom: calc(var(--mesaria-pedido-dock-h) + var(--mesaria-pedido-dock-gap) + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* Reserva a altura do dock + 15px de respiro inferior. */
+body.mesaria-pedido-dock-ativo {
+    padding-bottom: calc(var(--mesaria-pedido-dock-h) + var(--mesaria-pedido-dock-gap) + env(safe-area-inset-bottom, 0px)) !important;
+}
+
+/* Zera o padding exagerado dos containers; o respiro controlado fica somente no body. */
+body.mesaria-pedido-dock-ativo main,
+body.mesaria-pedido-dock-ativo .container,
+body.mesaria-pedido-dock-ativo .container-fluid,
+body.mesaria-pedido-dock-ativo .app,
+body.mesaria-pedido-dock-ativo .page,
+body.mesaria-pedido-dock-ativo .wrapper,
+body.mesaria-pedido-dock-ativo .content,
+body.mesaria-pedido-dock-ativo .conteudo,
+body.mesaria-pedido-dock-ativo .conteudo-cardapio,
+body.mesaria-pedido-dock-ativo .cardapio,
+body.mesaria-pedido-dock-ativo .lista-produtos,
+body.mesaria-pedido-dock-ativo .produtos,
+body.mesaria-pedido-dock-ativo #produtos,
+body.mesaria-pedido-dock-ativo #listaProdutos,
+body.mesaria-pedido-dock-ativo #lista,
+body.mesaria-pedido-dock-ativo [data-produtos],
+body.mesaria-pedido-dock-ativo [data-lista-produtos] {
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+/* O dock real da mesa.php é #cartPanel. Mantive também os seletores genéricos. */
+#cartPanel.mesaria-pedido-dock-auto,
+#mesariaPedidoDock.mesaria-pedido-dock-auto,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-dock-auto {
+    position: fixed !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    z-index: 9990 !important;
+    box-shadow: 0 -8px 24px rgba(0,0,0,.30) !important;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Carrinho vazio: fica realmente com 85px. */
+#cartPanel.mesaria-pedido-vazio,
+#mesariaPedidoDock.mesaria-pedido-vazio,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-vazio {
+    height: 85px !important;
+    max-height: 85px !important;
+    overflow: hidden !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+#cartPanel.mesaria-pedido-vazio .cart-inner,
+#mesariaPedidoDock.mesaria-pedido-vazio .cart-inner,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-vazio .cart-inner {
+    padding: 10px 12px 8px !important;
+}
+
+#cartPanel.mesaria-pedido-vazio .cart-head,
+#mesariaPedidoDock.mesaria-pedido-vazio .cart-head,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-vazio .cart-head {
+    min-height: 50px !important;
+    align-items: center !important;
+}
+
+/* No carrinho vazio, oculta a instrução longa e os botões para não estourar 85px. */
+#cartPanel.mesaria-pedido-vazio #cartItems,
+#cartPanel.mesaria-pedido-vazio .cart-actions,
+#mesariaPedidoDock.mesaria-pedido-vazio #cartItems,
+#mesariaPedidoDock.mesaria-pedido-vazio .cart-actions,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-vazio #cartItems,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-vazio .cart-actions {
+    display: none !important;
+}
+
+/* Com itens, mantém o carrinho funcional para ver itens e enviar pedido. */
+#cartPanel.mesaria-pedido-com-itens,
+#mesariaPedidoDock.mesaria-pedido-com-itens,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-com-itens {
+    height: auto !important;
+    max-height: min(56vh, 490px) !important;
+    overflow-y: auto !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px) !important;
+}
+
+#cartPanel.mesaria-pedido-dock-auto button,
+#cartPanel.mesaria-pedido-dock-auto .btn,
+#cartPanel.mesaria-pedido-dock-auto [role="button"],
+#mesariaPedidoDock.mesaria-pedido-dock-auto button,
+#mesariaPedidoDock.mesaria-pedido-dock-auto .btn,
+#mesariaPedidoDock.mesaria-pedido-dock-auto [role="button"],
+[data-mesaria-pedido-dock="1"].mesaria-pedido-dock-auto button,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-dock-auto .btn,
+[data-mesaria-pedido-dock="1"].mesaria-pedido-dock-auto [role="button"] {
+    min-height: 44px;
+}
+
+@media (max-width: 480px) {
+    body.mesaria-pedido-dock-ativo {
+        padding-bottom: calc(var(--mesaria-pedido-dock-h) + var(--mesaria-pedido-dock-gap) + env(safe-area-inset-bottom, 0px)) !important;
+    }
+
+    #cartPanel.mesaria-pedido-vazio,
+    #mesariaPedidoDock.mesaria-pedido-vazio,
+    [data-mesaria-pedido-dock="1"].mesaria-pedido-vazio {
+        height: 85px !important;
+        max-height: 85px !important;
+    }
+}
+
+@media (min-width: 768px) {
+    #cartPanel.mesaria-pedido-dock-auto,
+    #mesariaPedidoDock.mesaria-pedido-dock-auto,
+    [data-mesaria-pedido-dock="1"].mesaria-pedido-dock-auto {
+        left: 50% !important;
+        right: auto !important;
+        width: min(900px, 100%) !important;
+        transform: translateX(-50%) !important;
+        border-radius: 28px 28px 0 0;
+    }
+}
