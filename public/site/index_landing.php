@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=18">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=19">
 </head>
 <body>
     <header class="site-header">
@@ -92,11 +92,13 @@ function landingEscape(string $value): string
                 <h2>Recursos para cada etapa do serviço</h2>
                 <div class="feature-grid">
                     <?php foreach($recursos as [$icone, $titulo, $descricao]): ?>
-                        <article class="feature-card" data-assemble>
-                            <i class="feature-icon bi bi-<?= landingEscape($icone) ?>" aria-hidden="true"></i>
-                            <h3><?= landingEscape($titulo) ?></h3>
-                            <p><?= landingEscape($descricao) ?></p>
-                        </article>
+                        <div class="feature-slot">
+                            <article class="feature-card">
+                                <i class="feature-icon bi bi-<?= landingEscape($icone) ?>" aria-hidden="true"></i>
+                                <h3><?= landingEscape($titulo) ?></h3>
+                                <p><?= landingEscape($descricao) ?></p>
+                            </article>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -220,7 +222,7 @@ function landingEscape(string $value): string
             const movimento = window.matchMedia('(prefers-reduced-motion: reduce)');
             const animarPorLink = new URLSearchParams(window.location.search).get('animacao') === '1';
             const pagina = document.querySelector('main');
-            const grupos = document.querySelectorAll('.feature-grid, .flow ol, .plans');
+            const grupos = document.querySelectorAll('.feature-grid.audience, .flow ol, .plans');
             let quadro = 0;
 
             function atualizar() {
@@ -290,6 +292,22 @@ function landingEscape(string $value): string
             if (movimento.addEventListener) movimento.addEventListener('change', aplicarPreferencia);
         }
 
+        function animarRecursos() {
+            if (!('IntersectionObserver' in window)) return;
+
+            const grade = document.querySelector('#funcionalidades .feature-grid');
+            const limite = .12;
+            const observer = new IntersectionObserver(entries => {
+                for (const {target, isIntersecting, intersectionRatio} of entries) {
+                    if (!isIntersecting) target.classList.remove('is-visible');
+                    else if (intersectionRatio >= limite) target.classList.add('is-visible');
+                }
+            }, {threshold: [0, limite]});
+
+            grade.classList.add('feature-motion-ready');
+            for (const slot of grade.children) observer.observe(slot);
+        }
+
         function animarBlocos() {
             if (!('IntersectionObserver' in window)) return;
 
@@ -309,6 +327,7 @@ function landingEscape(string $value): string
         document.querySelector('.hero').classList.add('hero-intro');
         animarTitulo();
         encaixarCartoes();
+        animarRecursos();
         animarBlocos();
     </script>
 </body>

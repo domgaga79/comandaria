@@ -98,7 +98,8 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
     border-color: #425570;
     border-top: 2px solid var(--feature-accent, #83b7ff);
 }
-.section-features .feature-card:nth-child(even) { --feature-accent: #ffda6a; }
+.section-features .feature-slot:nth-child(even) { --feature-accent: #ffda6a; }
+.feature-slot > .feature-card { height: 100%; }
 .section-features .feature-card p { color: #dee2e6; }
 .section-features .feature-card .feature-icon {
     width: 48px;
@@ -270,32 +271,35 @@ main { overflow-x: clip; }
     transition: none;
 }
 
-/* O salto pelo menu chega com a grade visível e tem seu próprio encaixe. */
-.cartoes-animados .section-features:target .feature-card {
-    --entry-x: -26px;
-    --entry-angle: -5deg;
-    animation: landing-feature-entry .92s cubic-bezier(.2, .65, .3, 1)
-        calc(var(--entry-column, 0ms) + var(--entry-row, 0ms)) backwards;
+/* A célula fica imóvel para que a animação não altere o ponto de entrada. */
+.cartoes-animados .feature-motion-ready .feature-slot {
+    --entry-transform: translate(-18px, 54px) rotate(-5deg) scale(.94);
 }
 
-.cartoes-animados .section-features:target .feature-card:nth-child(even) {
-    --entry-x: 26px;
-    --entry-angle: 5deg;
+.cartoes-animados .feature-motion-ready .feature-slot:nth-child(even) {
+    --entry-transform: translate(18px, 68px) rotate(5deg) scale(.94);
 }
 
-.cartoes-animados .section-features:target .feature-card:nth-child(4n + 2) { --entry-column: 70ms; }
-.cartoes-animados .section-features:target .feature-card:nth-child(4n + 3) { --entry-column: 140ms; }
-.cartoes-animados .section-features:target .feature-card:nth-child(4n + 4) { --entry-column: 210ms; }
-.cartoes-animados .section-features:target .feature-card:nth-child(n + 5) { --entry-row: 170ms; }
+.cartoes-animados .feature-motion-ready .feature-slot > .feature-card {
+    transform: var(--entry-transform);
+}
+
+.cartoes-animados .feature-motion-ready .feature-slot.is-visible > .feature-card {
+    transform: none;
+    animation: landing-feature-entry .95s cubic-bezier(.2, .6, .2, 1) var(--entry-delay, 0ms) backwards;
+}
+
+.feature-slot:nth-child(4n + 2) { --entry-delay: 75ms; }
+.feature-slot:nth-child(4n + 3) { --entry-delay: 150ms; }
+.feature-slot:nth-child(4n + 4) { --entry-delay: 225ms; }
 
 @keyframes landing-feature-entry {
-    from { transform: translate(var(--entry-x), 52px) rotate(var(--entry-angle)) scale(.88); }
-    78% { transform: translateY(-6px); }
-    to { transform: var(--assembly-transform, none); }
+    from { transform: var(--entry-transform); }
+    to { transform: none; }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .cartoes-animados .feature-card { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
+    .cartoes-animados .feature-card[data-assemble] { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
     .feature-card:hover { translate: 0 -7px; border-color: #9ec5fe; box-shadow: 0 8px 24px #0d6efd15; }
     .section-features .feature-card:hover { border-color: var(--feature-accent, #83b7ff); box-shadow: 0 14px 25px #0006; }
 }
