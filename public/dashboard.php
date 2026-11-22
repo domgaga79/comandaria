@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../config/comercial.php';
 require __DIR__ . '/auth.php';
 requireRole(['admin']);
 
@@ -128,7 +129,7 @@ try {
         $telefoneEmpresaUpgrade = trim((string)($empresaDashboard['telefone'] ?? ''));
         $emailEmpresaUpgrade = trim((string)($_SESSION['user_email'] ?? ''));
 
-        $mensagemUpgrade = "Olá, Bacuri Digital! Quero fazer upgrade da minha empresa para o plano PRO por R$ 229,90 mensal.
+        $mensagemUpgrade = "Olá, Bacuri Digital! Quero fazer upgrade da minha empresa para o plano PRO por " . COMANDARIA_PRECO_PRO . " mensal.
 
 ";
         $mensagemUpgrade .= "Dados da empresa:
@@ -268,7 +269,7 @@ if ($adminPlataforma) {
         </div>
         <?php if ($planoAtualDashboard === 'FREE' && $whatsappUpgradeUrl !== ''): ?>
             <a href="<?= h($whatsappUpgradeUrl) ?>" target="_blank" rel="noopener noreferrer" class="dash-upgrade">
-                <i class="bi bi-whatsapp" aria-hidden="true"></i> Plano PRO · R$ 229,90/mês
+                <i class="bi bi-whatsapp" aria-hidden="true"></i> Plano PRO · <?= h(COMANDARIA_PRECO_PRO) ?>/mês
             </a>
         <?php endif; ?>
     </section>

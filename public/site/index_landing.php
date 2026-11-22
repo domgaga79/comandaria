@@ -1,12 +1,12 @@
 <?php
 
+require_once dirname(__DIR__, 2) . '/config/comercial.php';
+
 $landingAtRoot = $landingAtRoot ?? false;
 $whatsappNumero = '5571993143374';
 $linkWhatsapp = 'https://wa.me/' . $whatsappNumero . '?text=';
 $linkWhatsappFree = $linkWhatsapp . rawurlencode('Olá, Bacuri Digital! Quero começar no plano FREE da Comandaria Express.');
-$mensagemPro = $landingAtRoot
-    ? 'Olá, Bacuri Digital! Quero saber mais sobre o plano PRO da Comandaria Express por R$ 59,90/mês.'
-    : 'Olá, Bacuri Digital! Quero saber mais sobre o plano PRO da Comandaria Express.';
+$mensagemPro = 'Olá, Bacuri Digital! Quero saber mais sobre o plano PRO da Comandaria Express por ' . COMANDARIA_PRECO_PRO . '/mês.';
 $linkWhatsappPro = $linkWhatsapp . rawurlencode($mensagemPro);
 $linkWhatsappDemo = $linkWhatsapp . rawurlencode('Olá, Bacuri Digital! Quero conhecer melhor a Comandaria Express.');
 $linkLogin = $landingAtRoot ? 'login.php' : '../login.php';
@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=4">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=5">
 </head>
 <body>
     <header class="site-header">
@@ -81,7 +81,8 @@ function landingEscape(string $value): string
                     </div>
                 </div>
                 <figure class="hero-image">
-                    <img src="<?= landingEscape($caminhoPublico) ?>images/operacao-restaurante.webp" width="1120" height="747" fetchpriority="high" alt="Atendente usando um tablet no balcão de um restaurante">
+                    <img src="<?= landingEscape($caminhoPublico) ?>images/comandaria-previa-atendimento.webp" width="1320" height="820" fetchpriority="high" alt="Tela da Comandaria com a grade de mesas e o cardápio do atendimento">
+                    <figcaption>Atendimento na Comandaria</figcaption>
                 </figure>
             </div>
         </section>
@@ -131,20 +132,12 @@ function landingEscape(string $value): string
                     </article>
                     <article class="plan plan-pro" data-reveal>
                         <h3>PRO</h3>
-                        <p class="price"><strong><?= $landingAtRoot ? 'R$ 59,90' : 'R$ 129,90' ?></strong> /mês</p>
-                        <?php if($landingAtRoot): ?>
-                            <ul>
-                                <li>Mesas ilimitadas</li>
-                                <li>Pedidos ilimitados</li>
-                                <li>Controle de usuários e acessos</li>
-                            </ul>
-                        <?php else: ?>
-                            <ul>
-                                <li>Até 30 mesas cadastradas</li>
-                                <li>Até 1.000 pedidos por mês</li>
-                                <li>Cadastro da equipe e controle de acessos</li>
-                            </ul>
-                        <?php endif; ?>
+                        <p class="price"><strong><?= landingEscape(COMANDARIA_PRECO_PRO) ?></strong> /mês</p>
+                        <ul>
+                            <li>Até 30 mesas cadastradas</li>
+                            <li>Até 1.000 pedidos por mês</li>
+                            <li>Cadastro da equipe e controle de acessos</li>
+                        </ul>
                         <div class="actions">
                             <a class="button button-primary" href="<?= landingEscape($linkWhatsappPro) ?>" target="_blank" rel="noopener">Quero o PRO</a>
                         </div>
@@ -213,13 +206,13 @@ function landingEscape(string $value): string
                 posicao += 1;
                 textoDigitado.textContent = letras.slice(0, posicao).join('');
                 if (posicao < letras.length) {
-                    setTimeout(digitar, 58);
+                    setTimeout(digitar, 90);
                 } else {
                     destaque.textContent = frase;
                     destaque.classList.remove('is-typing');
                 }
             }
-            setTimeout(digitar, 180);
+            setTimeout(digitar, 350);
 
             if ('IntersectionObserver' in window) {
                 const observer = new IntersectionObserver(entries => {
@@ -229,7 +222,7 @@ function landingEscape(string $value): string
                         entry.target.classList.add('reveal-in');
                         observer.unobserve(entry.target);
                     });
-                }, { threshold: 0.12 });
+                }, { rootMargin: '0px 0px -10% 0px', threshold: 0.25 });
 
                 document.querySelectorAll('[data-reveal]').forEach(bloco => observer.observe(bloco));
             }
