@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=6">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=7">
 </head>
 <body>
     <header class="site-header">
@@ -78,7 +78,6 @@ function landingEscape(string $value): string
                             <a class="button button-primary" href="<?= landingEscape($linkWhatsappFree) ?>" target="_blank" rel="noopener">Começar grátis</a>
                         <?php endif; ?>
                         <a class="button button-outline" href="#diferenciais">Veja como funciona <span aria-hidden="true">↓</span></a>
-                        <button type="button" class="animation-replay" data-animation-replay hidden>Rever animação</button>
                     </div>
                 </div>
                 <figure class="hero-image">
@@ -188,16 +187,11 @@ function landingEscape(string $value): string
         document.querySelectorAll('.site-nav a').forEach(link => {
             link.addEventListener('click', () => atualizarMenu(false));
         });
-        const movimentoReduzido = matchMedia('(prefers-reduced-motion: reduce)');
         const destaque = document.querySelector('[data-typewriter]');
-        const botaoAnimacao = document.querySelector('[data-animation-replay]');
         const frase = destaque.textContent;
         const letras = Array.from(frase);
-        let temporizador;
-        let observer;
 
         function animarTitulo() {
-            clearTimeout(temporizador);
             const textoDigitado = document.createElement('span');
             textoDigitado.className = 'typewriter-text';
             textoDigitado.setAttribute('aria-hidden', 'true');
@@ -213,20 +207,19 @@ function landingEscape(string $value): string
                 posicao += 1;
                 textoDigitado.textContent = letras.slice(0, posicao).join('');
                 if (posicao < letras.length) {
-                    temporizador = setTimeout(digitar, 105);
+                    setTimeout(digitar, 105);
                 } else {
                     destaque.textContent = frase;
                     destaque.classList.remove('is-typing');
                 }
             }
-            temporizador = setTimeout(digitar, 420);
+            setTimeout(digitar, 420);
         }
 
         function animarBlocos() {
             if (!('IntersectionObserver' in window)) return;
 
-            observer?.disconnect();
-            observer = new IntersectionObserver(entries => {
+            const observer = new IntersectionObserver(entries => {
                 let ordem = 0;
                 for (const entry of entries) {
                     if (!entry.isIntersecting) continue;
@@ -239,20 +232,8 @@ function landingEscape(string $value): string
             document.querySelectorAll('[data-reveal]:not(.reveal-in)').forEach(bloco => observer.observe(bloco));
         }
 
-        botaoAnimacao.hidden = false;
-        botaoAnimacao.addEventListener('click', () => {
-            botaoAnimacao.textContent = 'Rever animação';
-            animarTitulo();
-            animarBlocos();
-        });
-
-        if (!movimentoReduzido.matches) {
-            animarTitulo();
-            animarBlocos();
-        } else {
-            botaoAnimacao.textContent = 'Ativar animações';
-        }
-
+        animarTitulo();
+        animarBlocos();
     </script>
 </body>
 </html>
