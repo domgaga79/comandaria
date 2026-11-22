@@ -81,6 +81,7 @@ a { color: inherit; }
 .section-tinted { background: #edf2f7; border-block: 1px solid #e2e8f0; }
 h2 { margin-bottom: 12px; font-size: clamp(1.4rem, 2vw, 1.85rem); }
 h3 { margin: 0 0 6px; line-height: 1.25; }
+.feature-grid, .flow ol, .plans { position: relative; }
 .feature-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 .feature-grid.audience { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .audience .feature-card { background: linear-gradient(145deg, #fff, #edf5ff); border-color: #cfe2ff; }
@@ -109,7 +110,6 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
 }
 
 main { overflow-x: clip; }
-.flow { overflow-x: clip; }
 .flow ol {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -205,7 +205,6 @@ main { overflow-x: clip; }
 
 @media (prefers-reduced-motion: reduce) {
     .reveal-in { animation-name: landing-fade; }
-    .section :is(.feature-card, .flow li, .plan).reveal-in { animation: none; }
     .typewriter-text::after { animation: none; }
     @keyframes landing-fade {
         from { opacity: .35; }
@@ -245,27 +244,6 @@ main { overflow-x: clip; }
         animation: landing-accent .55s ease-out both;
     }
 
-    .section :is(.feature-card, .flow li, .plan).reveal-in {
-        --entry-x: -32px;
-        --entry-angle: -3deg;
-        animation: landing-card-enter .95s cubic-bezier(.2, .75, .3, 1) var(--reveal-delay, 0ms) backwards;
-    }
-
-    .section :is(.feature-card, .flow li, .plan).reveal-in:nth-child(even) {
-        --entry-x: 32px;
-        --entry-angle: 3deg;
-    }
-
-    @keyframes landing-card-enter {
-        from { transform: translate(var(--entry-x), 40px) rotate(var(--entry-angle)) scale(.94); }
-        72% { transform: translateY(-6px) scale(1.015); }
-        to { transform: none; }
-    }
-
-    .feature-card.reveal-in .feature-icon {
-        animation: landing-icon .45s cubic-bezier(.25, 1.35, .55, 1) calc(var(--reveal-delay, 0ms) + 160ms) both;
-    }
-
     @keyframes landing-image-frame {
         from { opacity: .15; }
         to { opacity: 1; }
@@ -281,47 +259,19 @@ main { overflow-x: clip; }
         to { transform: scaleX(1); }
     }
 
-    @keyframes landing-icon {
-        from { opacity: .35; transform: scale(.72); }
-        to { opacity: 1; transform: scale(1); }
+    [data-assemble] {
+        transform: var(--assembly-transform, none);
+        transition: transform .36s cubic-bezier(.2, .65, .3, 1);
     }
-}
 
-@media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) and (animation-range: entry 0% cover 52%) {
-        main .section :is(.feature-card, .flow li, .plan)[data-reveal] {
-            --assembly-x: calc(-1 * clamp(60px, 8vw, 120px));
-            --assembly-angle: -12deg;
-            --assembly-end: 51%;
-            animation: landing-assemble linear both;
-            animation-timeline: view();
-            animation-range: entry 0% cover var(--assembly-end);
-        }
-
-        main .section :is(.feature-card, .flow li, .plan)[data-reveal]:nth-child(even) {
-            --assembly-x: clamp(60px, 8vw, 120px);
-            --assembly-angle: 12deg;
-            --assembly-end: 59%;
-        }
-
-        main .section :is(.feature-card, .flow li, .plan)[data-reveal]:focus-within,
-        main .feature-card.reveal-in .feature-icon {
-            animation: none;
-        }
-
-        @keyframes landing-assemble {
-            from {
-                transform: translateX(var(--assembly-x)) rotate(var(--assembly-angle)) scale(.76);
-            }
-            70% { transform: translateX(calc(var(--assembly-x) * .35)) rotate(calc(var(--assembly-angle) * .4)) scale(.9); }
-            90% { transform: translateX(calc(var(--assembly-x) * -.06)) rotate(calc(var(--assembly-angle) * -.12)) scale(1.015); }
-            to { transform: none; }
-        }
+    [data-assemble]:focus-within {
+        transform: none;
+        transition: none;
     }
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .feature-card { transition: translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
+    .feature-card { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
     .feature-card:hover { translate: 0 -7px; border-color: #9ec5fe; box-shadow: 0 8px 24px #0d6efd15; }
     .section-features .feature-card:hover { border-color: var(--feature-accent, #83b7ff); box-shadow: 0 14px 25px #0006; }
 }

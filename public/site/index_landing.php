@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=15">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=16">
 </head>
 <body>
     <header class="site-header">
@@ -92,7 +92,7 @@ function landingEscape(string $value): string
                 <h2>Recursos para cada etapa do serviço</h2>
                 <div class="feature-grid">
                     <?php foreach($recursos as [$icone, $titulo, $descricao]): ?>
-                        <article class="feature-card" data-reveal>
+                        <article class="feature-card" data-assemble>
                             <i class="feature-icon bi bi-<?= landingEscape($icone) ?>" aria-hidden="true"></i>
                             <h3><?= landingEscape($titulo) ?></h3>
                             <p><?= landingEscape($descricao) ?></p>
@@ -106,9 +106,9 @@ function landingEscape(string $value): string
             <div class="flow">
                 <h2>Como funciona no salão</h2>
                 <ol>
-                    <li data-reveal><i class="feature-icon bi bi-receipt" aria-hidden="true"></i><strong>Receba o pedido</strong><span>A equipe lança a comanda ou o cliente pede pelo QR Code da mesa.</span></li>
-                    <li data-reveal><i class="feature-icon bi bi-fire" aria-hidden="true"></i><strong>Acompanhe o preparo</strong><span>A cozinha recebe os itens e informa quando estão prontos.</span></li>
-                    <li data-reveal><i class="feature-icon bi bi-credit-card" aria-hidden="true"></i><strong>Feche a conta</strong><span>O caixa revisa os valores e registra os pagamentos.</span></li>
+                    <li data-assemble><i class="feature-icon bi bi-receipt" aria-hidden="true"></i><strong>Receba o pedido</strong><span>A equipe lança a comanda ou o cliente pede pelo QR Code da mesa.</span></li>
+                    <li data-assemble><i class="feature-icon bi bi-fire" aria-hidden="true"></i><strong>Acompanhe o preparo</strong><span>A cozinha recebe os itens e informa quando estão prontos.</span></li>
+                    <li data-assemble><i class="feature-icon bi bi-credit-card" aria-hidden="true"></i><strong>Feche a conta</strong><span>O caixa revisa os valores e registra os pagamentos.</span></li>
                 </ol>
             </div>
         </section>
@@ -117,7 +117,7 @@ function landingEscape(string $value): string
             <div class="site-container">
                 <h2>Planos</h2>
                 <div class="plans">
-                    <article class="plan" data-reveal>
+                    <article class="plan" data-assemble>
                         <h3>FREE</h3>
                         <p class="price"><strong>R$ 0</strong> /mês</p>
                         <ul>
@@ -130,7 +130,7 @@ function landingEscape(string $value): string
                             <a class="button button-outline" href="<?= landingEscape($linkWhatsappFree) ?>" target="_blank" rel="noopener">Quero o FREE</a>
                         </div>
                     </article>
-                    <article class="plan plan-pro" data-reveal>
+                    <article class="plan plan-pro" data-assemble>
                         <h3>PRO</h3>
                         <p class="price"><strong><?= landingEscape(COMANDARIA_PRECO_PRO) ?></strong> /mês</p>
                         <ul>
@@ -149,9 +149,9 @@ function landingEscape(string $value): string
         <section class="section site-container" id="publico">
             <h2>Para bares, lanchonetes e restaurantes</h2>
             <div class="feature-grid audience">
-                <article class="feature-card" data-reveal><i class="feature-icon bi bi-cup-straw" aria-hidden="true"></i><h3>Bares</h3><p>Mantenha comandas e consumos por mesa em ordem durante o atendimento.</p></article>
-                <article class="feature-card" data-reveal><i class="feature-icon bi bi-shop" aria-hidden="true"></i><h3>Lanchonetes</h3><p>Envie pedidos do balcão para a cozinha e acompanhe a retirada.</p></article>
-                <article class="feature-card" data-reveal><i class="feature-icon bi bi-shop-window" aria-hidden="true"></i><h3>Restaurantes</h3><p>Conecte salão, cozinha e caixa durante todo o serviço.</p></article>
+                <article class="feature-card" data-assemble><i class="feature-icon bi bi-cup-straw" aria-hidden="true"></i><h3>Bares</h3><p>Mantenha comandas e consumos por mesa em ordem durante o atendimento.</p></article>
+                <article class="feature-card" data-assemble><i class="feature-icon bi bi-shop" aria-hidden="true"></i><h3>Lanchonetes</h3><p>Envie pedidos do balcão para a cozinha e acompanhe a retirada.</p></article>
+                <article class="feature-card" data-assemble><i class="feature-icon bi bi-shop-window" aria-hidden="true"></i><h3>Restaurantes</h3><p>Conecte salão, cozinha e caixa durante todo o serviço.</p></article>
             </div>
         </section>
 
@@ -216,6 +216,71 @@ function landingEscape(string $value): string
             setTimeout(digitar, 420);
         }
 
+        function encaixarCartoes() {
+            const movimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const grupos = document.querySelectorAll('.feature-grid, .flow ol, .plans');
+            let quadro = 0;
+
+            function atualizar() {
+                quadro = 0;
+                if (movimento.matches) return;
+
+                const altura = window.innerHeight;
+                const largura = document.documentElement.clientWidth;
+                const restante = document.documentElement.scrollHeight - altura - window.scrollY;
+                const inicio = altura * .98;
+                const posicoes = [];
+
+                for (const grupo of grupos) {
+                    const {top, left, width} = grupo.getBoundingClientRect();
+
+                    for (const [indice, cartao] of Array.from(grupo.children).entries()) {
+                        const centro = top + cartao.offsetTop + cartao.offsetHeight / 2;
+                        const alternado = indice % 2 === 1;
+                        const destino = Math.max(altura * (alternado ? .34 : .43), centro - restante);
+                        const percurso = Math.max(1, inicio - destino);
+                        const deslocado = Math.min(1, Math.max(0, (centro - destino) / percurso));
+                        const larguraCartao = cartao.offsetWidth;
+                        const meio = cartao.offsetLeft + larguraCartao / 2;
+                        const faixa = meio / width;
+                        const colunaUnica = larguraCartao >= width * .95;
+                        const direcao = colunaUnica ? (alternado ? 1 : -1)
+                            : (Math.abs(faixa - .5) < .04 ? 0 : Math.sign(faixa - .5));
+                        const angulo = (direcao || 1) * (largura < 541 ? 5 : 10) * deslocado;
+                        const escala = 1 - .15 * deslocado;
+                        const radianos = Math.abs(angulo) * Math.PI / 180;
+                        // Inclui a largura que o cartão ganha ao girar, antes de limitar a saída pela borda.
+                        const meiaLargura = escala * (larguraCartao * Math.cos(radianos)
+                            + cartao.offsetHeight * Math.sin(radianos)) / 2;
+                        const espaco = direcao < 0 ? left + meio : largura - left - meio;
+                        const distancia = Math.min(colunaUnica ? 34 : 110, largura * .14) * deslocado;
+                        posicoes.push({
+                            cartao,
+                            x: direcao * Math.max(0, Math.min(espaco - meiaLargura - 4, distancia)),
+                            y: (alternado ? 72 : 40) * deslocado,
+                            angulo,
+                            escala,
+                        });
+                    }
+                }
+
+                for (const {cartao, x, y, angulo, escala} of posicoes) {
+                    cartao.style.setProperty('--assembly-transform',
+                        `translate(${x.toFixed(2)}px, ${y.toFixed(2)}px) rotate(${angulo.toFixed(2)}deg) scale(${escala.toFixed(3)})`);
+                }
+            }
+
+            function agendar() {
+                if (!quadro && !movimento.matches) quadro = requestAnimationFrame(atualizar);
+            }
+
+            atualizar();
+            window.addEventListener('scroll', agendar, {passive: true});
+            window.addEventListener('resize', agendar);
+            window.addEventListener('load', agendar, {once: true});
+            if (movimento.addEventListener) movimento.addEventListener('change', agendar);
+        }
+
         function animarBlocos() {
             if (!('IntersectionObserver' in window)) return;
 
@@ -234,6 +299,7 @@ function landingEscape(string $value): string
 
         document.querySelector('.hero').classList.add('hero-intro');
         animarTitulo();
+        encaixarCartoes();
         animarBlocos();
     </script>
 </body>
