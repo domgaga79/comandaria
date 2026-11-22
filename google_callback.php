@@ -37,7 +37,7 @@ function googleVoltarLogin(string $mensagem): void {
 function googleRedirecionarPorTipo(string $tipo): void {
     switch($tipo){
         case 'admin':
-            header('Location: /dashboard.php');
+            header('Location: dashboard.php');
             exit;
         case 'atendente':
         case 'garcom':

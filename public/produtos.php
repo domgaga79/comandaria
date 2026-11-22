@@ -166,6 +166,17 @@ try {
 
         $nome = trim($_POST['nome'] ?? '');
 
+        $imagemUrl = trim((string)($_POST['imagem_url'] ?? ''));
+        if ($imagemUrl !== '' && (
+            strlen($imagemUrl) > 2048 ||
+            !filter_var($imagemUrl, FILTER_VALIDATE_URL) ||
+            strtolower((string)parse_url($imagemUrl, PHP_URL_SCHEME)) !== 'https'
+        )) {
+            redirectProdutos('Informe um link HTTPS válido para a foto.', 'erro');
+        }
+        $imagemUrl = $imagemUrl !== '' ? $imagemUrl : null;
+
+
         $categoriaId = !empty($_POST['categoria_id'])
             ? (int)$_POST['categoria_id']
             : null;
@@ -224,7 +235,8 @@ try {
                     tempo = ?,
                     permite_obs = ?,
                     adicional_permitido = ?,
-                    valor_adicional = ?
+                    valor_adicional = ?,
+                    imagem_url = ?
                 WHERE id = ?
                 AND empresa_id = ?
                 AND deleted_at IS NULL
@@ -235,7 +247,7 @@ try {
             }
 
             $stmt->bind_param(
-                "sidiiiidii",
+                "sidiiiidsii",
                 $nome,
                 $categoriaId,
                 $preco,
@@ -244,6 +256,7 @@ try {
                 $permiteObs,
                 $adicionalPermitido,
                 $valorAdicional,
+                $imagemUrl,
                 $id,
                 $empresaId
             );
@@ -274,12 +287,13 @@ try {
                 permite_obs,
                 adicional_permitido,
                 valor_adicional,
+                imagem_url,
                 created_at,
                 deleted_at
             )
             VALUES (
                 ?, ?, ?, ?, ?,
-                ?, ?, ?, ?,
+                ?, ?, ?, ?, ?,
                 NOW(),
                 NULL
             )
@@ -290,7 +304,7 @@ try {
         }
 
         $stmt->bind_param(
-            "isidiiiid",
+            "isidiiiids",
             $empresaId,
             $nome,
             $categoriaId,
@@ -299,7 +313,8 @@ try {
             $tempo,
             $permiteObs,
             $adicionalPermitido,
-            $valorAdicional
+            $valorAdicional,
+            $imagemUrl
         );
 
         if(!$stmt->execute()){
@@ -402,6 +417,7 @@ $sqlProdutos = "
         p.permite_obs,
         p.adicional_permitido,
         p.valor_adicional,
+        p.imagem_url,
 
         c.nome AS categoria_nome
 
@@ -460,218 +476,56 @@ require_once __DIR__ . '/inc/seo.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.header {
-    text-align: center;
-    padding: 18px 10px 8px;
-}
-
-.header img {
-    max-width: 430px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-}
-
-.container-main {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-.card-box {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.3);
-}
-
-.table {
-    vertical-align: middle;
-}
-
-.badge-pill {
-    border-radius: 999px;
-    padding: 5px 9px;
-    font-size: 11px;
-}
-
-.mobile-card {
-    display: none;
-}
-
-@media(max-width: 768px) {
-    .table-responsive {
-        display: none;
-    }
-
-    .mobile-card {
-        display: block;
-    }
-
-    .produto-card {
-        background: #fff;
-        color: #111;
-        border-radius: 14px;
-        padding: 13px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,.25);
-    }
-
-    .produto-card .nome {
-        font-weight: 800;
-        font-size: 16px;
-    }
-
-    .produto-card .meta {
-        color: #555;
-        font-size: 13px;
-        margin-top: 3px;
-    }
-
-    .produto-card .acoes {
-        display: flex;
-        gap: 6px;
-        flex-wrap: wrap;
-        margin-top: 10px;
-    }
-}
-
-.btn-yellow {
-    background: #ffc107;
-    color: #111;
-    border: none;
-    font-weight: 800;
-}
-
-.btn-yellow:hover {
-    background: #ffca2c;
-    color: #111;
-}
-
-.form-check-label {
-    cursor: pointer;
-}
-
-.logout {
-    color: #ffc107;
-    text-decoration: none;
-}
-
-.logout:hover {
-    color: #ffda6a;
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/management.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
+<body class="cd-staff">
+<?php $staffPage = 'produtos.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<div class="header">
-    <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-</div>
+<main class="cd-management cd-list">
+    <header class="cd-page-head">
+        <div>
+            <h1>Produtos</h1>
+            <p>Gerencie o cardápio, os preços e os adicionais.</p>
+        </div>
+        <button
+            class="btn cd-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modalProduto"
+            onclick="novoProduto()"
+        >
+            + Novo produto
+        </button>
+    </header>
 
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= h($nomeUsuario) ?></strong>
-        </span>
-
-        <a href="dashboard.php" class="logout">
-            dashboard
-        </a>
-
-        <a href="categorias.php" class="logout">
-            categorias
-        </a>
-
-        <a href="logout.php" class="logout">
-            sair
-        </a>
-    </div>
-</div>
-
-<div class="container-main">
+    <nav class="cd-catalog" aria-label="Cardápio">
+        <a href="produtos.php" aria-current="page">Produtos</a>
+        <a href="categorias.php">Categorias</a>
+    </nav>
 
     <?php if($msg !== ''): ?>
-        <div class="alert alert-<?= $tipoMsg === 'erro' ? 'danger' : 'success' ?>">
+        <div role="status" class="alert alert-<?= $tipoMsg === 'erro' ? 'danger' : 'success' ?>">
             <?= h($msg) ?>
         </div>
     <?php endif; ?>
 
     <div class="card-box">
-        <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
+        <form class="cd-filters" method="GET" aria-label="Filtros da lista">
             <div>
-                <h3 class="mb-0">🍔 Produtos</h3>
-
-                <div class="text-muted small">
-                    Cadastro de produtos, adicionais e observações.
-                </div>
-            </div>
-
-            <button
-                class="btn btn-yellow"
-                data-bs-toggle="modal"
-                data-bs-target="#modalProduto"
-                onclick="novoProduto()"
-            >
-                + Novo produto
-            </button>
-        </div>
-
-        <form class="row g-2" method="GET">
-            <div class="col-md-5">
                 <input
-                    type="text"
+                    type="search"
                     name="busca"
+                    aria-label="Buscar na lista"
                     class="form-control"
                     placeholder="Buscar produto..."
                     value="<?= h($busca) ?>"
                 >
             </div>
 
-            <div class="col-md-3">
-                <select name="categoria_id" class="form-select">
+            <div>
+                <select name="categoria_id" class="form-select" aria-label="Filtrar por categoria">
                     <option value="0">Todas as categorias</option>
 
                     <?php foreach($categorias as $cat): ?>
@@ -685,8 +539,8 @@ img {
                 </select>
             </div>
 
-            <div class="col-md-2">
-                <select name="status" class="form-select">
+            <div>
+                <select name="status" class="form-select" aria-label="Filtrar por situação">
                     <option value="">Todos</option>
 
                     <option value="ativo" <?= $filtroStatus === 'ativo' ? 'selected' : '' ?>>
@@ -699,16 +553,16 @@ img {
                 </select>
             </div>
 
-            <div class="col-md-2">
-                <button class="btn btn-dark w-100">
+            <div>
+                <button class="btn cd-outline w-100">
                     Filtrar
                 </button>
             </div>
         </form>
     </div>
 
-    <div class="card-box">
-
+    <section class="card-box cd-records" aria-label="Produtos cadastrados">
+        <div class="cd-list-head"><strong>Resultados</strong><span><?= count($produtos) ?></span></div>
         <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
@@ -786,7 +640,7 @@ img {
                                     class="btn btn-sm btn-outline-primary"
                                     data-bs-toggle="modal"
                                     data-bs-target="#modalProduto"
-                                    onclick='editarProduto(<?= json_encode($p, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'
+                                    onclick='editarProduto(<?= json_encode($p, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_TAG) ?>)'
                                 >
                                     Editar
                                 </button>
@@ -861,7 +715,7 @@ img {
                             class="btn btn-sm btn-outline-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#modalProduto"
-                            onclick='editarProduto(<?= json_encode($p, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'
+                            onclick='editarProduto(<?= json_encode($p, JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_HEX_TAG) ?>)'
                         >
                             Editar
                         </button>
@@ -895,11 +749,11 @@ img {
             <?php endforeach; ?>
         </div>
 
-    </div>
+    </section>
 
-</div>
+</main>
 
-<div class="modal fade" id="modalProduto" tabindex="-1">
+<div class="modal fade cd-editor" id="modalProduto" tabindex="-1" aria-labelledby="modalTitulo">
     <div class="modal-dialog modal-lg modal-dialog-scrollable">
         <div class="modal-content text-dark">
 
@@ -910,7 +764,7 @@ img {
                         Novo produto
                     </h5>
 
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
                 </div>
 
                 <div class="modal-body">
@@ -920,7 +774,7 @@ img {
                     <div class="row g-3">
 
                         <div class="col-md-7">
-                            <label class="form-label">
+                            <label class="form-label" for="nome">
                                 Nome
                             </label>
 
@@ -933,8 +787,16 @@ img {
                             >
                         </div>
 
+                        <div class="col-12">
+                            <label class="form-label" for="imagem_url">Link da foto</label>
+                            <input type="url" name="imagem_url" id="imagem_url" class="form-control"
+                                maxlength="2048" placeholder="https://exemplo.com/foto.jpg"
+                                aria-describedby="imagem_ajuda">
+                            <small id="imagem_ajuda" class="text-muted">Use o endereço direto da imagem (HTTPS).</small>
+                        </div>
+
                         <div class="col-md-5">
-                            <label class="form-label">
+                            <label class="form-label" for="categoria_id">
                                 Categoria
                             </label>
 
@@ -954,7 +816,7 @@ img {
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">
+                            <label class="form-label" for="preco">
                                 Preço
                             </label>
 
@@ -969,7 +831,7 @@ img {
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">
+                            <label class="form-label" for="tempo">
                                 Tempo preparo
                             </label>
 
@@ -1035,7 +897,7 @@ img {
                         </div>
 
                         <div class="col-md-4" id="boxValorAdicional" style="display:none;">
-                            <label class="form-label">
+                            <label class="form-label" for="valor_adicional">
                                 Valor adicional
                             </label>
 
@@ -1061,7 +923,7 @@ img {
                         Fechar
                     </button>
 
-                    <button class="btn btn-yellow">
+                    <button class="btn cd-primary">
                         Salvar produto
                     </button>
                 </div>
@@ -1089,6 +951,7 @@ function novoProduto(){
 
     document.getElementById('produto_id').value = '';
     document.getElementById('nome').value = '';
+    document.getElementById('imagem_url').value = '';
     document.getElementById('categoria_id').value = '';
     document.getElementById('preco').value = '';
     document.getElementById('tempo').value = 10;
@@ -1106,6 +969,7 @@ function editarProduto(produto){
 
     document.getElementById('produto_id').value = produto.id || '';
     document.getElementById('nome').value = produto.nome || '';
+    document.getElementById('imagem_url').value = produto.imagem_url || '';
     document.getElementById('categoria_id').value = produto.categoria_id || '';
     document.getElementById('preco').value = moedaBR(produto.preco || 0);
     document.getElementById('tempo').value = produto.tempo || 10;

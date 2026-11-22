@@ -57,284 +57,36 @@ require_once __DIR__ . '/inc/seo.php';
 <?= ce_og_tags('Comanda #' . $pedidoId . ' - Comandaria Express', 'Acompanhe sua comanda em tempo real') ?>
 <link rel="icon" href="images/comandaria_logo.png" type="image/png">
 
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    padding: 12px;
-}
-
-.container {
-    max-width: 520px;
-    margin: 0 auto;
-}
-
-.logo {
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.logo img {
-    max-width: 360px;
-    width: 100%;
-}
-
-.card {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    overflow: hidden;
-    box-shadow: 0 4px 18px rgba(0,0,0,.35);
-    margin-bottom: 12px;
-}
-
-.card-header {
-    padding: 14px;
-    background: #f1f1f1;
-    border-bottom: 1px solid #ddd;
-}
-
-.card-body {
-    padding: 14px;
-}
-
-.titulo {
-    font-size: 21px;
-    font-weight: 800;
-    margin: 0;
-}
-
-.subtitulo {
-    font-size: 13px;
-    color: #555;
-    margin-top: 4px;
-}
-
-.badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 10px;
-}
-
-.badge {
-    display: inline-block;
-    border-radius: 999px;
-    padding: 5px 10px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-.badge-pendente {
-    background: #ffc107;
-    color: #111;
-}
-
-.badge-pronto {
-    background: #198754;
-    color: #fff;
-}
-
-.badge-pago {
-    background: #0d6efd;
-    color: #fff;
-}
-
-.badge-cancelado {
-    background: #dc3545;
-    color: #fff;
-}
-
-.badge-info {
-    background: #212529;
-    color: #fff;
-}
-
-.progresso-box {
-    margin-top: 12px;
-}
-
-.progresso-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 5px;
-}
-
-.progresso-barra {
-    width: 100%;
-    height: 12px;
-    background: #ddd;
-    border-radius: 999px;
-    overflow: hidden;
-}
-
-.progresso-fill {
-    height: 100%;
-    width: 0%;
-    background: #198754;
-    transition: width .3s ease;
-}
-
-.item {
-    border-bottom: 1px solid #eee;
-    padding: 11px 0;
-}
-
-.item:last-child {
-    border-bottom: none;
-}
-
-.item-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.item-nome {
-    font-weight: 700;
-}
-
-.item-total {
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.item-meta {
-    margin-top: 4px;
-    font-size: 12px;
-    color: #555;
-}
-
-.item-pronto {
-    opacity: .6;
-}
-
-.item-pronto .item-nome {
-    text-decoration: line-through;
-}
-
-.linha-total {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 6px;
-    font-size: 14px;
-}
-
-.total-final {
-    font-size: 21px;
-    font-weight: 900;
-    border-top: 1px dashed #aaa;
-    padding-top: 8px;
-    margin-top: 8px;
-}
-
-.loading {
-    text-align: center;
-    padding: 25px;
-    color: #ccc;
-}
-
-.erro {
-    background: #dc3545;
-    color: #fff;
-    padding: 12px;
-    border-radius: 10px;
-    margin-bottom: 12px;
-}
-
-.footer {
-    text-align: center;
-    color: #aaa;
-    font-size: 12px;
-    margin-top: 16px;
-}
-
-.btn {
-    border: none;
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    font-weight: 800;
-    background: #ffc107;
-    color: #111;
-    margin-top: 10px;
-}
-
-.btn:disabled {
-    opacity: .6;
-}
-
-.small {
-    font-size: 12px;
-    color: #666;
-}
-
-.atualizado {
-    color: #aaa;
-    font-size: 12px;
-    text-align: center;
-    margin-top: 8px;
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/comanda-publica.css">
 </head>
 
 <body>
 
-<div class="container">
+<header class="comanda-topo">
+    <div class="comanda-marca">
+        <img src="images/comandaria_logo.png" alt="" width="40" height="40">
+        Comandaria Express
+    </div>
+</header>
 
-    <div class="logo">
-        <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
+<main class="container">
+    <div id="erro" role="alert"></div>
+
+    <div id="app" aria-busy="true">
+        <p class="loading" role="status">Carregando comanda…</p>
     </div>
 
-    <div id="erro"></div>
-
-    <div id="app">
-        <div class="loading">
-            Carregando comanda...
-        </div>
-    </div>
-
-    <button class="btn" id="btnAtualizar" onclick="carregarPedido(true)">
-        Atualizar agora
-    </button>
-
-    <div id="ultimaAtualizacao" class="atualizado"></div>
-
-    <div class="footer">
-        Comandaria Express<br>
-        Atualização automática a cada 5 segundos
-    </div>
-
-</div>
+    <footer class="rodape">
+        <p id="ultimaAtualizacao" class="atualizado">Atualização automática a cada 5 segundos</p>
+        <button type="button" class="btn" id="btnAtualizar" onclick="carregarPedido(true)">
+            Atualizar agora
+        </button>
+    </footer>
+</main>
 
 <script>
 const pedidoId = <?= (int)$pedidoId ?>;
-const publicToken = <?= json_encode($token, JSON_UNESCAPED_UNICODE) ?>;
+const publicToken = <?= json_encode($token, JSON_HEX_TAG | JSON_INVALID_UTF8_SUBSTITUTE) ?>;
 
 const state = {
     carregando: false,
@@ -370,6 +122,15 @@ const utils = {
 
     itemPronto(item){
         return this.qtdPronta(item) >= this.qtd(item);
+    },
+
+    statusLabel(status){
+        return {
+            pendente: 'Pendente',
+            pronto: 'Pronto',
+            pago: 'Pago',
+            cancelado: 'Cancelado'
+        }[status] || status;
     },
 
     statusBadge(status){
@@ -475,7 +236,7 @@ const utils = {
 
 async function carregarPedido(force = false){
 
-    if(state.carregando && !force){
+    if(state.carregando){
         return;
     }
 
@@ -503,6 +264,8 @@ async function carregarPedido(force = false){
 
         const json = JSON.stringify(data.pedido);
 
+        document.getElementById('erro').textContent = '';
+
         if(!force && json === state.ultimoJson){
             atualizarHora();
             return;
@@ -512,11 +275,13 @@ async function carregarPedido(force = false){
 
         renderPedido(data.pedido);
 
-        document.getElementById('erro').innerHTML = '';
-
         atualizarHora();
 
     } catch(err){
+
+        if(!state.ultimoJson){
+            document.getElementById('app').replaceChildren();
+        }
 
         document.getElementById('erro').innerHTML = `
             <div class="erro">
@@ -527,6 +292,7 @@ async function carregarPedido(force = false){
     } finally {
 
         state.carregando = false;
+        document.getElementById('app').setAttribute('aria-busy', 'false');
 
         if(btn){
             btn.disabled = false;
@@ -584,55 +350,49 @@ function renderPedido(pedido){
     const app = document.getElementById('app');
 
     app.innerHTML = `
-        <div class="card">
+        <section class="card comanda-capa" aria-labelledby="comanda-titulo">
             <div class="card-header">
-                <h1 class="titulo">
-                    Comanda #${pedido.pedido_id}
-                </h1>
-
-                <div class="subtitulo">
-                    ${utils.escape(utils.tituloPedido(pedido))}
-                    • ${utils.data(pedido.created_at)}
-                    • ${utils.hora(pedido.created_at)}
+                <div>
+                    <div class="subtitulo">${utils.escape(utils.tituloPedido(pedido))}</div>
+                    <h1 class="titulo" id="comanda-titulo">Comanda #${utils.escape(pedido.pedido_id)}</h1>
                 </div>
-
-                <div class="subtitulo">
-                    Atendente: ${utils.escape(utils.atendentePedido(pedido))}
-                </div>
-
                 <div class="badges">
                     <span class="badge ${utils.statusBadge(pedido.status)}">
-                        ${utils.escape(pedido.status)}
+                        ${utils.escape(utils.statusLabel(pedido.status))}
                     </span>
 
                     <span class="badge ${utils.statusBadge(statusProducao)}">
-                        Cozinha: ${utils.escape(statusProducao)}
-                    </span>
-
-                    <span class="badge badge-info">
-                        ${totalPronta}/${totalQtd} itens prontos
+                        Cozinha: ${utils.escape(utils.statusLabel(statusProducao))}
                     </span>
                 </div>
 
-                <div class="progresso-box">
-                    <div class="progresso-label">
-                        <span>Progresso do preparo</span>
-                        <strong>${percentual}%</strong>
-                    </div>
-
-                    <div class="progresso-barra">
-                        <div class="progresso-fill" style="width:${percentual}%"></div>
-                    </div>
-                </div>
             </div>
 
-            <div class="card-body">
+            <div class="subtitulo comanda-meta">
+                <span>${utils.data(pedido.created_at)} às ${utils.hora(pedido.created_at)}</span>
+                <span>Atendimento: ${utils.escape(utils.atendentePedido(pedido))}</span>
+            </div>
+
+            <div class="progresso-box">
+                <div class="progresso-label">
+                    <span>Progresso do preparo</span>
+                    <strong>${totalPronta} de ${totalQtd} prontos</strong>
+                </div>
+                <div class="progresso-barra" role="progressbar" aria-label="Progresso do preparo"
+                    aria-valuemin="0" aria-valuemax="100" aria-valuenow="${percentual}">
+                    <div class="progresso-fill" style="width:${percentual}%"></div>
+                </div>
+            </div>
+        </section>
+
+        <div class="comanda-detalhes">
+            <section class="card card-body" aria-labelledby="itens-titulo">
+                <h2 id="itens-titulo">Itens do pedido</h2>
                 ${itensHtml}
-            </div>
-        </div>
+            </section>
 
-        <div class="card">
-            <div class="card-body">
+            <section class="card card-body comanda-total" aria-labelledby="total-titulo">
+                <h2 id="total-titulo">Resumo da conta</h2>
                 <div class="linha-total">
                     <span>Subtotal</span>
                     <strong>R$ ${utils.money(pedido.subtotal)}</strong>
@@ -643,21 +403,21 @@ function renderPedido(pedido){
                     <strong>R$ ${utils.money(pedido.total_adicional)}</strong>
                 </div>
 
-                <div class="linha-total total-final">
-                    <span>Total</span>
+                <div class="linha-total">
+                    <span>Total dos itens</span>
                     <span>R$ ${utils.money(pedido.total)}</span>
                 </div>
 
                 <div class="linha-total">
-                    <span>10% serviço</span>
+                    <span>Taxa de serviço</span>
                     <strong>${utils.servico10Ativo(pedido) ? `R$ ${utils.money(utils.taxaServico(pedido))}` : 'Não cobrado'}</strong>
                 </div>
 
-                <div class="linha-total">
+                <div class="linha-total total-final">
                     <span>Total final</span>
                     <strong>R$ ${utils.money(utils.totalComServico(pedido))}</strong>
                 </div>
-            </div>
+            </section>
         </div>
     `;
 }
@@ -701,8 +461,7 @@ function renderItem(item){
                     </div>
 
                     <div class="item-meta">
-                        ${utils.escape(item.categoria || '')}
-                        • preparo ${pronta}/${qtd}
+                        ${utils.escape([item.categoria, pronto ? 'Pronto' : `Preparo ${pronta}/${qtd}`].filter(Boolean).join(' • '))}
                     </div>
 
                     ${detalhesHtml}

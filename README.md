@@ -4,6 +4,8 @@ Sistema de comandas para restaurantes, bares e lanchonetes. A equipe registra pe
 
 ## Telas do sistema
 
+As capturas abaixo registram a interface anterior. Esta branch usa a paleta Bootstrap e títulos compactos.
+
 Capturas da interface com dados fictícios.
 
 ### Atendimento
@@ -59,8 +61,22 @@ A aplicação usa PHP, MySQL ou MariaDB, JavaScript e Bootstrap. O login Google 
 | `GOOGLE_CLIENT_ID` e `GOOGLE_CLIENT_SECRET` | Credenciais OAuth para habilitar o login Google. |
 | `GOOGLE_REDIRECT_URI` | URL opcional do callback OAuth. |
 
-4. Aponte para um banco com o esquema da Comandaria já migrado. O repositório contém correções SQL pontuais. A inicialização do banco depende de um esquema compatível obtido separadamente.
+4. Em instalações existentes, aplique apenas as migrações pendentes. Para habilitar fotos dos produtos, importe uma vez `database/patch_fotos_produtos.sql` e cadastre a URL HTTPS da foto em **Produtos**.
 5. Configure o servidor web com as regras de roteamento e proteção de `.htaccess`. Em uma instalação Apache usando essas regras, a entrada da equipe fica em `/login.php`.
+
+### Banco novo
+
+Para um banco vazio, selecione o banco configurado no passo 2 e importe, nesta ordem:
+
+1. `database/schema.sql`
+2. `database/migracao_multitenant_planos_google_19052026.sql`
+3. `database/patch_servico_10_15052026.sql`
+4. `sql/sql_onboarding_primeiro_acesso.sql`
+5. `database/patch_admin_slug_comandaria_bacuri_19052026.sql`
+6. `database/patch_limites_free_100_19052026.sql`
+7. `database/patch_fotos_produtos.sql`
+
+A estrutura inclui as permissões iniciais. Para o primeiro acesso, use **Entrar com Google** para o cadastro da empresa ou provisione um administrador com senha armazenada como hash PHP. As contas e os pedidos da instalação existente ficam no banco de origem.
 
 ## Estrutura do projeto
 

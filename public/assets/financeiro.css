@@ -1,0 +1,852 @@
+.finance-page {
+    --finance-ink: #212529;
+    --finance-subtle: #5c5d61;
+    --finance-edge: #dadce0;
+    --finance-bg: #f8f9fa;
+    --finance-panel: #fff;
+    --finance-inset: #fcf9f2;
+    --finance-green: #0d6efd;
+    --finance-green-hover: #2c2f39;
+    --finance-accent: #cfe2ff;
+    --finance-danger: #9f383c;
+    --finance-radius: 16px;
+    background: var(--finance-bg);
+    color: var(--finance-ink);
+    font-family: Inter, system-ui, sans-serif;
+    min-height: 100dvh;
+}
+
+.finance-workspace {
+    width: min(100%, 88rem);
+    margin-inline: auto;
+    padding: clamp(1rem, 3vw, 2.25rem);
+}
+
+.finance-heading {
+    margin-block: .15rem 1.5rem;
+}
+
+.finance-heading h1 {
+    margin: 0 0 .3rem;
+    font-size: clamp(1.4rem, 2vw, 1.85rem);
+    font-weight: 600;
+    letter-spacing: -.055em;
+    line-height: 1.04;
+}
+
+.finance-heading p {
+    margin: 0;
+    color: var(--finance-subtle);
+    font-size: .95rem;
+}
+
+.finance-section-title,
+.finance-page .caixa-itens h3,
+.finance-page .total-box h3 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -.025em;
+}
+
+.finance-page .card-box,
+.finance-page .caixa-sessao-card,
+.finance-page .prazo-card,
+.finance-page .card-caixa,
+.finance-page .alerta-vazio {
+    min-width: 0;
+    border: 1px solid var(--finance-edge);
+    border-radius: var(--finance-radius);
+    background: var(--finance-panel);
+    color: var(--finance-ink);
+}
+
+.finance-page .card-box,
+.finance-page .caixa-sessao-card,
+.finance-page .prazo-card {
+    padding: clamp(1rem, 2.3vw, 1.5rem);
+}
+
+.finance-page .card-box,
+.finance-page .caixa-sessao-card,
+.finance-page .grid-resumo {
+    margin-bottom: 1.1rem;
+}
+
+.finance-page .grid-resumo:last-child,
+.finance-page .caixa-fila {
+    margin-bottom: 0;
+}
+
+.finance-page .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 2.6rem;
+    border-radius: .65rem;
+    font-weight: 650;
+    line-height: 1.2;
+    white-space: normal;
+}
+
+.finance-page .btn-success {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--finance-green);
+    --bs-btn-border-color: var(--finance-green);
+    --bs-btn-hover-bg: var(--finance-green-hover);
+    --bs-btn-hover-border-color: var(--finance-green-hover);
+    --bs-btn-active-bg: var(--finance-green-hover);
+    --bs-btn-disabled-bg: #758b7b;
+    --bs-btn-disabled-border-color: #758b7b;
+}
+
+.finance-page .btn-outline-dark {
+    --bs-btn-color: var(--finance-ink);
+    --bs-btn-border-color: var(--finance-edge);
+    --bs-btn-hover-bg: var(--finance-ink);
+    --bs-btn-hover-border-color: var(--finance-ink);
+}
+
+.finance-page .btn-danger {
+    --bs-btn-bg: var(--finance-danger);
+    --bs-btn-border-color: var(--finance-danger);
+}
+
+.finance-page .btn-outline-danger {
+    --bs-btn-color: var(--finance-danger);
+    --bs-btn-border-color: #e4c5c5;
+    --bs-btn-hover-bg: var(--finance-danger);
+}
+
+.finance-page :is(.btn, button, a, input, select, textarea, summary):focus-visible {
+    outline: 2px solid var(--finance-green);
+    outline-offset: 3px;
+}
+
+.finance-page .form-label,
+.finance-page .caixa-form label,
+.finance-page .antecipado-form label {
+    margin-bottom: .3rem;
+    font-size: .85rem;
+    font-weight: 650;
+}
+
+.finance-page .form-control,
+.finance-page .form-select,
+.finance-page .caixa-form :is(input, textarea),
+.finance-page .antecipado-form :is(input, select) {
+    min-height: 2.7rem;
+    border: 1px solid var(--finance-edge);
+    border-radius: .65rem;
+    color: var(--finance-ink);
+}
+
+.finance-page .finance-filters {
+    background: var(--finance-panel);
+}
+
+.finance-page .grid-resumo,
+.finance-page .caixa-resumo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: .85rem;
+}
+
+.finance-page .grid-resumo-compacto {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.finance-page .card-kpi,
+.finance-page .caixa-resumo-item {
+    --finance-kpi-bg: var(--finance-panel);
+    min-width: 0;
+    padding: 1rem;
+    border: 1px solid var(--finance-edge);
+    border-radius: .9rem;
+    background: var(--finance-kpi-bg);
+}
+
+.finance-page .caixa-resumo-item,
+.finance-page .card-box .card-kpi {
+    --finance-kpi-bg: var(--finance-inset);
+}
+
+.finance-page .card-kpi.finance-kpi-primary {
+    --finance-kpi-bg: var(--finance-accent);
+    border-color: #e7f1ff;
+}
+
+.finance-page .card-kpi .label,
+.finance-page .caixa-resumo-item span {
+    display: block;
+    margin-bottom: .35rem;
+    color: var(--finance-subtle);
+    font-size: .79rem;
+    font-weight: 640;
+}
+
+.finance-page .card-kpi .value,
+.finance-page .caixa-resumo-item strong {
+    display: block;
+    overflow-wrap: anywhere;
+    font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.035em;
+    line-height: 1.18;
+}
+
+.finance-page :is(.badge-pill, .badge-status, .caixa-status-badge) {
+    display: inline-flex;
+    align-items: center;
+    gap: .3rem;
+    padding: .42rem .58rem;
+    border-radius: 999px;
+    font-size: .72rem;
+    font-weight: 600;
+    line-height: 1;
+    text-transform: capitalize;
+}
+
+.finance-page :is(.badge-pill, .badge-status).bg-success,
+.finance-page .caixa-status-badge.aberto {
+    background: var(--finance-accent) !important;
+    color: #23513b !important;
+}
+
+.finance-page :is(.badge-pill, .badge-status).bg-warning,
+.finance-page .caixa-status-badge.fechado {
+    background: #fbefd6 !important;
+    color: #714c0e !important;
+}
+
+.finance-page :is(.badge-pill, .badge-status).bg-primary {
+    background: #e2edf6 !important;
+    color: #214f79 !important;
+}
+
+.finance-page :is(.badge-pill, .badge-status).bg-danger {
+    background: #fae5e4 !important;
+    color: #8a3033 !important;
+}
+
+/* Caixa */
+.finance-page .caixa-sessao-topo,
+.finance-page .caixa-fila-topo {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: .55rem .85rem;
+    margin-bottom: .9rem;
+}
+
+.finance-page .caixa-resumo-grid {
+    margin-bottom: 1rem;
+}
+
+.finance-page .caixa-acoes,
+.finance-page .prazo-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .5rem;
+}
+
+.finance-page .caixa-info-operacional {
+    margin-top: .65rem;
+    color: var(--finance-subtle);
+    font-size: .82rem;
+}
+
+.finance-page .caixa-workspace {
+    display: grid;
+    grid-template-columns: minmax(15rem, .75fr) minmax(0, 1.6fr);
+    align-items: start;
+    gap: 1rem;
+}
+
+.finance-page .caixa-fila {
+    padding: 1rem;
+}
+
+.finance-page .caixa-fila-contagem {
+    min-width: 1.6rem;
+    padding: .15rem .4rem;
+    border-radius: .4rem;
+    background: var(--finance-inset);
+    color: var(--finance-subtle);
+    text-align: center;
+    font-size: .8rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+}
+
+.finance-page .caixa-fila-lista {
+    display: grid;
+    gap: .4rem;
+    max-height: 45rem;
+    margin: 0;
+    padding: 0 0 .15rem;
+    overflow: auto;
+    list-style: none;
+}
+
+.finance-page .caixa-fila-conta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .65rem;
+    width: 100%;
+    padding: .7rem .75rem;
+    border: 1px solid var(--finance-edge);
+    border-radius: .75rem;
+    background: var(--finance-panel);
+    color: var(--finance-ink);
+    text-align: left;
+}
+
+.finance-page .caixa-fila-conta:hover {
+    background: var(--finance-inset);
+}
+
+.finance-page .caixa-fila-conta[aria-pressed="true"] {
+    border-color: #a5aab6;
+    background: #fcf8f1;
+}
+
+.finance-page .caixa-fila-conta:focus-visible {
+    outline-offset: -3px;
+}
+
+.finance-page .caixa-fila-origem {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.finance-page .caixa-fila-origem strong {
+    display: block;
+}
+
+.finance-page .caixa-fila-origem small,
+.finance-page .numero,
+.finance-page .hora,
+.finance-page .item-detalhe {
+    color: var(--finance-subtle);
+    font-size: .79rem;
+}
+
+.finance-page .caixa-fila-valores {
+    display: grid;
+    justify-items: end;
+    gap: .25rem;
+    white-space: nowrap;
+    font-size: .82rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.finance-page .caixa-detalhes {
+    min-width: 0;
+    container-type: inline-size;
+}
+
+.finance-page .card-caixa {
+    overflow: hidden;
+}
+
+.finance-page .card-caixa.sumindo {
+    opacity: 0;
+    transform: scale(.98);
+    pointer-events: none;
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+.finance-page .card-caixa.loading {
+    opacity: .65;
+    pointer-events: none;
+}
+
+.finance-page .card-header-caixa {
+    padding: 1.15rem;
+    border-bottom: 1px solid var(--finance-edge);
+    background: var(--finance-inset);
+}
+
+.finance-page .header-top,
+.finance-page .item-main {
+    display: flex;
+    justify-content: space-between;
+    gap: .75rem;
+}
+
+.finance-page .card-header-caixa .titulo {
+    margin: 0 0 .2rem;
+    overflow-wrap: anywhere;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: -.035em;
+}
+
+.finance-page .hora {
+    margin-top: .28rem;
+    white-space: nowrap;
+}
+
+.finance-page .card-body-caixa {
+    display: grid;
+    gap: 1rem;
+    padding: 1.15rem;
+}
+
+@container (min-width: 34rem) {
+    .finance-page .card-body-caixa {
+        grid-template-columns: minmax(0, 1fr) minmax(15rem, .9fr);
+        align-items: start;
+    }
+}
+
+.finance-page .caixa-itens h3,
+.finance-page .total-box h3 {
+    margin: 0 0 .8rem;
+}
+
+.finance-page .item {
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--finance-edge);
+    font-size: .875rem;
+}
+
+.finance-page .item:last-child {
+    border-bottom: 0;
+}
+
+.finance-page .item-nome {
+    font-weight: 680;
+    overflow-wrap: anywhere;
+}
+
+.finance-page .item-total {
+    font-weight: 680;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+}
+
+.finance-page .item-acoes {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: .35rem;
+}
+
+.finance-page .item-acoes .btn {
+    min-height: 2.25rem;
+    font-size: .75rem;
+}
+
+.finance-page .total-box,
+.finance-page .recebimento-box,
+.finance-page .pagamento-resumo,
+.finance-page .caixa-fechamento-resumo {
+    padding: .9rem;
+    border: 1px solid var(--finance-edge);
+    border-radius: .8rem;
+    background: var(--finance-inset);
+}
+
+.finance-page .total-linha,
+.finance-page .total-final,
+.finance-page .linha-total {
+    display: flex;
+    justify-content: space-between;
+    gap: .6rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.finance-page .total-linha {
+    margin-top: .34rem;
+    font-size: .84rem;
+}
+
+.finance-page .total-linha strong,
+.finance-page .total-final strong,
+.finance-page .linha-total span:last-child {
+    text-align: right;
+}
+
+.finance-page .total-credito {
+    color: var(--finance-green);
+}
+
+.finance-page .total-final,
+.finance-page .linha-total.final {
+    margin-top: .7rem;
+    padding-top: .65rem;
+    border-top: 1px solid var(--finance-edge);
+    font-weight: 600;
+}
+
+.finance-page .total-final strong {
+    font-size: 1.13rem;
+}
+
+.finance-page .btn-fechar-conta-principal {
+    min-height: 2.9rem;
+}
+
+.finance-page .alerta-vazio {
+    padding: 2rem 1rem;
+    color: var(--finance-subtle);
+    text-align: center;
+}
+
+.finance-page .alerta-vazio strong {
+    display: block;
+    margin-bottom: .3rem;
+    color: var(--finance-ink);
+}
+
+.finance-page .alerta-vazio p {
+    margin: 0;
+}
+
+.finance-page .pagamento-modal {
+    position: fixed;
+    z-index: 9998;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 1rem;
+}
+
+.finance-page .pagamento-modal.show {
+    display: grid;
+}
+
+.finance-page .pagamento-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(17 31 22 / 65%);
+}
+
+.finance-page .pagamento-card {
+    position: relative;
+    width: min(100%, 30rem);
+    max-height: 100%;
+    padding: clamp(1rem, 4vw, 1.5rem);
+    overflow: auto;
+    border: 1px solid var(--finance-edge);
+    border-radius: var(--finance-radius);
+    background: var(--finance-panel);
+    box-shadow: 0 18px 55px rgb(17 31 22 / 22%);
+}
+
+.finance-page .pagamento-card h2 {
+    margin: 0 0 .35rem;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: -.03em;
+}
+
+.finance-page .pagamento-card p,
+.finance-page .pagamento-resumo,
+.finance-page .caixa-fechamento-resumo {
+    font-size: .875rem;
+}
+
+.finance-page .pagamento-card p {
+    color: var(--finance-subtle);
+}
+
+.finance-page .pagamento-resumo,
+.finance-page .caixa-fechamento-resumo {
+    margin-bottom: .85rem;
+}
+
+.finance-page .pagamento-resumo strong,
+.finance-page .caixa-fechamento-resumo strong {
+    display: block;
+    margin-bottom: .3rem;
+}
+
+.finance-page .pagamento-opcoes {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .5rem;
+}
+
+.finance-page :is(.pagamento-opcao, .pagamento-cancelar, .caixa-confirmar, .antecipado-confirmar) {
+    min-height: 2.75rem;
+    padding: .58rem .75rem;
+    border: 1px solid transparent;
+    border-radius: .65rem;
+    background: var(--finance-green);
+    color: #fff;
+    font-weight: 690;
+}
+
+.finance-page :is(.pagamento-opcao, .caixa-confirmar, .antecipado-confirmar):hover {
+    background: var(--finance-green-hover);
+}
+
+.finance-page .pagamento-cancelar {
+    width: 100%;
+    margin-top: .75rem;
+    border-color: var(--finance-edge);
+    background: var(--finance-panel);
+    color: var(--finance-ink);
+}
+
+.finance-page .pagamento-cancelar:hover {
+    background: var(--finance-inset);
+}
+
+.finance-page .caixa-confirmar.fechar {
+    background: var(--finance-danger);
+}
+
+.finance-page .caixa-form,
+.finance-page .antecipado-form {
+    display: grid;
+    gap: .7rem;
+}
+
+.finance-page :is(.caixa-form, .antecipado-form) label {
+    display: block;
+}
+
+.finance-page .caixa-form :is(input, textarea),
+.finance-page .antecipado-form :is(input, select) {
+    width: 100%;
+    padding: .55rem .7rem;
+}
+
+.finance-page .caixa-form textarea {
+    min-height: 5rem;
+    resize: vertical;
+}
+
+.finance-page #toast {
+    position: fixed;
+    z-index: 9999;
+    right: 1rem;
+    bottom: 1rem;
+    max-width: min(24rem, calc(100% - 2rem));
+    padding: .75rem 1rem;
+    border-radius: .72rem;
+    background: var(--finance-green);
+    color: #fff;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(.35rem);
+    transition: opacity .15s ease, transform .15s ease;
+}
+
+.finance-page #toast.show {
+    opacity: 1;
+    transform: none;
+}
+
+.finance-page #toast.erro {
+    background: var(--finance-danger);
+}
+
+.finance-page #toast.warn {
+    background: #fbefd6;
+    color: #714c0e;
+}
+
+/* Contas a prazo */
+.finance-page .contas-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: 1rem;
+}
+
+.finance-page .prazo-card {
+    border-top: 3px solid #d3a24d;
+}
+
+.finance-page .prazo-card.pago {
+    border-top-color: #8c92a2;
+}
+
+.finance-page .prazo-top {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: .6rem 1rem;
+    margin-bottom: .7rem;
+}
+
+.finance-page .prazo-title {
+    margin: 0 0 .2rem;
+    overflow-wrap: anywhere;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -.03em;
+}
+
+.finance-page .prazo-meta,
+.finance-page .item-meta {
+    margin-top: .25rem;
+    color: var(--finance-subtle);
+    font-size: .81rem;
+}
+
+.finance-page .prazo-total {
+    font-size: 1.35rem;
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    letter-spacing: -.035em;
+    white-space: nowrap;
+}
+
+.finance-page .recebimento-box,
+.finance-page .itens-details {
+    margin-top: .85rem;
+}
+
+.finance-page .itens-details {
+    padding-top: .85rem;
+    border-top: 1px solid var(--finance-edge);
+    font-size: .87rem;
+}
+
+.finance-page .itens-details summary {
+    width: fit-content;
+    color: var(--finance-green);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.finance-page .item-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .7rem;
+    padding: .65rem 0;
+    border-bottom: 1px solid var(--finance-edge);
+}
+
+.finance-page .item-name {
+    font-weight: 660;
+    overflow-wrap: anywhere;
+}
+
+.finance-page .linha-total {
+    margin-top: .35rem;
+}
+
+/* Relatórios */
+.finance-page .table {
+    --bs-table-color: var(--finance-ink);
+    --bs-table-border-color: var(--finance-edge);
+    --bs-table-hover-bg: #fcf9f2;
+    margin-bottom: 0;
+    font-size: .86rem;
+}
+
+.finance-page .table thead th {
+    padding-block: .7rem;
+    background: var(--finance-inset);
+    color: var(--finance-subtle);
+    white-space: nowrap;
+    font-size: .76rem;
+    font-weight: 600;
+}
+
+.finance-page .table tbody td {
+    padding-block: .65rem;
+}
+
+.finance-page .tabela-produtos :is(th, td):nth-child(n+3),
+.finance-page .tabela-pedidos :is(th, td):nth-child(n+5):nth-child(-n+9),
+.finance-page .tabela-prazo td.right {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.finance-page .mobile-card {
+    display: none;
+}
+
+.finance-page .mobile-card :is(.pedido-card, .produto-card) {
+    padding: .8rem;
+    border: 1px solid var(--finance-edge);
+    border-radius: .75rem;
+    background: var(--finance-inset);
+}
+
+.finance-page .mobile-card .nome {
+    overflow-wrap: anywhere;
+    font-weight: 600;
+}
+
+.finance-page .mobile-card .meta {
+    margin-top: .2rem;
+    color: var(--finance-subtle);
+    overflow-wrap: anywhere;
+    font-size: .84rem;
+    font-variant-numeric: tabular-nums;
+}
+
+.finance-page .tabela-prazo .prazo-actions {
+    justify-content: flex-end;
+    white-space: nowrap;
+}
+
+@media (max-width: 1050px) {
+    .finance-page .grid-resumo,
+    .finance-page .caixa-resumo-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .finance-page .contas-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 900px) {
+    .finance-page .caixa-workspace {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .finance-page .caixa-fila-lista {
+        max-height: 15rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .finance-page .table-responsive {
+        display: none;
+    }
+
+    .finance-page .mobile-card {
+        display: grid;
+        gap: .6rem;
+    }
+}
+
+@media (max-width: 390px) {
+    .finance-page .caixa-acoes .btn {
+        flex: 1 1 45%;
+    }
+
+    .finance-page .card-kpi,
+    .finance-page .caixa-resumo-item {
+        padding: .75rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .finance-page .card-caixa.sumindo,
+    .finance-page #toast {
+        transition: none;
+    }
+}
+
+.finance-page .caixa-pagamento-pendente {
+    margin: .5rem 0 .25rem;
+    color: var(--finance-subtle);
+    text-align: center;
+    font-size: .78rem;
+}

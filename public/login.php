@@ -80,302 +80,45 @@ require_once __DIR__ . '/inc/seo.php';
 <?= ce_og_tags('Login - Comandaria Express', 'Acesse o sistema de comandas do Comandaria Express') ?>
 <link rel="icon" href="images/comandaria_logo.png" type="image/png">
 
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
-<style>
-html,
-body {
-    margin: 0;
-    width: 100%;
-}
-
-body {
-    min-height: 100vh;
-    min-height: 100svh;
-    background: radial-gradient(circle at top, #2b2b2b, #070707);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    padding: 16px;
-    box-sizing: border-box;
-}
-
-.login-card {
-    width: 100%;
-    max-width: 390px;
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 10px 35px rgba(0,0,0,.45);
-}
-
-.login-header {
-    background: #111;
-    color: #fff;
-    text-align: center;
-    padding: 24px 18px 18px;
-}
-
-.login-header img {
-    max-width: 260px;
-    width: 100%;
-    margin-bottom: 10px;
-}
-
-.login-header h1 {
-    font-size: 20px;
-    font-weight: 800;
-    margin: 0;
-}
-
-.login-body {
-    padding: 22px;
-}
-
-.form-label {
-    font-weight: 700;
-    font-size: 14px;
-}
-
-.form-control {
-    border-radius: 10px;
-    padding: 11px 12px;
-}
-
-.btn-login {
-    background: #ffc107;
-    border: none;
-    color: #111;
-    font-weight: 800;
-    border-radius: 10px;
-    padding: 12px;
-    width: 100%;
-}
-
-.btn-login:hover {
-    background: #ffca2c;
-    color: #111;
-}
-
-.btn-google {
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    border:1px solid #d7d7d7;
-    background:#fff;
-    color:#202124;
-    text-decoration:none;
-    font-weight:800;
-    border-radius:10px;
-    padding:12px;
-    width:100%;
-    margin-top:12px;
-}
-
-.btn-google:hover {
-    background:#f8f9fa;
-    color:#202124;
-}
-
-.btn-google .gmark {
-    display:inline-flex;
-    width:20px;
-    height:20px;
-    border-radius:50%;
-    align-items:center;
-    justify-content:center;
-    font-weight:900;
-    border:1px solid #ddd;
-    font-size:13px;
-}
-
-.login-separator {
-    display:flex;
-    align-items:center;
-    gap:10px;
-    color:#777;
-    font-size:12px;
-    margin:16px 0 12px;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-}
-
-.login-separator::before,
-.login-separator::after {
-    content:'';
-    flex:1;
-    height:1px;
-    background:#e5e5e5;
-}
-
-.alert {
-    border-radius: 10px;
-    font-size: 14px;
-}
-
-.footer {
-    text-align: center;
-    font-size: 12px;
-    color: #777;
-    padding: 0 22px 18px;
-}
-
-
-@media (max-width: 576px) {
-    body {
-        min-height: 100vh;
-        min-height: 100svh;
-        padding: 12px 14px;
-        align-items: center;
-    }
-
-    .login-card {
-        max-width: 100%;
-    }
-
-    .login-header {
-        padding: 18px 16px 14px;
-    }
-
-    .login-header img {
-        max-width: 210px;
-        margin-bottom: 6px;
-    }
-
-    .login-header h1 {
-        font-size: 18px;
-    }
-
-    .login-body {
-        padding: 18px;
-    }
-
-    .form-control {
-        padding: 10px 11px;
-    }
-
-    .footer {
-        padding: 0 18px 14px;
-    }
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<meta name="theme-color" content="#f7f7f2">
+<link rel="stylesheet" href="assets/guest-access.css?v=3">
 </head>
-
 <body>
-
-<div class="login-card">
-
-    <div class="login-header">
-        <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-
-        <h1>Acesso ao Sistema</h1>
-    </div>
-
-    <div class="login-body">
-
-        <?php if($erro !== ''): ?>
-            <div class="alert alert-danger">
-                <?= h($erro) ?>
-            </div>
-        <?php endif; ?>
-        
-        <!--
-        <form method="POST" action="processa_login.php" autocomplete="off">
-            <div class="mb-3">
-                <label for="nome" class="form-label">
-                    Usuário ou e-mail
-                </label>
-
-                <input
-                    type="text"
-                    name="nome"
-                    id="nome"
-                    class="form-control"
-                    required
-                    autofocus
-                    autocomplete="username"
-                    placeholder="Digite seu usuário"
-                >
+    <main class="login-layout">
+        <section class="login-card" aria-labelledby="login-title">
+            <div class="login-brand">
+                <img src="images/comandaria_logo.png" width="52" height="52" alt="">
+                <span>Comandaria Express</span>
             </div>
 
-            <div class="mb-3">
-                <label for="senha" class="form-label">
-                    Senha
-                </label>
+            <div class="login-body">
+                <h1 id="login-title">Acesse sua conta</h1>
+                <p>Entre com Google ou com o acesso cadastrado pela sua empresa.</p>
 
-                <input
-                    type="password"
-                    name="senha"
-                    id="senha"
-                    class="form-control"
-                    required
-                    autocomplete="current-password"
-                    placeholder="Digite sua senha"
-                >
+                <?php if($erro !== ''): ?>
+                    <div class="login-alert" role="alert"><?= h($erro) ?></div>
+                <?php endif; ?>
+
+                <a href="google_login.php" class="btn-google">
+                    <img src="images/google-signin.png" width="20" height="20" alt="">
+                    Entrar com Google
+                </a>
+
+                <details class="login-password"<?= $erro !== '' ? ' open' : '' ?>>
+                    <summary>Entrar com e-mail e senha</summary>
+                    <form action="processa_login.php" method="post">
+                        <label for="login-email">E-mail</label>
+                        <input type="email" name="email" id="login-email" autocomplete="username" required>
+                        <label for="login-senha">Senha</label>
+                        <input type="password" name="senha" id="login-senha" autocomplete="current-password" required>
+                        <button type="submit">Entrar</button>
+                    </form>
+                </details>
             </div>
-            
 
-            <button type="submit" class="btn-login">
-                Entrar
-            </button>
-            
-        </form>
-
-        <div class="login-separator">ou</div>
-        -->
-        
-        <a href="google_login.php" class="btn-google">
-            <img src="https://www.svgrepo.com/show/355037/google.svg" width="20" height="20" alt="Google">
-            Entrar com Google
-        </a>
-
-    </div>
-
-    <div class="footer">
-        Comandaria Express
-    </div>
-
-</div>
-
+            <footer class="login-footer">Bacuri Digital</footer>
+        </section>
+        <div class="login-visual" aria-hidden="true"></div>
+    </main>
 </body>
 </html>

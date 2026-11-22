@@ -34,582 +34,90 @@ try {
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    padding-bottom: 120px;
-}
-
-.topo {
-    text-align: center;
-    padding: 10px 0;
-}
-
-.topo img {
-    max-width: 430px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-}
-
-.section-title {
-    font-size: 15px;
-    font-weight: bold;
-    margin: 12px 0 6px;
-}
-
-.grid-mesas {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 6px;
-}
-
-@media(max-width:600px) {
-    .grid-mesas {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.btn-mesa {
-    border: 0;
-    border-radius: 10px;
-    padding: 10px 4px;
-    font-size: 18px;
-    font-weight: bold;
-    background: #e5e5e5;
-    color: #222;
-    position: relative;
-}
-
-.btn-mesa.ocupada {
-    background: #b71c1c;
-    color: #fff;
-}
-
-.btn-mesa.ativa {
-    background: #198754;
-    color: #fff;
-    outline: 3px solid #fff;
-}
-
-.btn-mesa small {
-    display: block;
-    font-size: 10px;
-    font-weight: normal;
-    opacity: .85;
-}
-
-.cliente-row {
-    display: flex;
-    gap: 6px;
-}
-
-.cliente-row input {
-    flex: 1;
-}
-
-.clientes-abertos-wrap {
-    margin: 8px 0 10px;
-}
-
-.clientes-abertos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-}
-
-.btn-cliente-aberto {
-    border: 0;
-    border-radius: 10px;
-    padding: 7px 8px;
-    background: #343a40;
-    color: #fff;
-    text-align: left;
-    font-size: 12px;
-    min-height: 46px;
-    max-width: 132px;
-}
-
-.btn-cliente-aberto.ativa {
-    background: #198754;
-    color: #fff;
-    outline: 3px solid #fff;
-}
-
-.btn-cliente-aberto strong {
-    display: block;
-    font-size: 13px;
-    line-height: 1.1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.btn-cliente-aberto small {
-    display: block;
-    opacity: .85;
-    font-size: 10px;
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.clientes-vazio {
-    color: #aaa;
-    font-size: 13px;
-    padding: 6px 0;
-    grid-column: 1 / -1;
-}
-
-.clientes-erro {
-    color: #ffc107;
-    font-size: 13px;
-    padding: 6px 0;
-    grid-column: 1 / -1;
-}
-
-.status-sessao {
-    background: #1f1f1f;
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 12px;
-    padding: 10px;
-    margin: 10px 0;
-    font-size: 14px;
-}
-
-.busca {
-    position: sticky;
-    top: 0;
-    z-index: 5;
-    background: #111;
-    padding: 8px 0;
-}
-
-.categorias {
-    display: flex;
-    gap: 6px;
-    overflow-x: auto;
-    padding-bottom: 6px;
-    margin-bottom: 8px;
-}
-
-.categorias button {
-    white-space: nowrap;
-    border: 0;
-    border-radius: 999px;
-    padding: 7px 12px;
-    font-size: 13px;
-    background: #333;
-    color: #fff;
-}
-
-.categorias button.ativa {
-    background: #ffc107;
-    color: #111;
-    font-weight: bold;
-}
-
-.produtos {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-}
-
-@media(min-width:768px) {
-    .produtos {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.produto {
-    background: #fff;
-    color: #111;
-    border-radius: 12px;
-    padding: 10px;
-    min-height: 125px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 2px 8px rgba(0,0,0,.25);
-}
-
-.produto .cat {
-    font-size: 11px;
-    text-transform: uppercase;
-    color: #777;
-    font-weight: bold;
-}
-
-.produto .nome {
-    font-weight: bold;
-    font-size: 14px;
-    margin: 4px 0;
-}
-
-.produto .preco {
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.produto .adicional-info {
-    font-size: 11px;
-    color: #0d6efd;
-}
-
-.produto .acoes {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    margin-top: 8px;
-}
-
-.produto .acoes button {
-    flex: 1;
-    border: 0;
-    border-radius: 10px;
-    padding: 6px;
-    font-weight: 900;
-}
-
-.produto .qtd {
-    min-width: 28px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.btn-minus {
-    background: linear-gradient(180deg, #ff4d5f, #dc3545);
-    color: #fff;
-    font-size: 20px;
-    line-height: 1;
-    min-height: 36px;
-    box-shadow: 0 2px 6px rgba(220,53,69,.35);
-}
-
-.btn-plus {
-    background: linear-gradient(180deg, #22c55e, #198754);
-    color: #fff;
-    font-size: 20px;
-    line-height: 1;
-    min-height: 36px;
-    box-shadow: 0 2px 6px rgba(25,135,84,.35);
-}
-
-.btn-minus:active,
-.btn-plus:active {
-    transform: scale(.96);
-}
-
-.cart-select-label {
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 3px;
-    color: #555;
-}
-
-.cart-select-help {
-    font-size: 11px;
-    color: #777;
-    margin-top: 3px;
-}
-
-.carrinho-fixo {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 20;
-    background: #000;
-    border-top: 1px solid rgba(255,255,255,.15);
-    padding: 10px;
-}
-
-.carrinho-fixo .linha {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px 12px;
-}
-
-.carrinho-fixo .total {
-    font-size: clamp(16px, 4vw, 20px);
-    font-weight: bold;
-    white-space: nowrap;
-}
-
-.carrinho-fixo ~ .onboarding-repetir-btn {
-    bottom: 16px;
-}
-
-.btn-salvar {
-    display: none;
-    border: 0;
-    border-radius: 10px;
-    padding: 10px 14px;
-    background: #ffc107;
-    color: #111;
-    font-weight: bold;
-}
-
-.btn-carrinho {
-    border: 1px solid rgba(255,255,255,.2);
-    border-radius: 10px;
-    padding: 10px 12px;
-    background: #222;
-    color: #fff;
-}
-
-.btn-carrinho.carrinho-com-itens {
-    background: #ffc107;
-    border-color: #ffc107;
-    color: #111;
-    box-shadow: 0 0 12px rgba(255,193,7,.45);
-}
-
-.modal-content {
-    color: #111;
-}
-
-.modal-title small {
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.cart-item {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-.cart-item:last-child {
-    border-bottom: 0;
-}
-
-.cart-title {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    font-weight: bold;
-}
-
-.cart-controls {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    margin: 6px 0;
-}
-
-.cart-controls button {
-    border: 0;
-    border-radius: 9px;
-    padding: 6px 12px;
-    font-weight: 900;
-    min-width: 38px;
-    min-height: 34px;
-    font-size: 20px;
-    line-height: 1;
-}
-
-.cart-btn-minus {
-    background: linear-gradient(180deg, #ff4d5f, #dc3545) !important;
-    color: #fff !important;
-    box-shadow: 0 2px 6px rgba(220,53,69,.35);
-}
-
-.cart-btn-plus {
-    background: linear-gradient(180deg, #22c55e, #198754) !important;
-    color: #fff !important;
-    box-shadow: 0 2px 6px rgba(25,135,84,.35);
-}
-
-.cart-btn-minus:active,
-.cart-btn-plus:active {
-    transform: scale(.96);
-}
-
-.cart-controls button:disabled,
-.produto .acoes button:disabled {
-    opacity: .45;
-    cursor: not-allowed;
-}
-
-.badge-enviado {
-    display: inline-block;
-    margin-top: 5px;
-    border-radius: 999px;
-    background: #e9ecef;
-    color: #555;
-    font-size: 11px;
-    padding: 3px 8px;
-}
-
-.toast-app {
-    position: fixed;
-    right: 15px;
-    bottom: 100px;
-    background: #111;
-    color: #fff;
-    padding: 12px 15px;
-    border-radius: 10px;
-    opacity: 0;
-    transform: translateY(15px);
-    transition: .25s;
-    z-index: 9999;
-    box-shadow: 0 3px 12px rgba(0,0,0,.3);
-}
-
-.toast-app.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.toast-app.ok {
-    background: #198754;
-}
-
-.toast-app.erro {
-    background: #dc3545;
-}
-
-.toast-app.warn {
-    background: #ffc107;
-    color: #111;
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/atendimento.css?v=2">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
+<body class="cd-staff cd-pos">
+<?php $staffPage = 'index.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<body>
-
-<div class="container-fluid">
-
-    <div class="topo">
-        <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-    </div>
-
-    <div class="userbox">
-        <div class="inner">
-            <span>
-                Bem-vindo,
-                <strong><?= htmlspecialchars($_SESSION['user_nome'] ?? '') ?></strong>
-            </span>
-
-            <a href="logout.php" class="text-warning text-decoration-none">
-                sair
-            </a>
+<main id="conteudo" class="pos-main">
+    <header class="pos-heading userbox">
+        <div>
+            <h1>Atendimento</h1>
+            <p>Abra uma mesa ou comece um pedido avulso.</p>
         </div>
-    </div>
-    
-    <div id="statusSessao" class="status-sessao">
-        Selecione uma mesa ou informe um cliente.
-    </div>
-    
-    
-    <div class="section-title">Cliente avulso</div>
+        <a href="#catalogo" class="pos-jump"><i class="bi bi-menu-button-wide" aria-hidden="true"></i> Ver cardápio</a>
+    </header>
 
-    <div class="cliente-row">
-        <input
-            id="cliente"
-            class="form-control"
-            placeholder="Nome do cliente"
-            autocomplete="off"
-        >
-
-        <button id="btnCliente" class="btn btn-success">
-            Abrir
-        </button>
-    </div>
-
-    <div class="section-title">Clientes abertos</div>
-
-    <div class="clientes-abertos-wrap">
-        <div id="clientesAbertos" class="clientes-abertos">
-            <div class="clientes-vazio">Carregando clientes abertos...</div>
+    <section class="pos-salao" aria-labelledby="mesasTitulo">
+        <div class="pos-section-heading">
+            <h2 id="mesasTitulo">Mesas</h2>
+            <div id="filtrosMesas" class="pos-filtros" role="group" aria-label="Filtrar mesas">
+                <button type="button" data-filtro="todas" aria-pressed="true">Todas <span id="mesasTotal"><?= (int)$limiteMesasPlano ?></span></button>
+                <button type="button" data-filtro="livres" aria-pressed="false">Livres <span id="mesasLivres"></span></button>
+                <button type="button" data-filtro="ocupadas" aria-pressed="false">Em atendimento <span id="mesasEmAtendimento"></span></button>
+            </div>
         </div>
-    </div>
+        <div id="mesas" class="grid-mesas"><p class="pos-empty">Carregando mesas…</p></div>
+    </section>
 
-    <div class="section-title">Mesas</div>
-
-    <div id="mesas" class="grid-mesas"></div>
-
-    <div class="busca">
-        <input
-            id="busca"
-            class="form-control mb-2"
-            placeholder="Buscar produto..."
-            autocomplete="off"
-        >
-
-        <div id="categorias" class="categorias"></div>
-    </div>
-
-    <div id="produtos" class="produtos"></div>
-
-</div>
-
-<div class="carrinho-fixo">
-    <div class="linha">
-        <button
-            class="btn-carrinho"
-            data-bs-toggle="modal"
-            data-bs-target="#modalCarrinho"
-        >
-            Carrinho: <span id="qtdCarrinho">0</span>
-        </button>
-
-        <div class="total">
-            R$ <span id="total">0,00</span>
+    <section class="pos-avulso" aria-labelledby="avulsoTitulo">
+        <div>
+            <h2 id="avulsoTitulo">Cliente avulso</h2>
+            <div class="cliente-row">
+                <input id="cliente" class="form-control" aria-label="Nome do cliente" placeholder="Nome do cliente" autocomplete="off">
+                <button type="button" id="btnCliente" class="btn pos-primary">Abrir</button>
+            </div>
         </div>
+        <div class="clientes-abertos-wrap">
+            <h2>Clientes abertos</h2>
+            <div id="clientesAbertos" class="clientes-abertos">
+                <div class="clientes-vazio">Carregando clientes abertos…</div>
+            </div>
+        </div>
+    </section>
 
-        <button id="btnSalvar" class="btn-salvar">
-            Enviar
-        </button>
+    <div class="pos-workspace">
+        <section id="catalogo" class="pos-catalogo" aria-labelledby="catalogoTitulo">
+            <h2 id="catalogoTitulo">Cardápio</h2>
+            <div class="busca">
+                <div class="pos-search">
+                    <i class="bi bi-search" aria-hidden="true"></i>
+                    <input type="search" id="busca" class="form-control" aria-label="Buscar produto" placeholder="Buscar produto" autocomplete="off">
+                </div>
+                <div id="categorias" class="categorias" role="group" aria-label="Categorias do cardápio"></div>
+            </div>
+            <div id="produtos" class="produtos"><p class="pos-empty">Carregando cardápio…</p></div>
+        </section>
+
+        <aside class="carrinho-fixo" aria-labelledby="resumoTitulo">
+            <h2 id="resumoTitulo">Pedido atual</h2>
+            <div id="statusSessao" class="status-sessao" aria-live="polite">Selecione uma mesa ou informe um cliente.</div>
+            <ul id="listaResumo" class="pos-itens-resumo"><li class="pos-empty">Nenhum item adicionado.</li></ul>
+            <div class="linha">
+                <div class="total">
+                    <span class="pos-total-label">Total</span>
+                    <strong>R$ <span id="total">0,00</span></strong>
+                </div>
+                <button type="button" class="btn-carrinho pos-primary" data-bs-toggle="modal" data-bs-target="#modalCarrinho">
+                    <i class="bi bi-receipt" aria-hidden="true"></i> Revisar <span id="qtdCarrinho">0</span>
+                </button>
+            </div>
+        </aside>
     </div>
-</div>
+</main>
 
-<div class="modal fade" id="modalCarrinho" tabindex="-1">
+<div class="modal fade" id="modalCarrinho" tabindex="-1" aria-labelledby="tituloModalPedido">
     <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 class="modal-title">
+                <h2 class="modal-title">
                     <span id="tituloModalPedido">Itens do pedido</span>
                     <small id="subtituloModalPedido" class="d-block text-muted mt-1"></small>
-                </h5>
-                <button class="btn-close" data-bs-dismiss="modal"></button>
+                </h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div>
 
             <div class="modal-body" id="cartBody"></div>
@@ -623,8 +131,8 @@ img {
                     🖨️ Imprimir pedido
                 </button>
 
-                <button id="btnSalvarModal" class="btn btn-warning">
-                    Enviar pedido
+                <button id="btnSalvarModal" class="btn pos-primary">
+                    Enviar para a cozinha
                 </button>
             </div>
 
@@ -632,7 +140,7 @@ img {
     </div>
 </div>
 
-<div id="toast" class="toast-app"></div>
+<div id="toast" class="toast-app" role="status"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
@@ -650,7 +158,7 @@ const state = {
     carrinho: {}
 };
 
-const atendenteLogado = <?= json_encode($_SESSION['user_nome'] ?? '', JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) ?>;
+const atendenteLogado = <?= json_encode($_SESSION['user_nome'] ?? '', JSON_UNESCAPED_UNICODE | JSON_HEX_TAG) ?>;
 
 const utils = {
     money(v){
@@ -1046,8 +554,8 @@ function renderStatusSessao(){
                 }
             </div>
 
-            <button class="btn btn-sm btn-outline-light" onclick="limparSessao()">
-                limpar
+            <button type="button" class="btn btn-sm btn-outline-secondary" onclick="limparSessao()">
+                Limpar
             </button>
         </div>
     `;
@@ -1152,7 +660,8 @@ document.addEventListener('click', async e => {
 });
 
 const limiteMesasPlano = <?= (int)$limiteMesasPlano ?>;
-let mesasOcupadas = [];
+let mesasOcupadas = null;
+let filtroMesa = 'todas';
 
 async function carregarMesas(){
 
@@ -1164,55 +673,67 @@ async function carregarMesas(){
 
     } catch(err){
 
+        if (mesasOcupadas === null) {
+            document.getElementById('mesas').innerHTML =
+                '<p class="pos-empty">Não foi possível carregar as mesas. Tentaremos novamente.</p>';
+        }
         toastErroSeNaoForConexao(err, 'Erro ao carregar mesas');
     }
 }
 
 function renderMesas(){
 
+    if (mesasOcupadas === null) return;
+
     const box = document.getElementById('mesas');
-
     const ocupadasMap = new Map(
-        mesasOcupadas.map(m => [
-            Number(m.mesa),
-            m
-        ])
+        mesasOcupadas
+            .filter(m => Number(m.mesa) >= 1 && Number(m.mesa) <= limiteMesasPlano)
+            .map(m => [Number(m.mesa), m])
     );
+    document.getElementById('mesasLivres').textContent = limiteMesasPlano - ocupadasMap.size;
+    document.getElementById('mesasEmAtendimento').textContent = ocupadasMap.size;
 
-    let html = '';
-
-    for(let i = 1; i <= limiteMesasPlano; i++){
-
+    const cards = [];
+    for (let i = 1; i <= limiteMesasPlano; i++) {
         const ocupada = ocupadasMap.get(i);
+        if ((filtroMesa === 'livres' && ocupada) || (filtroMesa === 'ocupadas' && !ocupada)) {
+            continue;
+        }
 
         const ativa = state.tipo === 'mesa' && Number(state.mesa) === i;
+        const estado = ocupada ? (ocupada.status === 'pronto' ? 'Pedido pronto' : 'Em atendimento') : 'Livre';
+        const horaPedido = ocupada?.created_at
+            ? Date.parse(String(ocupada.created_at).replace(' ', 'T') + '-03:00')
+            : NaN;
+        const minutos = Math.max(0, Math.floor((Date.now() - horaPedido) / 60000));
+        const tempo = Number.isFinite(minutos) ? ` · há ${minutos} min` : '';
 
-        const totalMesa = Number(
-            ocupada?.total ??
-            ocupada?.valor_total ??
-            ocupada?.total_pedido ??
-            ocupada?.total_geral ??
-            0
-        );
-
-        html += `
-            <button
+        cards.push(`
+            <button type="button"
                 class="btn-mesa ${ocupada ? 'ocupada' : ''} ${ativa ? 'ativa' : ''}"
-                data-mesa="${i}"
-                data-pedido-id="${ocupada?.pedido_id || ''}"
-            >
-                ${i}
-                ${
-                    ocupada
-                    ? `<small>#${ocupada.pedido_id} • R$ ${utils.money(totalMesa)}</small>`
-                    : ''
-                }
+                data-mesa="${i}" data-pedido-id="${Number(ocupada?.pedido_id || 0)}"
+                aria-pressed="${ativa}">
+                <span class="pos-mesa-estado ${ocupada?.status === 'pronto' ? 'pos-mesa-pronta' : ''}">${estado}</span>
+                <strong>Mesa ${String(i).padStart(2, '0')}</strong>
+                <small>${ocupada ? `R$ ${utils.money(ocupada.total)}${tempo}` : 'Abrir pedido'}</small>
             </button>
-        `;
+        `);
     }
 
-    box.innerHTML = html;
+    box.innerHTML = cards.join('') || '<p class="pos-empty">Nenhuma mesa neste filtro.</p>';
 }
+
+document.getElementById('filtrosMesas').addEventListener('click', event => {
+    const button = event.target.closest('button[data-filtro]');
+    if (!button) return;
+
+    filtroMesa = button.dataset.filtro;
+    for (const option of event.currentTarget.querySelectorAll('button[data-filtro]')) {
+        option.setAttribute('aria-pressed', String(option === button));
+    }
+    renderMesas();
+});
 
 document.getElementById('mesas').addEventListener('click', async e => {
 
@@ -1264,6 +785,10 @@ document.getElementById('mesas').addEventListener('click', async e => {
     });
 
     renderAll();
+});
+
+document.getElementById('cliente').addEventListener('keydown', event => {
+    if (event.key === 'Enter') document.getElementById('btnCliente').click();
 });
 
 document.getElementById('btnCliente').addEventListener('click', () => {
@@ -1319,6 +844,7 @@ function renderCategorias(){
         <button
             class="${cat === state.categoria ? 'ativa' : ''}"
             data-cat="${utils.escape(cat)}"
+            aria-pressed="${cat === state.categoria}"
         >
             ${utils.escape(cat)}
         </button>
@@ -1361,7 +887,7 @@ function renderProdutos(){
 
     if(!lista.length){
 
-        el.innerHTML = '<p class="text-center w-100">Nenhum produto encontrado.</p>';
+        el.innerHTML = '<p class="pos-empty">Nenhum produto encontrado.</p>';
         return;
     }
 
@@ -1403,6 +929,7 @@ function renderProdutos(){
                     <button
                         class="btn-minus"
                         data-minus="${p.id}"
+                        aria-label="Remover uma unidade de ${utils.escape(p.nome)}"
                         ${!podeReduzir ? 'disabled' : ''}
                     >
                         −
@@ -1410,7 +937,7 @@ function renderProdutos(){
 
                     <span class="qtd">${qtd}</span>
 
-                    <button class="btn-plus" data-plus="${p.id}">
+                    <button class="btn-plus" data-plus="${p.id}" aria-label="Adicionar uma unidade de ${utils.escape(p.nome)}">
                         +
                     </button>
                 </div>
@@ -1584,6 +1111,7 @@ function renderCarrinho(){
                     <button
                         class="cart-btn-minus"
                         data-cart-minus="${utils.escape(key)}"
+                        aria-label="Remover uma unidade de ${utils.escape(produto.nome)}"
                         ${!podeReduzir ? 'disabled' : ''}
                     >
                         −
@@ -1591,7 +1119,7 @@ function renderCarrinho(){
 
                     <strong>${item.qtd}</strong>
 
-                    <button class="cart-btn-plus" data-cart-plus="${utils.escape(key)}">
+                    <button class="cart-btn-plus" data-cart-plus="${utils.escape(key)}" aria-label="Adicionar uma unidade de ${utils.escape(produto.nome)}">
                         +
                     </button>
                 </div>
@@ -1607,6 +1135,7 @@ function renderCarrinho(){
                             <select
                                 class="form-select form-select-sm"
                                 data-cart-adicional="${utils.escape(key)}"
+                                aria-label="Adicionais de ${utils.escape(produto.nome)}"
                                 ${locked ? 'disabled' : ''}
                             >
                                 ${[0,1,2,3,4,5].map(n => `
@@ -1638,6 +1167,7 @@ function renderCarrinho(){
                             class="form-control form-control-sm mb-2"
                             placeholder="Observação"
                             data-cart-obs="${utils.escape(key)}"
+                            aria-label="Observação de ${utils.escape(produto.nome)}"
                             value="${utils.escape(item.obs || '')}"
                             ${locked ? 'readonly' : ''}
                         >
@@ -1656,6 +1186,7 @@ function renderCarrinho(){
                             <select
                                 class="form-select form-select-sm"
                                 data-cart-ponto="${utils.escape(key)}"
+                                aria-label="Ponto ou preparo de ${utils.escape(produto.nome)}"
                                 ${locked ? 'disabled' : ''}
                             >
                                 ${[
@@ -1781,6 +1312,7 @@ function renderResumo(){
 
     let qtd = 0;
     let total = 0;
+    const linhas = [];
 
     itens.forEach(item => {
 
@@ -1788,15 +1320,20 @@ function renderResumo(){
 
         qtd += Number(item.qtd || 0);
 
-        total += utils.itemTotal(produto, item);
+        const subtotal = utils.itemTotal(produto, item);
+        total += subtotal;
+        if (produto) {
+            linhas.push(`<li><span>${Number(item.qtd)} × ${utils.escape(produto.nome)}</span><strong>R$ ${utils.money(subtotal)}</strong></li>`);
+        }
     });
 
+    document.getElementById('listaResumo').innerHTML = linhas.join('') ||
+        '<li class="pos-empty">Nenhum item adicionado.</li>';
     const qtdCarrinhoEl = document.getElementById('qtdCarrinho');
     const totalEl = document.getElementById('total');
 
     if(qtdCarrinhoEl){
         qtdCarrinhoEl.textContent = qtd;
-        qtdCarrinhoEl.closest('.btn-carrinho').classList.toggle('carrinho-com-itens', qtd > 0);
     }
 
     if(totalEl){
@@ -2121,10 +1658,8 @@ async function salvarPedido(){
         itens: itens
     };
 
-    const btn = document.getElementById('btnSalvar');
     const btnModal = document.getElementById('btnSalvarModal');
 
-    btn.disabled = true;
     btnModal.disabled = true;
 
     try {
@@ -2160,12 +1695,10 @@ async function salvarPedido(){
 
     } finally {
 
-        btn.disabled = false;
         btnModal.disabled = false;
     }
 }
 
-document.getElementById('btnSalvar').addEventListener('click', salvarPedido);
 document.getElementById('btnSalvarModal').addEventListener('click', salvarPedido);
 document.getElementById('btnImprimirCarrinho').addEventListener('click', imprimirPedidoCarrinho);
 

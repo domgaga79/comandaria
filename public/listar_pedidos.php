@@ -193,6 +193,7 @@ try {
             pi.updated_at AS item_updated_at,
 
             pr.nome AS produto_nome,
+            pr.imagem_url AS produto_imagem_url,
             pr.tempo AS produto_tempo,
             pr.permite_obs,
             pr.adicional_permitido,
@@ -207,6 +208,7 @@ try {
 
         LEFT JOIN produtos pr
             ON pr.id = pi.produto_id
+            AND pr.empresa_id = p.empresa_id
 
         LEFT JOIN categorias c
             ON c.id = pr.categoria_id
@@ -363,6 +365,7 @@ try {
 
             'produto_id' => (int)$row['produto_id'],
             'nome' => $row['produto_nome'],
+            'imagem_url' => $row['produto_imagem_url'],
 
             'categoria_id' => $row['categoria_id'] !== null
                 ? (int)$row['categoria_id']

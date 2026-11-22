@@ -28,7 +28,7 @@ if(!function_exists('googleOauthRedirectUriPadrao')){
     function googleOauthRedirectUriPadrao(): string {
         $scheme = googleOauthIsHttps() ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        $scriptName = $_SERVER['SCRIPT_NAME'] ?? '/google_callback.php';
+        $scriptName = explode('?', $_SERVER['REQUEST_URI'] ?? $_SERVER['SCRIPT_NAME'] ?? '/google_callback.php', 2)[0];
         $dir = rtrim(dirname($scriptName), '/\\');
         $dir = ($dir === '.' || $dir === '/') ? '' : $dir;
 
@@ -40,10 +40,12 @@ if(!function_exists('googleOauthConfig')){
     function googleOauthConfig(): array {
         
         
-        $clientId = trim((string)getenv('GOOGLE_CLIENT_ID'));
-        $clientSecret = trim((string)getenv('GOOGLE_CLIENT_SECRET'));
-        $redirectUri = trim((string)getenv('GOOGLE_REDIRECT_URI'));
-        
+        $clientId = trim((string) getenv('GOOGLE_CLIENT_ID'));
+        $clientSecret = trim((string) getenv('GOOGLE_CLIENT_SECRET'));
+        $redirectUri = trim((string) getenv('GOOGLE_REDIRECT_URI'));
+
+
+
 
         if($redirectUri === ''){
             $redirectUri = googleOauthRedirectUriPadrao();

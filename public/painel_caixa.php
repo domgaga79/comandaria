@@ -24,598 +24,23 @@ require_once __DIR__ . '/inc/seo.php';
 <link rel="icon" href="images/topo_comandaria_caixa.png" type="image/png">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #121212;
-    color: #fff;
-    padding: 10px;
-    font-family: Arial, sans-serif;
-}
-
-.topo {
-    text-align: center;
-    margin-bottom: 8px;
-}
-
-.topo img {
-    max-width: 450px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 10px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-}
-
-.logout {
-    color: #ffc107;
-    text-decoration: none;
-}
-
-.logout:hover {
-    color: #ffda6a;
-}
-
-#pedidos {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    align-items: flex-start;
-}
-
-.card-caixa {
-    width: 290px;
-    background: #fff;
-    color: #111;
-    border-radius: 14px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0,0,0,.28);
-    transition: .2s ease;
-}
-
-@media(max-width: 600px) {
-    .card-caixa {
-        width: 100%;
-    }
-}
-
-.card-caixa:hover {
-    transform: translateY(-2px);
-}
-
-.card-caixa.pendente {
-    border-left: 5px solid #ffc107;
-}
-
-.card-caixa.pronto {
-    border-left: 5px solid #198754;
-}
-
-.card-caixa.pago {
-    border-left: 5px solid #0d6efd;
-}
-
-.card-caixa.cancelado {
-    border-left: 5px solid #dc3545;
-}
-
-.card-caixa.sumindo {
-    opacity: 0;
-    transform: scale(.92);
-    pointer-events: none;
-}
-
-.card-caixa.loading {
-    opacity: .55;
-    filter: grayscale(1);
-    pointer-events: none;
-}
-
-.card-header-caixa {
-    background: #f3f3f3;
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
-}
-
-.header-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-    align-items: flex-start;
-}
-
-.titulo {
-    font-size: 16px;
-    font-weight: 800;
-}
-
-.numero {
-    font-size: 12px;
-    color: #666;
-}
-
-.hora {
-    font-size: 12px;
-    color: #666;
-    white-space: nowrap;
-}
-
-.card-body-caixa {
-    padding: 10px;
-}
-
-.item {
-    border-bottom: 1px solid #eee;
-    padding: 8px 0;
-    font-size: 14px;
-}
-
-.item:last-child {
-    border-bottom: none;
-}
-
-.item-main {
-    display: flex;
-    justify-content: space-between;
-    gap: 8px;
-}
-
-.item-nome {
-    font-weight: 700;
-}
-
-.item-total {
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-.item-detalhe {
-    font-size: 12px;
-    color: #555;
-    margin-top: 3px;
-}
-
-.item-pronto {
-    opacity: .65;
-}
-
-.item-acoes {
-    margin-top: 7px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.item-acoes .btn {
-    border-radius: 999px;
-    font-size: 11px;
-    font-weight: 800;
-    line-height: 1.2;
-    padding: 5px 9px;
-}
-
-.badge-status {
-    border-radius: 999px;
-    padding: 4px 8px;
-    font-size: 11px;
-}
-
-.total-box {
-    margin-top: 10px;
-    padding-top: 8px;
-    border-top: 1px dashed #bbb;
-}
-
-.total-linha {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-bottom: 3px;
-}
-
-.total-final {
-    display: flex;
-    justify-content: space-between;
-    font-size: 19px;
-    font-weight: 900;
-    margin-top: 6px;
-}
-
-
-.btn-fechar-conta-principal {
-    font-weight: 800;
-}
-
-@media(max-width: 600px) {
-    .btn-fechar-conta-principal {
-        min-height: 48px;
-        font-size: 15px;
-        padding-top: 11px;
-        padding-bottom: 11px;
-    }
-}
-
-#toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 16px;
-    border-radius: 8px;
-    font-size: 14px;
-    z-index: 9999;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all .25s ease;
-    background: #111;
-    color: #fff;
-    box-shadow: 0 3px 12px rgba(0,0,0,.35);
-}
-
-#toast.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-#toast.ok {
-    background: #198754;
-}
-
-#toast.erro {
-    background: #dc3545;
-}
-
-#toast.warn {
-    background: #ffc107;
-    color: #111;
-}
-
-.pagamento-modal {
-    position: fixed;
-    inset: 0;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 18px;
-    z-index: 9998;
-}
-
-.pagamento-modal.show {
-    display: flex;
-}
-
-.pagamento-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(0,0,0,.68);
-}
-
-.pagamento-card {
-    position: relative;
-    z-index: 1;
-    width: min(430px, 100%);
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 18px 55px rgba(0,0,0,.45);
-}
-
-.pagamento-card h2 {
-    margin: 0 0 6px;
-    font-size: 21px;
-    font-weight: 900;
-}
-
-.pagamento-card p {
-    margin: 0 0 12px;
-    color: #555;
-    font-size: 14px;
-}
-
-.pagamento-resumo {
-    background: #f6f6f6;
-    border: 1px solid #e9e9e9;
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin-bottom: 14px;
-    font-size: 14px;
-}
-
-.pagamento-resumo strong {
-    display: block;
-    font-size: 16px;
-    margin-bottom: 2px;
-}
-
-.pagamento-opcoes {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-}
-
-.pagamento-opcao {
-    border: 0;
-    border-radius: 12px;
-    padding: 12px 10px;
-    font-weight: 800;
-    background: #212529;
-    color: #fff;
-    transition: transform .15s ease, opacity .15s ease;
-}
-
-.pagamento-opcao:hover {
-    transform: translateY(-1px);
-    opacity: .92;
-}
-
-.pagamento-cancelar {
-    width: 100%;
-    margin-top: 12px;
-    border-radius: 12px;
-    padding: 10px;
-    border: 1px solid #d0d0d0;
-    background: #fff;
-    color: #333;
-    font-weight: 700;
-}
-
-.antecipado-form {
-    display: grid;
-    gap: 10px;
-}
-
-.antecipado-form label {
-    display: block;
-    font-size: 13px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-.antecipado-form input,
-.antecipado-form select {
-    width: 100%;
-    border: 1px solid #ced4da;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 15px;
-}
-
-.antecipado-confirmar {
-    width: 100%;
-    border: 0;
-    border-radius: 12px;
-    padding: 12px 10px;
-    font-weight: 900;
-    background: #198754;
-    color: #fff;
-}
-
-.total-credito {
-    color: #0f5132;
-}
-
-.total-saldo {
-    font-weight: 900;
-}
-
-
-.caixa-sessao-card {
-    max-width: 980px;
-    margin: 0 auto 12px;
-    padding: 14px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.12);
-    box-shadow: 0 10px 28px rgba(0,0,0,.25);
-}
-
-.caixa-sessao-topo {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-.caixa-sessao-topo h2 {
-    margin: 0;
-    font-size: 19px;
-    font-weight: 900;
-}
-
-.caixa-status-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border-radius: 999px;
-    padding: 6px 11px;
-    font-size: 12px;
-    font-weight: 900;
-}
-
-.caixa-status-badge.aberto {
-    background: rgba(25,135,84,.18);
-    color: #d1e7dd;
-    border: 1px solid rgba(25,135,84,.42);
-}
-
-.caixa-status-badge.fechado {
-    background: rgba(255,193,7,.16);
-    color: #fff3cd;
-    border: 1px solid rgba(255,193,7,.40);
-}
-
-.caixa-resumo-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 9px;
-    margin-bottom: 11px;
-}
-
-.caixa-resumo-item {
-    background: rgba(0,0,0,.22);
-    border: 1px solid rgba(255,255,255,.08);
-    border-radius: 13px;
-    padding: 10px;
-    min-height: 68px;
-}
-
-.caixa-resumo-item span {
-    display: block;
-    color: rgba(255,255,255,.72);
-    font-size: 12px;
-    margin-bottom: 3px;
-}
-
-.caixa-resumo-item strong {
-    display: block;
-    font-size: 16px;
-    font-weight: 900;
-}
-
-.caixa-acoes {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.caixa-acoes .btn {
-    border-radius: 999px;
-    font-weight: 800;
-}
-
-.caixa-info-operacional {
-    margin-top: 9px;
-    font-size: 13px;
-    color: rgba(255,255,255,.82);
-}
-
-.caixa-form {
-    display: grid;
-    gap: 10px;
-}
-
-.caixa-form label {
-    display: block;
-    margin-bottom: 4px;
-    font-size: 13px;
-    font-weight: 800;
-}
-
-.caixa-form input,
-.caixa-form textarea {
-    width: 100%;
-    border: 1px solid #ced4da;
-    border-radius: 12px;
-    padding: 10px 12px;
-    font-size: 15px;
-}
-
-.caixa-form textarea {
-    min-height: 82px;
-    resize: vertical;
-}
-
-.caixa-confirmar {
-    width: 100%;
-    border: 0;
-    border-radius: 12px;
-    padding: 12px 10px;
-    font-weight: 900;
-    background: #198754;
-    color: #fff;
-}
-
-.caixa-confirmar.fechar {
-    background: #dc3545;
-}
-
-.caixa-fechamento-resumo {
-    background: #f6f6f6;
-    border: 1px solid #e9e9e9;
-    border-radius: 12px;
-    padding: 10px 12px;
-    margin-bottom: 12px;
-    font-size: 14px;
-    line-height: 1.55;
-}
-
-.caixa-fechamento-resumo strong {
-    display: block;
-    font-size: 15px;
-    margin-bottom: 4px;
-}
-
-@media(max-width: 760px) {
-    .caixa-resumo-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media(max-width: 460px) {
-    .caixa-resumo-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-@media(max-width: 460px) {
-    .pagamento-opcoes {
-        grid-template-columns: 1fr;
-    }
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/financeiro.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
+<body class="cd-staff finance-page finance-caixa">
+<?php $staffPage = 'painel_caixa.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<div class="topo">
-    <img src="images/topo_comandaria_caixa.png" alt="Comandaria Express - Caixa">
-</div>
-
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= htmlspecialchars($_SESSION['user_nome'] ?? '') ?></strong>
-        </span>
-
-        <a href="logout.php" class="logout">
-            sair
-        </a>
-    </div>
-</div>
+<main id="conteudo" class="finance-workspace">
+<header class="finance-heading">
+    <h1>Caixa</h1>
+    <p>Confira as comandas, registre pagamentos e gerencie o caixa.</p>
+</header>
 
 <section id="caixaSessaoCard" class="caixa-sessao-card">
     <div class="caixa-sessao-topo">
-        <h2>Controle de caixa</h2>
+        <h2 class="finance-section-title">Resumo do caixa</h2>
         <span id="caixaStatusBadge" class="caixa-status-badge fechado">● Caixa carregando</span>
     </div>
 
@@ -624,25 +49,31 @@ img {
     <div class="caixa-acoes">
         <button type="button" class="btn btn-sm btn-success" data-caixa-action="abrir">Abrir caixa</button>
         <button type="button" class="btn btn-sm btn-danger" data-caixa-action="fechar">Fechar caixa</button>
-        <button type="button" class="btn btn-sm btn-outline-light" data-caixa-action="atualizar">Atualizar resumo</button>
+        <button type="button" class="btn btn-sm btn-outline-dark" data-caixa-action="atualizar">Atualizar resumo</button>
         <button
             type="button"
-            class="btn btn-sm btn-outline-warning"
+            class="btn btn-sm btn-outline-dark"
             data-caixa-action="imprimir-fechamento"
             disabled
         >
-            🖨️ Imprimir fechamento
+            Imprimir fechamento
         </button>
     </div>
 
     <div id="caixaInfoOperacional" class="caixa-info-operacional">Carregando situação do caixa...</div>
 </section>
 
-<center>
-    <select id="filtro" class="form-select mb-2" style="max-width:980px"></select>
-</center>
-
-<div id="pedidos"></div>
+<div class="caixa-workspace">
+    <section class="card-box caixa-fila" aria-labelledby="caixaFilaTitulo">
+        <div class="caixa-fila-topo">
+            <h2 id="caixaFilaTitulo" class="finance-section-title">Contas em aberto</h2>
+            <span id="caixaFilaContagem" class="caixa-fila-contagem">0</span>
+        </div>
+        <ul id="caixaContas" class="caixa-fila-lista"></ul>
+    </section>
+    <section id="pedidos" class="caixa-detalhes" aria-label="Detalhes da conta"></section>
+</div>
+</main>
 
 <div id="pagamentoModal" class="pagamento-modal" aria-hidden="true">
     <div class="pagamento-backdrop" data-payment-close="1"></div>
@@ -657,9 +88,9 @@ img {
         </div>
 
         <div class="pagamento-opcoes">
-            <button type="button" class="pagamento-opcao" data-forma-pagamento="dinheiro">💵 Dinheiro</button>
-            <button type="button" class="pagamento-opcao" data-forma-pagamento="pix">📲 Pix</button>
-            <button type="button" class="pagamento-opcao" data-forma-pagamento="cartao">💳 Cartão</button>
+            <button type="button" class="pagamento-opcao" data-forma-pagamento="dinheiro">Dinheiro</button>
+            <button type="button" class="pagamento-opcao" data-forma-pagamento="pix">Pix</button>
+            <button type="button" class="pagamento-opcao" data-forma-pagamento="cartao">Cartão</button>
             <button type="button" class="pagamento-opcao" data-forma-pagamento="prazo">A prazo</button>
         </div>
 
@@ -767,12 +198,13 @@ img {
     </div>
 </div>
 
-<div id="toast"></div>
+<div id="toast" role="status" aria-live="polite"></div>
 
 <script>
 const state = {
     pedidos: [],
-    filtro: null,
+    pedidosCarregados: false,
+    contaSelecionada: null,
     ultimoHash: '',
     running: false,
     intervalo: 4000,
@@ -979,6 +411,32 @@ const utils = {
     }
 };
 
+function exibirModalCaixa(modal, controleInicial){
+    modal._focoAnterior = document.activeElement;
+    modal.classList.add('show');
+    modal.setAttribute('aria-hidden', 'false');
+    controleInicial?.focus();
+}
+
+function ocultarModalCaixa(modal){
+    if(!modal){
+        return;
+    }
+
+    modal.classList.remove('show');
+    modal.setAttribute('aria-hidden', 'true');
+
+    const focoAnterior = modal._focoAnterior;
+
+    if(focoAnterior?.isConnected && !focoAnterior.disabled){
+        focoAnterior.focus();
+    } else {
+        document.querySelector('[data-conta][aria-pressed="true"]')?.focus();
+    }
+
+    modal._focoAnterior = null;
+}
+
 const caixaManager = {
     aberto(){
         return Boolean(state.caixa?.aberto);
@@ -1050,9 +508,7 @@ const caixaManager = {
 
         saldo.value = '0.00';
         obs.value = '';
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-        setTimeout(() => saldo.focus(), 60);
+        exibirModalCaixa(modal, saldo);
     },
 
     fecharModal(){
@@ -1085,21 +541,17 @@ const caixaManager = {
 
         saldoFinal.value = Number(resumo.saldo_esperado_dinheiro || 0).toFixed(2);
         obs.value = '';
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-        setTimeout(() => saldoFinal.focus(), 60);
+        exibirModalCaixa(modal, saldoFinal);
     },
 
     fecharAbrirModal(){
         const modal = document.getElementById('caixaAbrirModal');
-        modal?.classList.remove('show');
-        modal?.setAttribute('aria-hidden', 'true');
+        ocultarModalCaixa(modal);
     },
 
     fecharFecharModal(){
         const modal = document.getElementById('caixaFecharModal');
-        modal?.classList.remove('show');
-        modal?.setAttribute('aria-hidden', 'true');
+        ocultarModalCaixa(modal);
     },
 
     async confirmarAbertura(){
@@ -1204,8 +656,7 @@ const pagamento = {
 
         resumo.textContent = `Total base: R$ ${utils.money(pedido.total)} • ${textoServico} • Total final: R$ ${utils.money(utils.totalComServico(pedido))} • Antecipado: R$ ${utils.money(utils.totalAntecipado(pedido))} • Saldo: R$ ${utils.money(utils.saldoConta(pedido))}`;
 
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
+        exibirModalCaixa(modal, modal.querySelector('[data-forma-pagamento]'));
 
         return new Promise(resolve => {
             this.resolver = resolve;
@@ -1215,10 +666,7 @@ const pagamento = {
     fechar(forma = null){
         const modal = document.getElementById('pagamentoModal');
 
-        if(modal){
-            modal.classList.remove('show');
-            modal.setAttribute('aria-hidden', 'true');
-        }
+        ocultarModalCaixa(modal);
 
         if(typeof this.resolver === 'function'){
             this.resolver(forma);
@@ -1251,10 +699,7 @@ const antecipado = {
         valor.max = saldo.toFixed(2);
         forma.value = 'dinheiro';
 
-        modal.classList.add('show');
-        modal.setAttribute('aria-hidden', 'false');
-
-        setTimeout(() => valor.focus(), 60);
+        exibirModalCaixa(modal, valor);
 
         return new Promise(resolve => {
             this.resolver = resolve;
@@ -1264,10 +709,7 @@ const antecipado = {
     fechar(dados = null){
         const modal = document.getElementById('antecipadoModal');
 
-        if(modal){
-            modal.classList.remove('show');
-            modal.setAttribute('aria-hidden', 'true');
-        }
+        ocultarModalCaixa(modal);
 
         if(typeof this.resolver === 'function'){
             this.resolver(dados);
@@ -1562,7 +1004,7 @@ function badgeStatus(pedido){
 const render = {
     update(){
         this.caixa();
-        this.select();
+        this.contas();
         this.pedidos();
     },
 
@@ -1647,83 +1089,82 @@ const render = {
         }
     },
 
-    select(){
-        const select = document.getElementById('filtro');
+    contas(){
+        const fila = document.getElementById('caixaContas');
+        const contas = state.pedidos
+            .filter(pedido => !['pago', 'cancelado'].includes(pedido.status) && utils.pedidoId(pedido))
+            .sort((a, b) =>
+                Number(utils.pedidoPronto(b)) - Number(utils.pedidoPronto(a)) ||
+                new Date(b.created_at ?? 0).getTime() - new Date(a.created_at ?? 0).getTime()
+            );
 
-        if(!select){
-            return;
+        if(!contas.some(pedido => utils.pedidoId(pedido) === state.contaSelecionada)){
+            state.contaSelecionada = contas.length ? utils.pedidoId(contas[0]) : null;
         }
 
-        const pedidosAtivos = state.pedidos.filter(p =>
-            !['pago','cancelado'].includes(p.status)
-        );
+        const contagem = document.getElementById('caixaFilaContagem');
+        contagem.textContent = state.pedidosCarregados ? String(contas.length) : '–';
 
-        const options = pedidosAtivos.map(p => {
-            const pedidoId = utils.pedidoId(p);
+        const html = contas.map(pedido => {
+            const id = utils.pedidoId(pedido);
+            const selecionado = id === state.contaSelecionada;
 
             return `
-                <option value="${pedidoId}">
-                    ${utils.escape(utils.tituloPedido(p))} - #${pedidoId}
-                </option>
+                <li>
+                    <button class="caixa-fila-conta" type="button" data-conta="${id}"
+                        aria-controls="pedidos" aria-pressed="${selecionado}">
+                        <span class="caixa-fila-origem">
+                            <strong>${utils.escape(utils.tituloPedido(pedido))}</strong>
+                            <small>#${id} · ${utils.hora(pedido.created_at)}</small>
+                        </span>
+                        <span class="caixa-fila-valores">
+                            <strong>R$ ${utils.money(utils.saldoConta(pedido))}</strong>
+                            ${badgeStatus(pedido)}
+                        </span>
+                    </button>
+                </li>
             `;
         }).join('');
 
-        const html = '<option value="">Todos</option>' + options;
+        if(fila._html !== html){
+            const foco = document.activeElement?.dataset.conta;
+            fila.innerHTML = html;
+            fila._html = html;
 
-        if(select.innerHTML !== html){
-            select.innerHTML = html;
+            if(foco){
+                fila.querySelector(`[data-conta="${Number(foco)}"]`)?.focus({ preventScroll: true });
+            }
         }
-
-        if(
-            state.filtro &&
-            !pedidosAtivos.some(p => utils.pedidoId(p) === Number(state.filtro))
-        ){
-            state.filtro = null;
-        }
-
-        select.value = state.filtro ?? '';
     },
 
     pedidos(){
         const container = document.getElementById('pedidos');
-
-        const lista = state.pedidos
-            .filter(p => {
-                const pedidoId = utils.pedidoId(p);
-
-                if(state.filtro && pedidoId !== Number(state.filtro)){
-                    return false;
-                }
-
-                return !['pago','cancelado'].includes(p.status);
-            })
-            .sort((a,b) => {
-                const prontoA = utils.pedidoPronto(a) ? 1 : 0;
-                const prontoB = utils.pedidoPronto(b) ? 1 : 0;
-
-                if(prontoA !== prontoB){
-                    return prontoB - prontoA;
-                }
-
-                const da = new Date(a.created_at ?? 0).getTime();
-                const db = new Date(b.created_at ?? 0).getTime();
-
-                return db - da;
-            });
+        const lista = state.pedidos.filter(pedido =>
+            utils.pedidoId(pedido) === state.contaSelecionada &&
+            !['pago', 'cancelado'].includes(pedido.status)
+        );
 
         if(!lista.length){
-            container.innerHTML = `
-                <p class="text-center w-100">
-                    Nenhuma conta no caixa.
-                </p>
-            `;
+            const titulo = state.pedidosCarregados ? 'Nenhuma conta em aberto' : 'Carregando contas';
+            const descricao = state.pedidosCarregados
+                ? 'As novas comandas aparecem aqui assim que forem enviadas.'
+                : 'Aguardando a consulta ao caixa.';
+
+            if(container.querySelector('.caixa-vazio strong')?.textContent !== titulo){
+                container.innerHTML = `
+                    <div class="alerta-vazio caixa-vazio" role="status">
+                        <strong>${titulo}</strong>
+                        <p>${descricao}</p>
+                    </div>
+                `;
+            }
 
             state.cards.clear();
 
             return;
         }
 
-        const vazio = container.querySelector('p');
+        const vazio = container.querySelector('.caixa-vazio');
 
         if(vazio){
             vazio.remove();
@@ -1752,7 +1193,10 @@ const render = {
                 total_cobravel: pedido.total_cobravel,
                 total_antecipado: pedido.total_antecipado,
                 saldo: pedido.saldo,
-                atendente_nome: pedido.atendente_nome,
+                titulo: utils.tituloPedido(pedido),
+                origem: pedido.origem,
+                created_at: pedido.created_at,
+                atendente: utils.atendentePedido(pedido),
                 itens: (pedido.itens || []).map(i => [
                     utils.itemId(i),
                     utils.qtd(i),
@@ -1801,7 +1245,7 @@ const render = {
     criarCard(pedido){
         const pedidoId = utils.pedidoId(pedido);
 
-        const card = document.createElement('div');
+        const card = document.createElement('article');
 
         const classeStatus = statusCard(pedido);
 
@@ -1877,7 +1321,7 @@ const render = {
                                 data-item-id="${itemId}"
                                 title="Excluir este item da conta sem cancelar a conta inteira"
                             >
-                                🗑️ Excluir item
+                                Excluir item
                             </button>
                         </div>
                     ` : ''}
@@ -1891,9 +1335,9 @@ const render = {
             <div class="card-header-caixa">
                 <div class="header-top">
                     <div>
-                        <div class="titulo">
+                        <h2 class="titulo">
                             ${utils.escape(utils.tituloPedido(pedido))}
-                        </div>
+                        </h2>
 
                         <div class="numero">
                             Pedido #${pedidoId}
@@ -1919,88 +1363,96 @@ const render = {
             </div>
 
             <div class="card-body-caixa">
-                ${
-                    itensHtml ||
-                    '<p class="text-muted mb-0">Sem itens.</p>'
-                }
-
-                <div class="total-box">
-                    <div class="total-linha">
-                        <span>Subtotal</span>
-                        <strong>R$ ${utils.money(pedido.subtotal)}</strong>
-                    </div>
-
-                    <div class="total-linha">
-                        <span>Adicionais</span>
-                        <strong>R$ ${utils.money(pedido.total_adicional)}</strong>
-                    </div>
-
-                    <div class="total-final">
-                        <span>Total</span>
-                        <span>R$ ${utils.money(pedido.total)}</span>
-                    </div>
-
-                    <div class="total-linha total-credito">
-                        <span>Antecipado</span>
-                        <strong>R$ ${utils.money(utils.totalAntecipado(pedido))}</strong>
-                    </div>
-
-                    <div class="total-linha total-saldo">
-                        <span>Saldo da conta</span>
-                        <strong>R$ ${utils.money(utils.saldoConta(pedido))}</strong>
-                    </div>
-
-                    <div class="total-linha">
-                        <span>10% serviço</span>
-                        <strong>${utils.servico10Ativo(pedido) ? `R$ ${utils.money(utils.taxaServico(pedido))}` : 'Não cobrado'}</strong>
-                    </div>
-
-                    <div class="total-linha">
-                        <span>Total final</span>
-                        <strong>R$ ${utils.money(utils.totalComServico(pedido))}</strong>
-                    </div>
+                <div class="caixa-itens">
+                    <h3>Itens da comanda</h3>
+                    ${
+                        itensHtml ||
+                        '<p class="text-muted mb-0">Sem itens.</p>'
+                    }
                 </div>
 
-                <button
-                    class="btn btn-success w-100 mt-3 btn-fechar-conta-principal"
-                    data-action="pagar"
-                    ${pronto ? '' : 'disabled'}
-                    title="${pronto ? 'Fechar conta' : 'Aguardando cozinha finalizar'}"
-                >
-                    ✔ Fechar conta
-                </button>
+                <div class="caixa-totais">
+                    <div class="total-box">
+                        <h3>Resumo da conta</h3>
+                        <div class="total-linha">
+                            <span>Subtotal</span>
+                            <strong>R$ ${utils.money(pedido.subtotal)}</strong>
+                        </div>
 
-                <button
-                    class="btn btn-sm ${utils.servico10Ativo(pedido) ? 'btn-outline-danger' : 'btn-outline-success'} w-100 mt-2"
-                    data-action="alternar-servico-10"
-                >
-                    ${utils.servico10Ativo(pedido) ? '🔴 Desativar 10%' : '🟢 Ativar 10%'}
-                </button>
+                        <div class="total-linha">
+                            <span>Adicionais</span>
+                            <strong>R$ ${utils.money(pedido.total_adicional)}</strong>
+                        </div>
 
-                <button
-                    class="btn btn-sm btn-outline-dark w-100 mt-2"
-                    data-action="imprimir"
-                >
-                    🖨️ Imprimir comanda
-                </button>
+                        <div class="total-linha">
+                            <span>Total dos itens</span>
+                            <strong>R$ ${utils.money(pedido.total)}</strong>
+                        </div>
 
-                ${pedido.tipo === 'mesa' ? `
+                        <div class="total-linha">
+                            <span>10% serviço</span>
+                            <strong>${utils.servico10Ativo(pedido) ? `R$ ${utils.money(utils.taxaServico(pedido))}` : 'Não cobrado'}</strong>
+                        </div>
+
+                        <div class="total-linha">
+                            <span>Total da conta</span>
+                            <strong>R$ ${utils.money(utils.totalComServico(pedido))}</strong>
+                        </div>
+
+                        <div class="total-linha total-credito">
+                            <span>Antecipado</span>
+                            <strong>R$ ${utils.money(utils.totalAntecipado(pedido))}</strong>
+                        </div>
+
+                        <div class="total-final">
+                            <span>Saldo a cobrar</span>
+                            <strong>R$ ${utils.money(utils.saldoConta(pedido))}</strong>
+                        </div>
+                    </div>
+
                     <button
-                        class="btn btn-sm btn-outline-success w-100 mt-2"
-                        data-action="antecipar"
-                        ${utils.saldoConta(pedido) > 0 ? '' : 'disabled'}
-                        title="${utils.saldoConta(pedido) > 0 ? 'Registrar pagamento antecipado' : 'Mesa já coberta por antecipações'}"
+                        class="btn btn-success w-100 mt-3 btn-fechar-conta-principal"
+                        data-action="pagar"
+                        ${pronto ? '' : 'disabled'}
+                        title="${pronto ? 'Fechar conta' : 'Aguardando cozinha finalizar'}"
                     >
-                        💰 Pagamento antecipado
+                        Fechar conta
                     </button>
-                ` : ''}
 
-                <button
-                    class="btn btn-sm btn-warning w-100 mt-2"
-                    data-action="cancelar"
-                >
-                    ❌ Cancelar conta
-                </button>
+                    ${pronto ? '' : '<p class="caixa-pagamento-pendente">Disponível quando a cozinha finalizar o pedido.</p>'}
+
+                    <button
+                        class="btn btn-sm ${utils.servico10Ativo(pedido) ? 'btn-outline-danger' : 'btn-outline-success'} w-100 mt-2"
+                        data-action="alternar-servico-10"
+                    >
+                        ${utils.servico10Ativo(pedido) ? 'Remover taxa de serviço' : 'Adicionar taxa de serviço'}
+                    </button>
+
+                    <button
+                        class="btn btn-sm btn-outline-dark w-100 mt-2"
+                        data-action="imprimir"
+                    >
+                        Imprimir comanda
+                    </button>
+
+                    ${pedido.tipo === 'mesa' ? `
+                        <button
+                            class="btn btn-sm btn-outline-success w-100 mt-2"
+                            data-action="antecipar"
+                            ${utils.saldoConta(pedido) > 0 ? '' : 'disabled'}
+                            title="${utils.saldoConta(pedido) > 0 ? 'Registrar pagamento antecipado' : 'Mesa já coberta por antecipações'}"
+                        >
+                            Pagamento antecipado
+                        </button>
+                    ` : ''}
+
+                    <button
+                        class="btn btn-sm btn-outline-danger w-100 mt-2"
+                        data-action="cancelar"
+                    >
+                        Cancelar conta
+                    </button>
+                </div>
             </div>
         `;
 
@@ -2091,6 +1543,21 @@ document.getElementById('antecipadoModal')?.addEventListener('click', e => {
 });
 
 document.addEventListener('keydown', e => {
+    if(e.key === 'Tab'){
+        const modal = document.querySelector('.pagamento-modal.show');
+        const controls = modal?.querySelectorAll('button:not([disabled]), input, textarea, select');
+
+        if(controls?.length){
+            const first = controls[0];
+            const last = controls[controls.length - 1];
+
+            if(!modal.contains(document.activeElement) || (e.shiftKey && document.activeElement === first) || (!e.shiftKey && document.activeElement === last)){
+                e.preventDefault();
+                (e.shiftKey ? last : first).focus();
+            }
+        }
+    }
+
     if(e.key === 'Escape'){
         const modal = document.getElementById('pagamentoModal');
 
@@ -2118,11 +1585,15 @@ document.addEventListener('keydown', e => {
     }
 });
 
-document.getElementById('filtro').addEventListener('change', e => {
-    state.filtro = e.target.value
-        ? Number(e.target.value)
-        : null;
+document.getElementById('caixaContas').addEventListener('click', e => {
+    const conta = e.target.closest('[data-conta]');
 
+    if(!conta){
+        return;
+    }
+
+    state.contaSelecionada = Number(conta.dataset.conta);
+    render.contas();
     render.pedidos();
 });
 
@@ -2492,7 +1963,8 @@ async function loop(){
             state.ultimoHash = data.ultima;
         }
 
-        if(data.changed !== false){
+        if(data.changed !== false || !state.pedidosCarregados){
+            state.pedidosCarregados = true;
             state.pedidos = (data.pedidos || [])
                 .filter(p => !['pago','cancelado'].includes(p.status));
 

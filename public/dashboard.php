@@ -24,7 +24,6 @@ function dinheiroDashboard($value): string {
     return number_format((float)$value, 2, ',', '.');
 }
 
-$nome = $_SESSION['user_nome'] ?? 'Administrador';
 $adminPlataforma = false;
 
 $empresaDashboard = [
@@ -171,6 +170,25 @@ try {
 if(isset($conn) && $conn instanceof mysqli){
     $conn->close();
 }
+$dashboardSections = [
+    'Operação' => [
+        ['index.php', 'grid', 'Atendimento', 'Abra mesas e envie pedidos à cozinha.'],
+        ['painel_cozinha.php', 'fire', 'Cozinha', 'Veja a fila e acompanhe o preparo.'],
+        ['painel_caixa.php', 'wallet2', 'Caixa', 'Receba pagamentos e feche contas.'],
+        ['controle_prazo.php', 'calendar-check', 'Contas a prazo', 'Consulte e registre recebimentos.'],
+    ],
+    'Gestão' => [
+        ['produtos.php', 'box-seam', 'Produtos', 'Atualize cardápio, preços e adicionais.'],
+        ['categorias.php', 'tags', 'Categorias', 'Organize os produtos do cardápio.'],
+        ['gerar_qr_mesas.php', 'qr-code', 'QR Code das mesas', 'Gere e imprima os códigos para o salão.'],
+        ['usuarios.php', 'people', 'Usuários', 'Gerencie os acessos da equipe.'],
+        ['relatorios.php', 'bar-chart', 'Relatórios', 'Consulte vendas e histórico de comandas.'],
+    ]
+];
+
+if ($adminPlataforma) {
+    $dashboardSections['Gestão'][] = ['admin_empresas.php', 'buildings', 'Empresas e planos', 'Acompanhe empresas e gerencie os planos.'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -190,432 +208,72 @@ if(isset($conn) && $conn instanceof mysqli){
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.header {
-    text-align: center;
-    padding: 20px 10px 10px;
-}
-
-.header img {
-    max-width: 430px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 14px;
-    max-width: 1050px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-@media(min-width: 600px) {
-    .grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(min-width: 900px) {
-    .grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-.card-menu {
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    padding: 20px;
-    text-decoration: none;
-    min-height: 150px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    transition: .2s ease;
-}
-
-.card-menu:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(0,0,0,.45);
-    color: #111;
-}
-
-.icon {
-    font-size: 36px;
-    margin-bottom: 8px;
-}
-
-.title {
-    font-size: 19px;
-    font-weight: 800;
-    margin-bottom: 4px;
-}
-
-.desc {
-    font-size: 13px;
-    color: #555;
-}
-
-.badge-status {
-    align-self: flex-end;
-    margin-top: 12px;
-    border-radius: 999px;
-    padding: 4px 9px;
-    font-size: 11px;
-    background: #111;
-    color: #fff;
-    text-align: right;
-    white-space: nowrap;
-}
-
-
-.upgrade-price {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    margin-top: 12px;
-    padding: 9px 13px;
-    border-radius: 999px;
-    background: #fff3cd;
-    color: #6b4f00;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0,0,0,.12);
-    transition: .2s ease;
-    font-size: 13px;
-    font-weight: 800;
-    border: 1px solid rgba(107,79,0,.18);
-}
-
-.upgrade-price:hover {
-    color: #6b4f00;
-    transform: translateY(-1px);
-    filter: brightness(1.02);
-}
-
-.footer {
-    text-align: center;
-    color: #777;
-    font-size: 12px;
-    padding: 25px 10px;
-}
-
-.logout {
-    color: #ffc107;
-    text-decoration: none;
-}
-
-.logout:hover {
-    color: #ffda6a;
-}
-
-/* Mantém o conteúdo do card à esquerda e o status/valor à direita */
-.card-menu > div:first-child {
-    width: 100%;
-    text-align: left;
-}
-
-.card-menu > .badge-status {
-    align-self: flex-end;
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/dashboard.css?v=2">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
+<body class="cd-staff">
+<?php $staffPage = 'dashboard.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<body>
-
-<div class="header">
-    <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-</div>
-
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= h($nome) ?></strong>
-        </span>
-
-        <a href="logout.php" class="logout">
-            sair
-        </a>
-    </div>
-</div>
-
-<div class="grid">
-
-    <a href="index.php" class="card-menu">
+<main class="dash-main" id="conteudo">
+    <header class="dash-heading">
         <div>
-            <div class="icon">🧾</div>
-
-            <div class="title">
-                Atendimento
-            </div>
-
-            <div class="desc">
-                Abrir mesas, lançar pedidos e enviar comandas para a cozinha.
-            </div>
+            <p class="dash-company"><?= h($empresaDashboard['nome']) ?></p>
+            <h1>Visão geral</h1>
+            <p>Acompanhe a operação da sua empresa.</p>
         </div>
+        <a class="dash-cta" href="index.php"><i class="bi bi-grid" aria-hidden="true"></i> Abrir atendimento</a>
+    </header>
 
-        <div class="badge-status">
-            atendente/admin
+    <div class="dash-summary" aria-label="Resumo da empresa">
+        <div class="dash-stat">
+            <span><i class="bi bi-grid" aria-hidden="true"></i> Mesas cadastradas</span>
+            <strong><?= (int)$usoPlano['mesas_usadas'] ?> <small>/ <?= (int)$usoPlano['mesas_limite'] ?></small></strong>
         </div>
-    </a>
-
-    <a href="painel_cozinha.php" class="card-menu">
-        <div>
-            <div class="icon">🍳</div>
-
-            <div class="title">
-                Cozinha
-            </div>
-
-            <div class="desc">
-                Visualizar pedidos em preparo e marcar itens como prontos.
-            </div>
+        <div class="dash-stat">
+            <span><i class="bi bi-receipt" aria-hidden="true"></i> Pedidos no mês</span>
+            <strong><?= (int)$usoPlano['pedidos_usados'] ?> <small>/ <?= (int)$usoPlano['pedidos_limite'] ?></small></strong>
         </div>
-
-        <div class="badge-status">
-            cozinha/admin
-        </div>
-    </a>
-
-    <a href="painel_caixa.php" class="card-menu">
-        <div>
-            <div class="icon">💰</div>
-
-            <div class="title">
-                Caixa
-            </div>
-
-            <div class="desc">
-                Conferir comandas, imprimir, cancelar e fechar contas.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            caixa/admin
-        </div>
-    </a>
-    
-    
-
-    <a href="controle_prazo.php" class="card-menu">
-        <div>
-            <div class="icon">💳</div>
-
-            <div class="title">
-                Contas a Prazo
-            </div>
-
-            <div class="desc">
-                Controlar contas em aberto, discriminar itens, imprimir e registrar recebimentos.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            <?= (int)$prazoResumo['quantidade_abertas'] ?> em aberto • R$ <?= dinheiroDashboard($prazoResumo['total_aberto']) ?>
-        </div>
-    </a>
-
-    <a href="produtos.php" class="card-menu">
-        <div>
-            <div class="icon">🍔</div>
-
-            <div class="title">
-                Produtos
-            </div>
-
-            <div class="desc">
-                Gerenciar produtos, preços, tempo de preparo, observações e adicionais.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            admin
-        </div>
-    </a>
-
-    <a href="categorias.php" class="card-menu">
-        <div>
-            <div class="icon">🏷️</div>
-
-            <div class="title">
-                Categorias
-            </div>
-
-            <div class="desc">
-                Organizar produtos por grupos como lanches, bebidas, porções e combos.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            admin
-        </div>
-    </a>
-    
-    
-        
-    <a href="gerar_qr_mesas.php" class="card-menu">
-        <div>
-            <div class="icon">🪑</div>
-
-            <div class="title">
-                Gerar Mesas
-            </div>
-
-            <div class="desc">
-                Criar e administrar mesas com QR Code para pedidos da Mesaria Express.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            admin
-        </div>
-    </a>
-    
-    
-
-
-    <?php if(tenantPlanoPermiteUsuarios($usoPlano['plano'])): ?>
-    <a href="usuarios.php" class="card-menu">
-        <div>
-            <div class="icon">👥</div>
-
-            <div class="title">
-                Usuários
-            </div>
-
-            <div class="desc">
-                Cadastrar operadores, caixas, cozinha, atendentes e administradores.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            admin
-        </div>
-    </a>
-    <?php endif; ?>
-
-    <a href="relatorios.php" class="card-menu">
-        <div>
-            <div class="icon">📊</div>
-
-            <div class="title">
-                Relatórios
-            </div>
-
-            <div class="desc">
-                Consultar vendas, produtos mais vendidos, ticket médio e histórico de comandas.
-            </div>
-        </div>
-
-        <div class="badge-status">
-            admin
-        </div>
-    </a>
-
-
-    <div class="card-menu">
-        <div>
-            <div class="icon">📦</div>
-
-            <div class="title">
-                Plano <?= h((string)($usoPlano['plano']['plano_nome'] ?? authPlanoNome())) ?>
-            </div>
-
-            <div class="desc">
-                Mesas: <?= (int)$usoPlano['mesas_usadas'] ?> / <?= (int)$usoPlano['mesas_limite'] ?><br>
-                Pedidos no mês: <?= (int)$usoPlano['pedidos_usados'] ?> / <?= (int)$usoPlano['pedidos_limite'] ?>
-            </div>
-
-            <?php if($planoAtualDashboard === 'FREE' && $whatsappUpgradeUrl !== ''): ?>
-                <a
-                    href="<?= h($whatsappUpgradeUrl) ?>"
-                    class="upgrade-price"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label="Solicitar upgrade para o plano PRO por WhatsApp"
-                >
-                    ⭐ PRO por R$ 229,90/mês
-                </a>
-            <?php endif; ?>
-        </div>
-
-        <div class="badge-status">
-            uso mensal <?= h((string)$usoPlano['pedidos_percentual']) ?>%
+        <div class="dash-stat">
+            <span><i class="bi bi-calendar-check" aria-hidden="true"></i> Contas a prazo em aberto</span>
+            <strong>R$ <?= dinheiroDashboard($prazoResumo['total_aberto']) ?></strong>
+            <small><?= (int)$prazoResumo['quantidade_abertas'] ?> em aberto</small>
         </div>
     </div>
-    
-    
-    <?php if($adminPlataforma): ?>
-        <a href="admin_empresas.php" class="card-menu">
-            <div>
-                <div class="icon">🏢</div>
 
-                <div class="title">
-                    Empresas e Planos
+    <div class="grid">
+        <?php foreach ($dashboardSections as $dashboardSection => $dashboardLinks): ?>
+            <section class="dash-section">
+                <h2><?= h($dashboardSection) ?></h2>
+                <div class="dash-links">
+                    <?php foreach ($dashboardLinks as [$href, $icon, $label, $description]): ?>
+                        <a href="<?= h($href) ?>" class="card-menu">
+                            <i class="bi bi-<?= h($icon) ?> dash-link-icon" aria-hidden="true"></i>
+                            <span class="dash-link-copy">
+                                <strong><?= h($label) ?></strong>
+                                <span><?= h($description) ?></span>
+                            </span>
+                            <i class="bi bi-arrow-up-right dash-arrow" aria-hidden="true"></i>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
+            </section>
+        <?php endforeach; ?>
+    </div>
 
-                <div class="desc">
-                    Administrar tenants, acompanhar limites e alterar clientes entre FREE e PRO.
-                </div>
-            </div>
-
-            <div class="badge-status">
-                Bacuri Digital
-            </div>
-        </a>
-    <?php endif; ?>
-
-</div>
-
-<div class="footer">
-    Comandaria Express<br>
-    Painel administrativo
-</div>
+    <section class="dash-plan">
+        <div>
+            <h2>Plano <?= h($planoAtualDashboard) ?></h2>
+            <p><?= h((string)$usoPlano['pedidos_percentual']) ?>% do limite mensal de pedidos utilizado</p>
+        </div>
+        <?php if ($planoAtualDashboard === 'FREE' && $whatsappUpgradeUrl !== ''): ?>
+            <a href="<?= h($whatsappUpgradeUrl) ?>" target="_blank" rel="noopener noreferrer" class="dash-upgrade">
+                <i class="bi bi-whatsapp" aria-hidden="true"></i> Plano PRO · R$ 229,90/mês
+            </a>
+        <?php endif; ?>
+    </section>
+</main>
 
 <?php require __DIR__ . '/includes/onboarding_tour.php'; ?>
-
 </body>
 </html>

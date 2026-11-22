@@ -268,588 +268,25 @@ $conn->close();
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.header {
-    text-align: center;
-    padding: 18px 10px 8px;
-}
-
-.header img {
-    max-width: 430px;
-    width: 100%;
-    height: auto;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 14px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 7px 15px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    border: 1px solid rgba(255,255,255,.08);
-    font-size: 14px;
-    flex-wrap: wrap;
-}
-
-.nav-link-top {
-    color: #ffc107;
-    text-decoration: none;
-    font-weight: 700;
-}
-
-.nav-link-top:hover {
-    color: #ffda6a;
-}
-
-.container-main {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 10px 12px 34px;
-}
-
-.card-box {
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    padding: 18px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.30);
-}
-
-.page-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 18px;
-    flex-wrap: wrap;
-}
-
-.page-card h1 {
-    font-size: clamp(26px, 4vw, 34px);
-    font-weight: 900;
-    margin: 0 0 5px;
-    letter-spacing: -.03em;
-}
-
-.page-card .subtitle {
-    color: #555;
-    font-size: 14px;
-    max-width: 920px;
-    margin: 0;
-}
-
-.page-chip {
-    display: inline-flex;
-    align-items: center;
-    gap: 7px;
-    border-radius: 999px;
-    padding: 6px 11px;
-    background: #111;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 800;
-    margin-bottom: 10px;
-}
-
-.page-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-}
-
-.grid-resumo {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 12px;
-    margin-bottom: 14px;
-}
-
-@media(min-width: 700px) {
-    .grid-resumo {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(min-width: 1050px) {
-    .grid-resumo {
-        grid-template-columns: repeat(5, 1fr);
-    }
-}
-
-.kpi {
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.30);
-    min-height: 116px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border-left: 6px solid #111;
-}
-
-.kpi.yellow {
-    border-left-color: #ffc107;
-}
-
-.kpi.green {
-    border-left-color: #198754;
-}
-
-.kpi.blue {
-    border-left-color: #0d6efd;
-}
-
-.kpi.dark {
-    border-left-color: #111;
-}
-
-.kpi.red {
-    border-left-color: #dc3545;
-}
-
-.kpi .label {
-    color: #666;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .05em;
-}
-
-.kpi .value {
-    font-size: 30px;
-    line-height: 1;
-    font-weight: 900;
-    margin-top: 8px;
-}
-
-.kpi .icon-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.kpi .icon {
-    font-size: 24px;
-}
-
-.section-title {
-    font-size: 22px;
-    font-weight: 900;
-    margin: 22px 0 10px;
-}
-
-.section-note {
-    color: rgba(255,255,255,.76);
-    font-size: 13px;
-    margin: -2px 0 14px;
-}
-
-.search-card form {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-}
-
-.search-box {
-    min-width: min(100%, 360px);
-    flex: 1 1 360px;
-}
-
-.plans-grid,
-.companies-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 14px;
-}
-
-@media(min-width: 900px) {
-    .plans-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-@media(min-width: 1120px) {
-    .companies-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-.plan-card,
-.company-card {
-    background: #fff;
-    color: #111;
-    border-radius: 18px;
-    padding: 18px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.30);
-}
-
-.plan-card {
-    border-top: 5px solid #ffc107;
-}
-
-.plan-card.pro-plan {
-    border-top-color: #111;
-}
-
-.plan-head {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-}
-
-.plan-title-wrap {
-    display: flex;
-    align-items: center;
-    gap: 11px;
-}
-
-.plan-icon {
-    width: 46px;
-    height: 46px;
-    display: grid;
-    place-items: center;
-    border-radius: 15px;
-    background: #f4f4f4;
-    font-size: 23px;
-    flex: 0 0 auto;
-}
-
-.plan-title h3 {
-    font-size: 24px;
-    font-weight: 900;
-    margin: 0 0 2px;
-}
-
-.plan-title small {
-    color: #666;
-    font-size: 13px;
-}
-
-.plan-metrics {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 12px;
-}
-
-@media(min-width: 520px) {
-    .plan-metrics {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-}
-
-.metric {
-    border-radius: 15px;
-    background: #f7f7f7;
-    border: 1px solid #ededed;
-    padding: 13px;
-}
-
-.metric small {
-    display: block;
-    color: #666;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 4px;
-}
-
-.metric strong {
-    display: block;
-    font-size: 22px;
-    line-height: 1.1;
-    font-weight: 900;
-}
-
-.company-card {
-    border-top: 5px solid #111;
-}
-
-.company-card.plan-free {
-    border-top-color: #ffc107;
-}
-
-.company-card.plan-pro {
-    border-top-color: #198754;
-}
-
-.company-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-bottom: 14px;
-}
-
-.company-title-wrap {
-    display: flex;
-    gap: 11px;
-    align-items: flex-start;
-}
-
-.company-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
-    display: grid;
-    place-items: center;
-    background: #111;
-    color: #fff;
-    font-size: 23px;
-    flex: 0 0 auto;
-}
-
-.company-head h3 {
-    font-size: 21px;
-    line-height: 1.15;
-    font-weight: 900;
-    margin: 0 0 5px;
-}
-
-.company-meta {
-    color: #666;
-    font-size: 13px;
-    line-height: 1.5;
-}
-
-.badges-row {
-    display: flex;
-    gap: 6px;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    max-width: 100%;
-}
-
-.badge {
-    border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 11px;
-    font-weight: 800;
-}
-
-.usage-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 10px;
-    margin-bottom: 14px;
-}
-
-@media(min-width: 700px) {
-    .usage-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
-.usage-box {
-    border-radius: 15px;
-    border: 1px solid #e8e8e8;
-    padding: 12px;
-    background: #fafafa;
-}
-
-.usage-box small {
-    display: block;
-    color: #666;
-    font-size: 12px;
-    font-weight: 700;
-    margin-bottom: 5px;
-}
-
-.usage-box strong {
-    display: block;
-    font-size: 18px;
-    font-weight: 900;
-    margin-bottom: 8px;
-}
-
-.usage-box .small {
-    color: #666 !important;
-}
-
-.progress {
-    height: 8px;
-    border-radius: 999px;
-    background: #e9ecef;
-}
-
-.form-area {
-    border-top: 1px solid #ececec;
-    padding-top: 14px;
-    margin-top: 2px;
-}
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 10px;
-}
-
-@media(min-width: 760px) {
-    .form-grid {
-        grid-template-columns: 1.25fr 1fr 1fr 1fr;
-    }
-}
-
-.form-label {
-    color: #444;
-    font-size: 12px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .04em;
-    margin-bottom: 5px;
-}
-
-.form-control,
-.form-select {
-    min-height: 42px;
-    border-radius: 12px;
-}
-
-.form-actions {
-    margin-top: 12px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-.empty-state {
-    padding: 26px;
-    border-radius: 18px;
-    background: rgba(255,255,255,.07);
-    border: 1px dashed rgba(255,255,255,.25);
-    color: rgba(255,255,255,.88);
-    text-align: center;
-    margin-bottom: 14px;
-}
-
-.alert {
-    border-radius: 16px;
-}
-
-.footer {
-    text-align: center;
-    color: #777;
-    font-size: 12px;
-    padding: 22px 10px 8px;
-}
-
-@media(max-width: 700px) {
-    .container-main {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .card-box,
-    .plan-card,
-    .company-card,
-    .kpi {
-        border-radius: 16px;
-    }
-
-    .page-actions,
-    .form-actions {
-        width: 100%;
-    }
-
-    .page-actions .btn,
-    .form-actions .btn,
-    .search-card .btn {
-        width: 100%;
-    }
-
-    .badges-row {
-        justify-content: flex-start;
-    }
-
-    .company-title-wrap {
-        width: 100%;
-    }
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/management.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
+<body class="cd-staff">
+<?php $staffPage = 'admin_empresas.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<div class="header">
-    <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-</div>
+<main class="cd-management cd-companies">
 
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= h($nomeUsuario) ?></strong>
-        </span>
-
-        <a href="dashboard.php" class="nav-link-top">
-            dashboard
-        </a>
-
-        <a href="logout.php" class="nav-link-top">
-            sair
-        </a>
-    </div>
-</div>
-
-<div class="container-main">
-
-    <div class="card-box page-card">
+    <header class="cd-page-head">
         <div>
-            <div class="page-chip">🏢 Bacuri Digital · Administração central</div>
-
-            <h1>Empresas e Planos</h1>
-
-            <p class="subtitle">
-                Controle global dos tenants da Comandaria/Mesaria Express. Altere clientes entre FREE e PRO,
-                acompanhe consumo de mesas e pedidos mensais e gerencie a situação da assinatura.
-            </p>
+            <h1>Empresas e planos</h1>
+            <p>Acompanhe o uso por empresa e gerencie os planos e as assinaturas.</p>
         </div>
-
-        <div class="page-actions">
-            <a href="dashboard.php" class="btn btn-outline-dark fw-bold">← Voltar ao dashboard</a>
-            <a href="logout.php" class="btn btn-warning fw-bold">Sair</a>
-        </div>
-    </div>
+    </header>
 
     <?php if($msg !== ''): ?>
-        <div class="alert <?= $alerta === 'erro' ? 'alert-danger' : 'alert-success' ?> shadow-sm">
+        <div role="status" class="alert <?= $alerta === 'erro' ? 'alert-danger' : 'alert-success' ?> shadow-sm">
             <?= h($msg) ?>
         </div>
     <?php endif; ?>
@@ -860,63 +297,49 @@ img {
                 <input
                     type="search"
                     name="q"
+                    aria-label="Buscar empresa"
                     value="<?= h($q) ?>"
                     class="form-control"
                     placeholder="Buscar por empresa, slug ou telefone"
                 >
             </div>
 
-            <button class="btn btn-dark fw-bold" type="submit">🔎 Buscar</button>
+            <button class="btn cd-primary" type="submit">Buscar</button>
 
             <?php if($q !== ''): ?>
-                <a href="admin_empresas.php" class="btn btn-outline-dark fw-bold">Limpar</a>
+                <a href="admin_empresas.php" class="btn cd-outline">Limpar</a>
             <?php endif; ?>
         </form>
     </div>
 
     <div class="grid-resumo">
         <div class="kpi yellow">
-            <div class="icon-row">
-                <div class="label">Empresas</div>
-                <div class="icon">🏢</div>
-            </div>
+            <div class="label">Empresas</div>
             <div class="value"><?= (int)$resumo['total'] ?></div>
         </div>
 
         <div class="kpi green">
-            <div class="icon-row">
-                <div class="label">Ativas</div>
-                <div class="icon">✅</div>
-            </div>
+            <div class="label">Ativas</div>
             <div class="value"><?= (int)$resumo['ativas'] ?></div>
         </div>
 
         <div class="kpi dark">
-            <div class="icon-row">
-                <div class="label">FREE</div>
-                <div class="icon">🆓</div>
-            </div>
+            <div class="label">FREE</div>
             <div class="value"><?= (int)$resumo['free'] ?></div>
         </div>
 
         <div class="kpi blue">
-            <div class="icon-row">
-                <div class="label">PRO</div>
-                <div class="icon">🚀</div>
-            </div>
+            <div class="label">PRO</div>
             <div class="value"><?= (int)$resumo['pro'] ?></div>
         </div>
 
         <div class="kpi red">
-            <div class="icon-row">
-                <div class="label">Suspensas</div>
-                <div class="icon">⏸️</div>
-            </div>
+            <div class="label">Suspensas</div>
             <div class="value"><?= (int)$resumo['suspensas'] ?></div>
         </div>
     </div>
 
-    <h2 class="section-title">📦 Planos disponíveis</h2>
+    <h2 class="section-title">Planos disponíveis</h2>
 
     <div class="plans-grid mb-4">
         <?php foreach($planos as $plano): ?>
@@ -927,11 +350,8 @@ img {
             <div class="plan-card <?= $ehPro ? 'pro-plan' : '' ?>">
                 <div class="plan-head">
                     <div class="plan-title-wrap">
-                        <div class="plan-icon"><?= $ehPro ? '🚀' : '🆓' ?></div>
-
                         <div class="plan-title">
                             <h3><?= h($plano['nome']) ?></h3>
-                            <small>Limites operacionais cadastrados</small>
                         </div>
                     </div>
 
@@ -955,7 +375,7 @@ img {
         <?php endforeach; ?>
     </div>
 
-    <h2 class="section-title">👥 Clientes cadastrados</h2>
+    <h2 class="section-title">Empresas cadastradas</h2>
 
     <p class="section-note">
         O downgrade para um plano menor é bloqueado quando o cliente já ultrapassa os limites daquele plano.
@@ -977,8 +397,6 @@ img {
             <article class="company-card <?= h($planoClasse) ?>">
                 <div class="company-head">
                     <div class="company-title-wrap">
-                        <div class="company-avatar">🏪</div>
-
                         <div>
                             <h3><?= h($empresa['nome']) ?></h3>
 
@@ -1014,7 +432,7 @@ img {
                         <small>Mesas</small>
                         <strong><?= (int)$empresa['mesas_usadas'] ?> / <?= (int)$empresa['limite_mesas'] ?></strong>
 
-                        <div class="progress" role="progressbar" aria-valuenow="<?= h((string)$pctMesas) ?>" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress" aria-label="Uso de mesas" role="progressbar" aria-valuenow="<?= h((string)$pctMesas) ?>" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar <?= classeUsoAdmin($pctMesas) ?>" style="width: <?= h((string)$pctMesas) ?>%"></div>
                         </div>
                     </div>
@@ -1023,7 +441,7 @@ img {
                         <small>Pedidos no mês</small>
                         <strong><?= (int)$empresa['pedidos_mes'] ?> / <?= (int)$empresa['limite_pedidos_mes'] ?></strong>
 
-                        <div class="progress" role="progressbar" aria-valuenow="<?= h((string)$pctPedidos) ?>" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress" aria-label="Uso de pedidos" role="progressbar" aria-valuenow="<?= h((string)$pctPedidos) ?>" aria-valuemin="0" aria-valuemax="100">
                             <div class="progress-bar <?= classeUsoAdmin($pctPedidos) ?>" style="width: <?= h((string)$pctPedidos) ?>%"></div>
                         </div>
                     </div>
@@ -1044,11 +462,11 @@ img {
 
                     <div class="form-grid">
                         <div>
-                            <label class="form-label">Telefone</label>
+                            <label class="form-label" for="telefone-<?= (int)$empresa['id'] ?>">Telefone</label>
 
                             <input
                                 type="text"
-                                name="telefone"
+                                name="telefone" id="telefone-<?= (int)$empresa['id'] ?>"
                                 maxlength="30"
                                 class="form-control"
                                 value="<?= h($empresa['telefone']) ?>"
@@ -1057,9 +475,9 @@ img {
                         </div>
 
                         <div>
-                            <label class="form-label">Plano</label>
+                            <label class="form-label" for="plano_id-<?= (int)$empresa['id'] ?>">Plano</label>
 
-                            <select name="plano_id" class="form-select">
+                            <select name="plano_id" id="plano_id-<?= (int)$empresa['id'] ?>" class="form-select">
                                 <?php foreach($planos as $plano): ?>
                                     <option value="<?= (int)$plano['id'] ?>" <?= $plano['id'] === $empresa['plano_id'] ? 'selected' : '' ?>>
                                         <?= h($plano['nome']) ?>
@@ -1069,18 +487,18 @@ img {
                         </div>
 
                         <div>
-                            <label class="form-label">Empresa</label>
+                            <label class="form-label" for="status-<?= (int)$empresa['id'] ?>">Empresa</label>
 
-                            <select name="status" class="form-select">
+                            <select name="status" id="status-<?= (int)$empresa['id'] ?>" class="form-select">
                                 <option value="ativa" <?= $empresa['status'] === 'ativa' ? 'selected' : '' ?>>Ativa</option>
                                 <option value="inativa" <?= $empresa['status'] === 'inativa' ? 'selected' : '' ?>>Inativa</option>
                             </select>
                         </div>
 
                         <div>
-                            <label class="form-label">Assinatura</label>
+                            <label class="form-label" for="status_assinatura-<?= (int)$empresa['id'] ?>">Assinatura</label>
 
-                            <select name="status_assinatura" class="form-select">
+                            <select name="status_assinatura" id="status_assinatura-<?= (int)$empresa['id'] ?>" class="form-select">
                                 <option value="ativa" <?= $empresa['status_assinatura'] === 'ativa' ? 'selected' : '' ?>>Ativa</option>
                                 <option value="suspensa" <?= $empresa['status_assinatura'] === 'suspensa' ? 'selected' : '' ?>>Suspensa</option>
                                 <option value="cancelada" <?= $empresa['status_assinatura'] === 'cancelada' ? 'selected' : '' ?>>Cancelada</option>
@@ -1089,7 +507,7 @@ img {
                     </div>
 
                     <div class="form-actions">
-                        <button class="btn btn-dark fw-bold" type="submit">
+                        <button class="btn cd-primary" type="submit">
                             Salvar alterações
                         </button>
                     </div>
@@ -1098,11 +516,7 @@ img {
         <?php endforeach; ?>
     </div>
 
-    <div class="footer">
-        Comandaria Express<br>
-        Administração de empresas e planos
-    </div>
-</div>
+</main>
 
 </body>
 </html>

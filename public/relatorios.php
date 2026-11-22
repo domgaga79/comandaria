@@ -559,7 +559,6 @@ if($temColunaFormaPagamento && $temColunaPrazoStatus && $temColunaPrazoQuitadoEm
     }
 }
 
-$nomeUsuario = $_SESSION['user_nome'] ?? 'Admin';
 
 require_once __DIR__ . '/inc/seo.php';
 ?>
@@ -576,371 +575,52 @@ require_once __DIR__ . '/inc/seo.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.header {
-    text-align: center;
-    padding: 18px 10px 8px;
-}
-
-.header img {
-    max-width: 430px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-}
-
-.container-main {
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-.card-box {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.3);
-}
-
-.grid-resumo {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 12px;
-}
-
-@media(min-width: 600px) {
-    .grid-resumo {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media(min-width: 900px) {
-    .grid-resumo {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.card-kpi {
-    background: #f8f9fa;
-    color: #111;
-    border-radius: 14px;
-    padding: 16px;
-    border-left: 5px solid #111;
-}
-
-.card-kpi .label {
-    font-size: 13px;
-    color: #666;
-    font-weight: 700;
-}
-
-.card-kpi .value {
-    font-size: 25px;
-    font-weight: 900;
-    margin-top: 4px;
-    color: #111 !important;
-}
-
-.card-kpi.yellow {
-    border-color: #ffc107;
-}
-
-.card-kpi.green {
-    border-color: #198754;
-}
-
-.card-kpi.blue {
-    border-color: #0d6efd;
-}
-
-.card-kpi.red {
-    border-color: #dc3545;
-}
-
-.badge-pill {
-    border-radius: 999px;
-    padding: 5px 9px;
-    font-size: 11px;
-}
-
-.table {
-    vertical-align: middle;
-}
-
-.mobile-card {
-    display: none;
-}
-
-@media(max-width: 768px) {
-    .table-responsive {
-        display: none;
-    }
-
-    .mobile-card {
-        display: block;
-    }
-
-    .pedido-card,
-    .produto-card {
-        background: #fff;
-        color: #111;
-        border-radius: 14px;
-        padding: 13px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 10px rgba(0,0,0,.25);
-    }
-
-    .pedido-card .nome,
-    .produto-card .nome {
-        font-weight: 800;
-        font-size: 16px;
-    }
-
-    .pedido-card .meta,
-    .produto-card .meta {
-        color: #555;
-        font-size: 13px;
-        margin-top: 3px;
-    }
-}
-
-.logout {
-    color: #ffc107;
-    text-decoration: none;
-}
-
-.logout:hover {
-    color: #ffda6a;
-}
-
-/* Correção: textos escuros em fundos claros dos relatórios */
-.card-box,
-.card-box h1,
-.card-box h2,
-.card-box h3,
-.card-box h4,
-.card-box h5,
-.card-box h6,
-.card-box label,
-.card-box .form-label,
-.card-box .table,
-.card-box .table td,
-.card-box .table th,
-.card-box .table tbody,
-.card-box .table tbody td,
-.card-box .table tbody th {
-    color: #111 !important;
-}
-
-.card-kpi,
-.card-kpi .value {
-    color: #111 !important;
-}
-
-.card-kpi .label {
-    color: #666 !important;
-}
-
-.card-box .text-muted,
-.card-box small,
-.card-box .small {
-    color: #555 !important;
-}
-
-.card-box .badge.bg-success,
-.card-box .badge.bg-danger,
-.card-box .badge.bg-primary,
-.card-box .badge.bg-dark,
-.card-box .badge.bg-secondary {
-    color: #fff !important;
-}
-
-.card-box .badge.bg-warning,
-.card-box .badge.bg-light {
-    color: #111 !important;
-}
-
-
-/* ================================
-   ALINHAMENTO DE VALORES À DIREITA
-   Mantém todos os dados e muda apenas visual
-================================ */
-.card-kpi .value {
-    text-align: right;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-
-/* Produtos mais vendidos:
-   3=Qtd, 4=Subtotal, 5=Adicionais, 6=Total */
-.tabela-produtos th:nth-child(3),
-.tabela-produtos td:nth-child(3),
-.tabela-produtos th:nth-child(4),
-.tabela-produtos td:nth-child(4),
-.tabela-produtos th:nth-child(5),
-.tabela-produtos td:nth-child(5),
-.tabela-produtos th:nth-child(6),
-.tabela-produtos td:nth-child(6) {
-    text-align: right;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-}
-
-/* Pedidos do período:
-   5=Itens, 6=Subtotal, 7=Adicionais, 8=Total */
-.tabela-pedidos th:nth-child(5),
-.tabela-pedidos td:nth-child(5),
-.tabela-pedidos th:nth-child(6),
-.tabela-pedidos td:nth-child(6),
-.tabela-pedidos th:nth-child(7),
-.tabela-pedidos td:nth-child(7),
-.tabela-pedidos th:nth-child(8),
-.tabela-pedidos td:nth-child(8) {
-    text-align: right;
-    white-space: nowrap;
-    font-variant-numeric: tabular-nums;
-}
-
-@media(max-width: 768px) {
-    .produto-card .meta,
-    .pedido-card .meta {
-        text-align: right;
-        font-variant-numeric: tabular-nums;
-    }
-}
-
-
-.card-prazo-resumo {
-    border-left: 5px solid #fd7e14;
-}
-
-.prazo-actions {
-    display: flex;
-    gap: 6px;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-}
-
-@media(max-width: 768px) {
-    .prazo-actions {
-        justify-content: stretch;
-    }
-
-    .prazo-actions .btn {
-        width: 100%;
-    }
-}
-.right {
- text-align:right;   
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/financeiro.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
+<body class="cd-staff finance-page finance-relatorios">
+<?php $staffPage = 'relatorios.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<div class="header">
-    <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-</div>
+<main id="conteudo" class="finance-workspace">
+    <header class="finance-heading">
+        <h1>Relatórios</h1>
+        <p>Acompanhe as vendas, o desempenho dos produtos e os pagamentos.</p>
+    </header>
 
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= h($nomeUsuario) ?></strong>
-        </span>
-
-        <a href="dashboard.php" class="logout">
-            dashboard
-        </a>
-
-        <a href="logout.php" class="logout">
-            sair
-        </a>
-    </div>
-</div>
-
-<div class="container-main">
-
-    <div class="card-box">
-        <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
-            <div>
-                <h3 class="mb-0">📊 Relatórios</h3>
-
-                <div class="text-muted small">
-                    Vendas, comandas, ticket médio e produtos mais vendidos.
-                </div>
-            </div>
-        </div>
-
-        <form method="GET" class="row g-2">
-            <div class="col-md-4">
-                <label class="form-label">
+    <div class="card-box finance-filters">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md">
+                <label for="periodo-inicio" class="form-label">
                     Data inicial
                 </label>
 
                 <input
                     type="date"
                     name="inicio"
+                    id="periodo-inicio"
                     class="form-control"
                     value="<?= h($dataInicio) ?>"
                 >
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label">
+            <div class="col-md">
+                <label for="periodo-fim" class="form-label">
                     Data final
                 </label>
 
                 <input
                     type="date"
                     name="fim"
+                    id="periodo-fim"
                     class="form-control"
                     value="<?= h($dataFim) ?>"
                 >
             </div>
 
-            <div class="col-md-4 d-flex align-items-end">
-                <button class="btn btn-dark w-100">
+            <div class="col-md-3 col-xl-2">
+                <button type="submit" class="btn btn-success w-100">
                     Filtrar período
                 </button>
             </div>
@@ -949,7 +629,7 @@ img {
 
     <div class="grid-resumo mb-3">
 
-        <div class="card-kpi green">
+        <div class="card-kpi green finance-kpi-primary">
             <div class="label">
                 Faturamento pago
             </div>
@@ -1037,15 +717,15 @@ img {
     <div class="card-box">
         <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
             <div>
-                <h4 class="mb-0">💳 Vendas a prazo</h4>
+                <h2 class="finance-section-title mb-0">Vendas a prazo</h2>
 
                 <div class="text-muted small">
-                    Resumo gerencial do período filtrado. O controle detalhado, impressão e baixa ficam em Contas a Prazo.
+                    Resumo do período selecionado.
                 </div>
             </div>
 
             <a href="controle_prazo.php" class="btn btn-outline-dark btn-sm">
-                Abrir controle
+                Gerenciar contas a prazo
             </a>
         </div>
 
@@ -1055,7 +735,7 @@ img {
             </div>
         <?php endif; ?>
 
-        <div class="grid-resumo">
+        <div class="grid-resumo grid-resumo-compacto">
             <div class="card-kpi blue">
                 <div class="label">
                     Contas lançadas a prazo
@@ -1079,18 +759,18 @@ img {
     </div>
 
     <div class="card-box">
-        <h4 class="mb-3">🏆 Produtos mais vendidos</h4>
+        <h2 class="finance-section-title mb-3">Produtos mais vendidos</h2>
 
         <div class="table-responsive">
             <table class="table table-hover align-middle tabela-produtos">
                 <thead>
                     <tr>
-                        <th>Produto</th>
-                        <th>Categoria</th>
-                        <th>Qtd</th>
-                        <th>Subtotal</th>
-                        <th>Adicionais</th>
-                        <th>Total</th>
+                        <th scope="col">Produto</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Qtd</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Adicionais</th>
+                        <th scope="col">Total</th>
                     </tr>
                 </thead>
 
@@ -1174,7 +854,7 @@ img {
 
     <div class="card-box">
         <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
-            <h4 class="mb-0">📒 Clientes a prazo</h4>
+            <h2 class="finance-section-title mb-0">Clientes a prazo</h2>
             <small class="text-muted">
                 Contas fechadas como <strong>A prazo</strong> no período selecionado.
             </small>
@@ -1186,7 +866,7 @@ img {
             </div>
         <?php else: ?>
 
-            <div class="grid-resumo mb-3">
+            <div class="grid-resumo grid-resumo-compacto mb-3">
                 <div class="card-kpi card-prazo-resumo">
                     <div class="label">A prazo em aberto</div>
                     <div class="value">R$ <?= dinheiro($totalPrazoAberto) ?></div>
@@ -1204,14 +884,14 @@ img {
                 <table class="table table-hover align-middle tabela-prazo">
                     <thead>
                         <tr>
-                            <th>Pedido</th>
-                            <th>Cliente/Mesa</th>
-                            <th>Status prazo</th>
-                            <th>Itens</th>
-                            <th>Saldo a prazo</th>
-                            <th>Fechado em</th>
-                            <th>Quitado em</th>
-                            <th class="text-end">Ações</th>
+                            <th scope="col">Pedido</th>
+                            <th scope="col">Cliente/Mesa</th>
+                            <th scope="col">Status prazo</th>
+                            <th scope="col">Itens</th>
+                            <th scope="col">Saldo a prazo</th>
+                            <th scope="col">Fechado em</th>
+                            <th scope="col">Quitado em</th>
+                            <th scope="col" class="text-end">Ações</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1312,22 +992,22 @@ img {
     </div>
 
     <div class="card-box">
-        <h4 class="mb-3">🧾 Pedidos do período</h4>
+        <h2 class="finance-section-title mb-3">Pedidos do período</h2>
 
         <div class="table-responsive">
             <table class="table table-hover align-middle tabela-pedidos">
                 <thead>
                     <tr>
-                        <th>Pedido</th>
-                        <th>Origem</th>
-                        <th>Status</th>
-                        <th>Pagamento</th>
-                        <th>Itens</th>
-                        <th>Subtotal</th>
-                        <th>Adicionais</th>
-                        <th>Antecipado</th>
-                        <th>Total</th>
-                        <th>Data</th>
+                        <th scope="col">Pedido</th>
+                        <th scope="col">Origem</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Pagamento</th>
+                        <th scope="col">Itens</th>
+                        <th scope="col">Subtotal</th>
+                        <th scope="col">Adicionais</th>
+                        <th scope="col">Antecipado</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Data</th>
                     </tr>
                 </thead>
 
@@ -1452,7 +1132,7 @@ img {
         </div>
     </div>
 
-</div>
+</main>
 
 <script>
 document.addEventListener('click', async function(e){

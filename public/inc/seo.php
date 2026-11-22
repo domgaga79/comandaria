@@ -20,7 +20,7 @@ if(!function_exists('ce_public_base_url')){
     function ce_public_base_url(): string {
         $scheme = ce_is_https() ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? 'comandaria.bacuridigital.com';
-        $scriptDir = rtrim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/')), '/');
+        $scriptDir = rtrim(str_replace('\\', '/', dirname(explode('?', $_SERVER['REQUEST_URI'] ?? $_SERVER['SCRIPT_NAME'] ?? '/', 2)[0])), '/');
 
         if($scriptDir === '.' || $scriptDir === '/'){
             $scriptDir = '';

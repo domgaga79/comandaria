@@ -326,7 +326,7 @@ if(!function_exists('mesariaUrlBasePublica')){
 
         $scheme = $https ? 'https' : 'http';
         $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-        $dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '/'));
+        $dir = str_replace('\\', '/', dirname(explode('?', $_SERVER['REQUEST_URI'] ?? $_SERVER['SCRIPT_NAME'] ?? '/', 2)[0]));
         $dir = rtrim($dir, '/');
 
         if($dir === '' || $dir === '.'){

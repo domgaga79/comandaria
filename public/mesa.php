@@ -57,7 +57,7 @@ if(!function_exists('mesaria_base_url')){
     function mesaria_base_url() {
         $scheme = mesaria_is_https() ? 'https' : 'http';
         $host = isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost';
-        $scriptName = isset($_SERVER['SCRIPT_NAME']) ? $_SERVER['SCRIPT_NAME'] : '';
+        $scriptName = explode('?', $_SERVER['REQUEST_URI'] ?? $_SERVER['SCRIPT_NAME'] ?? '/', 2)[0];
         $dir = rtrim(dirname($scriptName), '/\\');
         return rtrim($scheme . '://' . $host . (($dir && $dir !== '.') ? $dir : ''), '/');
     }
@@ -87,7 +87,7 @@ if(!function_exists('mesaria_escape')){
 <html lang="pt-br">
 <head>
 <meta name="description" content="Faça seu pedido pelo QR Code da mesa com o Mesaria Express.">
-<meta name="theme-color" content="#0b0b0b">
+<meta name="theme-color" content="#183b2e">
 <meta name="apple-mobile-web-app-title" content="Mesaria Express">
 <meta name="application-name" content="Mesaria Express">
 
@@ -111,483 +111,73 @@ if(!function_exists('mesaria_escape')){
 <meta name="twitter:description" content="Faça seu pedido pelo QR Code da mesa.">
 <meta name="twitter:image" content="<?= mesaria_escape(mesaria_asset_url('images/mesaria_icon.png')) ?>">
 
-<link rel="stylesheet" href="<?= mesaria_escape(mesaria_asset_url('assets/mesaria_pedido_dock_fix.css')) ?>">
-<script defer src="<?= mesaria_escape(mesaria_asset_url('assets/mesaria_pedido_dock_fix.js')) ?>"></script>
-
+<link rel="stylesheet" href="assets/guest-menu.css?v=2">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mesaria Express - Pedido da Mesa</title>
-<meta name="theme-color" content="#111111">
-<style>
-*{
-    box-sizing:border-box;
-}
-:root{
-    --bg:#111;
-    --panel:#1b1b1b;
-    --panel2:#242424;
-    --card:#fff;
-    --text:#fff;
-    --muted:#bdbdbd;
-    --dark:#111;
-    --line:#e8e8e8;
-    --accent:#ffc107;
-    --accent2:#198754;
-    --danger:#dc3545;
-}
-body{
-    margin:0;
-    background:var(--bg);
-    color:var(--text);
-    font-family:Arial, Helvetica, sans-serif;
-    padding-bottom:130px;
-}
-.container{
-    max-width:980px;
-    margin:0 auto;
-    padding:12px;
-}
-.hero{
-    background:linear-gradient(135deg,#191919,#2b2110);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:22px;
-    padding:18px;
-    margin-bottom:14px;
-    box-shadow:0 8px 26px rgba(0,0,0,.28);
-}
-.logo{
-    text-align:center;
-}
-.logo img{
-    width:100%;
-    max-width:220px;
-}
-.brand{
-    text-align:center;
-}
-.brand h1{
-    margin:6px 0 2px;
-    font-size:28px;
-    letter-spacing:.2px;
-}
-.brand .mesa{
-    display:inline-block;
-    background:var(--accent);
-    color:#111;
-    border-radius:999px;
-    padding:7px 14px;
-    font-weight:900;
-    margin-top:8px;
-}
-.brand p{
-    color:var(--muted);
-    margin:8px 0 0;
-    font-size:14px;
-}
-.alert{
-    border-radius:14px;
-    padding:14px;
-    background:#fff3cd;
-    color:#111;
-    margin:16px 0;
-}
-.alert-danger{
-    background:#f8d7da;
-}
-.toolbar{
-    position:sticky;
-    top:0;
-    z-index:20;
-    background:rgba(17,17,17,.96);
-    backdrop-filter:blur(8px);
-    padding:8px 0 10px;
-    margin-bottom:10px;
-}
-.search{
-    display:flex;
-    gap:8px;
-}
-.search input{
-    width:100%;
-    border:0;
-    border-radius:12px;
-    padding:13px 14px;
-    font-size:16px;
-    outline:none;
-}
-.categorias{
-    display:flex;
-    gap:8px;
-    overflow:auto;
-    padding:10px 0 2px;
-}
-.cat-btn{
-    white-space:nowrap;
-    border:1px solid rgba(255,255,255,.14);
-    background:var(--panel2);
-    color:#fff;
-    border-radius:999px;
-    padding:9px 12px;
-    font-weight:700;
-}
-.cat-btn.active{
-    background:var(--accent);
-    color:#111;
-    border-color:var(--accent);
-}
-.section-title{
-    font-size:18px;
-    font-weight:900;
-    margin:18px 0 8px;
-}
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-    gap:10px;
-}
-.produto{
-    background:var(--card);
-    color:#111;
-    border-radius:18px;
-    padding:13px;
-    box-shadow:0 4px 14px rgba(0,0,0,.22);
-    display:flex;
-    flex-direction:column;
-    gap:8px;
-}
-.produto-top{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-}
-.produto-nome{
-    font-weight:900;
-    font-size:16px;
-    line-height:1.22;
-}
-.produto-cat{
-    color:#666;
-    font-size:12px;
-    margin-top:3px;
-}
-.preco{
-    font-weight:900;
-    white-space:nowrap;
-}
-.tags{
-    display:flex;
-    gap:5px;
-    flex-wrap:wrap;
-}
-.tag{
-    background:#f1f1f1;
-    color:#333;
-    border-radius:999px;
-    padding:4px 7px;
-    font-size:11px;
-    font-weight:700;
-}
-.btn{
-    border:0;
-    border-radius:12px;
-    padding:11px 12px;
-    font-weight:900;
-    cursor:pointer;
-}
-.btn-add{
-    background:#111;
-    color:#fff;
-    width:100%;
-}
-.btn-add.added{
-    background:var(--accent2);
-}
-.pedido-atual{
-    background:var(--panel);
-    border:1px solid rgba(255,255,255,.08);
-    border-radius:18px;
-    padding:13px;
-    margin-bottom:14px;
-}
-.pedido-atual h2{
-    margin:0 0 8px;
-    font-size:18px;
-}
-.pedido-atual .linha{
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-    color:#ddd;
-    font-size:14px;
-    padding:4px 0;
-}
-.pedido-atual .total{
-    font-size:18px;
-    font-weight:900;
-    color:#fff;
-    border-top:1px dashed rgba(255,255,255,.18);
-    margin-top:5px;
-    padding-top:8px;
-}
-.link-comanda{
-    display:inline-block;
-    margin-top:10px;
-    background:var(--accent);
-    color:#111;
-    text-decoration:none;
-    font-weight:900;
-    border-radius:12px;
-    padding:10px 12px;
-}
-.cart-panel{
-    position:fixed;
-    left:0;
-    right:0;
-    bottom:0;
-    z-index:60;
-    background:#fff;
-    color:#111;
-    box-shadow:0 -8px 24px rgba(0,0,0,.38);
-    border-radius:22px 22px 0 0;
-    max-height:78vh;
-    overflow:auto;
-}
-.cart-panel.carrinho-com-itens{
-    border-top:4px solid #ffc107;
-}
-.cart-panel.carrinho-com-itens .cart-total{
-    background:#ffc107;
-    color:#111;
-    border-radius:8px;
-    padding:4px 8px;
-}
-.cart-inner{
-    max-width:980px;
-    margin:0 auto;
-    padding:12px;
-}
-.cart-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-}
-.cart-title{
-    font-size:18px;
-    font-weight:900;
-}
-.cart-total{
-    font-weight:900;
-    font-size:18px;
-}
-.cart-empty{
-    color:#555;
-    font-size:14px;
-    padding:8px 0;
-}
-.cart-items{
-    display:grid;
-    gap:8px;
-    margin-top:10px;
-}
-.cart-item{
-    border:1px solid #eee;
-    border-radius:14px;
-    padding:10px;
-    background:#fafafa;
-}
-.cart-row{
-    display:flex;
-    justify-content:space-between;
-    gap:10px;
-    align-items:flex-start;
-}
-.cart-name{
-    font-weight:900;
-}
-.qty{
-    display:flex;
-    align-items:center;
-    gap:6px;
-    white-space:nowrap;
-}
-.qty button{
-    width:30px;
-    height:30px;
-    border:0;
-    border-radius:9px;
-    background:#111;
-    color:#fff;
-    font-weight:900;
-}
-.cart-fields{
-    display:grid;
-    grid-template-columns:1fr;
-    gap:7px;
-    margin-top:9px;
-}
-.cart-fields textarea,
-.cart-fields select{
-    width:100%;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:9px;
-    font-size:14px;
-    font-family:Arial,sans-serif;
-}
-.add-control{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:10px;
-    padding:8px;
-    font-size:13px;
-}
-.add-control .qty button{
-    width:28px;
-    height:28px;
-}
-.cart-actions{
-    display:grid;
-    grid-template-columns:1fr 1.2fr;
-    gap:8px;
-    margin-top:10px;
-}
-.btn-clear{
-    background:#eee;
-    color:#111;
-}
-.btn-submit{
-    background:var(--accent2);
-    color:#fff;
-}
-.btn-submit:disabled{
-    opacity:.65;
-    cursor:not-allowed;
-}
-.toast{
-    position:fixed;
-    left:50%;
-    bottom:116px;
-    transform:translateX(-50%) translateY(20px);
-    background:#111;
-    color:#fff;
-    border-radius:999px;
-    padding:11px 15px;
-    z-index:90;
-    opacity:0;
-    pointer-events:none;
-    transition:.22s;
-    box-shadow:0 4px 18px rgba(0,0,0,.35);
-    max-width:92%;
-    text-align:center;
-}
-.toast.show{
-    opacity:1;
-    transform:translateX(-50%) translateY(0);
-}
-.toast.ok{
-    background:#198754;
-}
-.toast.err{
-    background:#dc3545;
-}
-.loading{
-    opacity:.6;
-    pointer-events:none;
-}
-.small-muted{
-    color:#666;
-    font-size:12px;
-}
-@media(max-width:560px){
-    .grid{
-        grid-template-columns:1fr;
-    }
-    .brand h1{
-        font-size:24px;
-    }
-    .cart-actions{
-        grid-template-columns:1fr;
-    }
-}
-img {
-  animation: pulsar 5s infinite;
-}
 
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
 </head>
 <body>
 
-<div class="container">
+<div class="menu-shell">
+    <header class="menu-header">
+        <img src="images/mesaria_icon.png" alt="" width="38" height="38">
+        <span>Mesaria Express</span>
+    </header>
+
     <div class="hero">
-        <div class="logo">
-            <img src="images/mesaria_icon.png" alt="Mesaria Express" onerror="this.style.display='none'">
-        </div>
-        <div class="brand">
-            <!-- <h1>Mesaria Express</h1> -->
-            <div class="mesa">Mesa <?= h($mesa) ?></div>
-            <p>Escolha seus itens, confira o carrinho e envie o pedido direto para a equipe.</p>
-        </div>
+        <?php if(!$erro): ?><span class="mesa">Mesa <?= h($mesa) ?></span><?php endif; ?>
+        <h1>Cardápio</h1>
+        <?php if(!$erro): ?><p>Escolha seus itens e envie o pedido direto para a equipe.</p><?php endif; ?>
     </div>
 
     <?php if($erro): ?>
-        <div class="alert alert-danger">
+        <main class="alert alert-danger">
             <strong>QR Code inválido.</strong><br>
             <?= h($erro) ?>
-        </div>
+        </main>
     <?php else: ?>
-        <div id="pedidoAtual" class="pedido-atual" style="display:none"></div>
+        <div class="menu-layout">
+            <main class="menu-main">
+                <div id="pedidoAtual" class="pedido-atual" style="display:none"></div>
+                <div class="toolbar">
+                    <div class="search">
+                        <input id="busca" type="search" aria-label="Buscar no cardápio" placeholder="Buscar no cardápio" autocomplete="off">
+                    </div>
+                    <div id="categorias" class="categorias" role="group" aria-label="Filtrar por categoria"></div>
+                </div>
+                <div id="lista"></div>
+            </main>
 
-        <div class="toolbar">
-            <div class="search">
-                <input id="busca" type="search" placeholder="Buscar produto..." autocomplete="off">
-            </div>
-            <div id="categorias" class="categorias"></div>
+            <aside class="cart-panel" id="cartPanel" aria-labelledby="cartTitle">
+                <div class="cart-inner">
+                    <div class="cart-head">
+                        <div>
+                            <h2 class="cart-title" id="cartTitle">Seu pedido</h2>
+                            <div class="small-muted" id="cartResumo" aria-live="polite">Nenhum item selecionado</div>
+                        </div>
+                        <div class="cart-totals">
+                            <span class="cart-total" id="cartTotal">R$ 0,00</span>
+                            <button type="button" class="cart-toggle" id="cartToggle" aria-label="Revisar pedido"
+                                aria-expanded="false" aria-controls="cartContent" disabled>Revisar</button>
+                        </div>
+                    </div>
+
+                    <div class="cart-content" id="cartContent">
+                        <div id="cartItems" class="cart-items"></div>
+                        <div class="cart-actions" id="cartActions" hidden>
+                            <button type="button" class="btn btn-clear" id="btnLimpar">Limpar</button>
+                            <button type="button" class="btn btn-submit" id="btnEnviar">Enviar pedido</button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
         </div>
-
-        <div id="lista"></div>
     <?php endif; ?>
 </div>
 
 <?php if(!$erro): ?>
-<div class="cart-panel" id="cartPanel">
-    <div class="cart-inner">
-        <div class="cart-head">
-            <div>
-                <div class="cart-title">🛒 Seu pedido</div>
-                <div class="small-muted" id="cartResumo">Nenhum item selecionado</div>
-            </div>
-            <div class="cart-total" id="cartTotal">R$ 0,00</div>
-        </div>
-
-        <div id="cartItems" class="cart-items"></div>
-
-        <div class="cart-actions">
-            <button type="button" class="btn btn-clear" id="btnLimpar">Limpar</button>
-            <button type="button" class="btn btn-submit" id="btnEnviar">Enviar pedido</button>
-        </div>
-    </div>
-</div>
-
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script>
 const MESARIA = {
@@ -653,8 +243,11 @@ function carrinhoQtd(){
 
 function setLoading(flag){
     state.enviando = flag;
-    document.body.classList.toggle('loading', flag);
+    document.getElementById('cartPanel').setAttribute('aria-busy', String(flag));
+    document.getElementById('cartItems').inert = flag;
+    document.getElementById('lista').inert = flag;
     document.getElementById('btnEnviar').disabled = flag;
+    document.getElementById('btnLimpar').disabled = flag;
 }
 
 async function carregarProdutos(){
@@ -692,9 +285,9 @@ function renderCategorias(){
     const el = document.getElementById('categorias');
 
     el.innerHTML = `
-        <button type="button" class="cat-btn ${state.categoria === '' ? 'active' : ''}" data-cat="">Todos</button>
+        <button type="button" class="cat-btn ${state.categoria === '' ? 'active' : ''}" aria-pressed="${state.categoria === ''}" data-cat="">Todos</button>
         ${cats.map(cat => `
-            <button type="button" class="cat-btn ${state.categoria === cat ? 'active' : ''}" data-cat="${escapeHtml(cat)}">
+            <button type="button" class="cat-btn ${state.categoria === cat ? 'active' : ''}" aria-pressed="${state.categoria === cat}" data-cat="${escapeHtml(cat)}">
                 ${escapeHtml(cat)}
             </button>
         `).join('')}
@@ -738,7 +331,7 @@ function renderProdutos(){
     });
 
     lista.innerHTML = Object.entries(grupos).map(([cat, itens]) => `
-        <div class="section-title">${escapeHtml(cat)}</div>
+        <h2 class="section-title">${escapeHtml(cat)}</h2>
         <div class="grid">
             ${itens.map(produtoCard).join('')}
         </div>
@@ -831,23 +424,35 @@ function renderCarrinho(){
     const itemsEl = document.getElementById('cartItems');
     const resumoEl = document.getElementById('cartResumo');
     const totalEl = document.getElementById('cartTotal');
+    const toggle = document.getElementById('cartToggle');
 
     const itens = Object.values(state.carrinho);
     const qtd = carrinhoQtd();
-    document.getElementById('cartPanel').classList.toggle('carrinho-com-itens', qtd > 0);
 
     resumoEl.textContent = qtd > 0
-        ? `${qtd} item(ns) selecionado(s)`
+        ? `${qtd} ${qtd === 1 ? 'item' : 'itens'}`
         : 'Nenhum item selecionado';
 
     totalEl.textContent = money(carrinhoTotal());
 
+    toggle.disabled = qtd === 0;
+    document.getElementById('cartActions').hidden = qtd === 0;
+
     if(!itens.length){
+        mostrarCarrinho(false);
         itemsEl.innerHTML = '<div class="cart-empty">Toque em “Adicionar” nos produtos para montar seu pedido.</div>';
         return;
     }
 
     itemsEl.innerHTML = itens.map(item => cartItemHtml(item)).join('');
+}
+
+function mostrarCarrinho(aberto){
+    const toggle = document.getElementById('cartToggle');
+    document.getElementById('cartPanel').classList.toggle('is-open', aberto);
+    toggle.setAttribute('aria-expanded', String(aberto));
+    toggle.setAttribute('aria-label', aberto ? 'Fechar resumo do pedido' : 'Revisar pedido');
+    toggle.textContent = aberto ? 'Fechar' : 'Revisar';
 }
 
 function cartItemHtml(item){
@@ -867,19 +472,19 @@ function cartItemHtml(item){
                     <div class="small-muted">${money(p.preco)} un. ${item.adicional > 0 ? `+ ${item.adicional} adicional(is)` : ''}</div>
                 </div>
                 <div class="qty">
-                    <button type="button" data-qtd="${id}" data-delta="-1">−</button>
+                    <button type="button" aria-label="Diminuir quantidade de ${escapeHtml(nome)}" data-qtd="${id}" data-delta="-1">−</button>
                     <strong>${Number(item.qtd || 0)}</strong>
-                    <button type="button" data-qtd="${id}" data-delta="1">+</button>
+                    <button type="button" aria-label="Aumentar quantidade de ${escapeHtml(nome)}" data-qtd="${id}" data-delta="1">+</button>
                 </div>
             </div>
 
             <div class="cart-fields">
                 ${permiteObs ? `
-                    <textarea rows="2" data-obs="${id}" placeholder="Observação para este item">${escapeHtml(item.obs || '')}</textarea>
+                    <textarea rows="2" data-obs="${id}" aria-label="Observação para ${escapeHtml(nome)}" placeholder="Observação para este item">${escapeHtml(item.obs || '')}</textarea>
                 ` : ''}
 
                 ${permitePonto ? `
-                    <select data-ponto="${id}">
+                    <select data-ponto="${id}" aria-label="Ponto de ${escapeHtml(nome)}">
                         <option value="">Ponto da carne</option>
                         ${['Mal passado','Ao ponto','Bem passado'].map(op => `
                             <option value="${op}" ${item.ponto === op ? 'selected' : ''}>${op}</option>
@@ -891,9 +496,9 @@ function cartItemHtml(item){
                     <div class="add-control">
                         <span>Adicionais (${money(valorAdicional)} cada)</span>
                         <span class="qty">
-                            <button type="button" data-add-qtd="${id}" data-delta="-1">−</button>
+                            <button type="button" aria-label="Diminuir adicionais de ${escapeHtml(nome)}" data-add-qtd="${id}" data-delta="-1">−</button>
                             <strong>${Number(item.adicional || 0)}</strong>
-                            <button type="button" data-add-qtd="${id}" data-delta="1">+</button>
+                            <button type="button" aria-label="Aumentar adicionais de ${escapeHtml(nome)}" data-add-qtd="${id}" data-delta="1">+</button>
                         </span>
                     </div>
                 ` : ''}
@@ -937,6 +542,8 @@ function renderPedidoAtual(){
 }
 
 async function enviarPedido(){
+    if(state.enviando) return;
+
     const itens = Object.values(state.carrinho).map(item => ({
         id: item.id,
         qtd: Number(item.qtd || 0),
@@ -995,11 +602,19 @@ async function enviarPedido(){
 }
 
 /* Eventos */
+document.getElementById('cartToggle').addEventListener('click', event => {
+    mostrarCarrinho(event.currentTarget.getAttribute('aria-expanded') !== 'true');
+});
+
 document.getElementById('categorias').addEventListener('click', e => {
     const btn = e.target.closest('[data-cat]');
     if(!btn) return;
     state.categoria = btn.dataset.cat || '';
-    renderCategorias();
+    e.currentTarget.querySelectorAll('[data-cat]').forEach(categoria => {
+        const ativa = categoria === btn;
+        categoria.classList.toggle('active', ativa);
+        categoria.setAttribute('aria-pressed', String(ativa));
+    });
     renderProdutos();
 });
 
@@ -1011,20 +626,26 @@ document.getElementById('busca').addEventListener('input', e => {
 document.getElementById('lista').addEventListener('click', e => {
     const btn = e.target.closest('[data-add]');
     if(!btn) return;
-    adicionarProduto(Number(btn.dataset.add));
+    const id = Number(btn.dataset.add);
+    adicionarProduto(id);
+    e.currentTarget.querySelector(`[data-add="${id}"]`)?.focus({preventScroll:true});
 });
 
 document.getElementById('cartItems').addEventListener('click', e => {
-    const qtd = e.target.closest('[data-qtd]');
-    if(qtd){
-        alterarQtd(Number(qtd.dataset.qtd), Number(qtd.dataset.delta));
-        return;
+    const btn = e.target.closest('[data-qtd], [data-add-qtd]');
+    if(!btn) return;
+
+    const delta = Number(btn.dataset.delta);
+    const id = Number(btn.dataset.qtd ?? btn.dataset.addQtd);
+    const quantidade = btn.hasAttribute('data-qtd');
+    if(quantidade){
+        alterarQtd(id, delta);
+    } else {
+        alterarAdicional(id, delta);
     }
 
-    const add = e.target.closest('[data-add-qtd]');
-    if(add){
-        alterarAdicional(Number(add.dataset.addQtd), Number(add.dataset.delta));
-    }
+    const atributo = quantidade ? 'data-qtd' : 'data-add-qtd';
+    e.currentTarget.querySelector(`[${atributo}="${id}"][data-delta="${delta}"]`)?.focus({preventScroll:true});
 });
 
 document.getElementById('cartItems').addEventListener('input', e => {

@@ -1,0 +1,275 @@
+:root {
+    color-scheme: light;
+    --fundo: #f8f9fa;
+    --texto: #212529;
+    --suave: #57595e;
+    --borda: #dbdce0;
+    --principal: #0d6efd;
+    --destaque: #cfe2ff;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--fundo);
+    color: var(--texto);
+    font: 1rem/1.5 Inter, system-ui, sans-serif;
+}
+
+.comanda-topo {
+    background: #fff;
+    border-bottom: 1px solid var(--borda);
+}
+
+.comanda-marca {
+    display: flex;
+    align-items: center;
+    gap: .55rem;
+    max-width: 64rem;
+    padding: .75rem clamp(1rem, 4vw, 2rem);
+    margin: auto;
+    font-weight: 600;
+    letter-spacing: -.025em;
+}
+
+.comanda-marca img {
+    object-fit: contain;
+}
+
+.container {
+    max-width: 64rem;
+    margin: auto;
+    padding: clamp(1rem, 4vw, 2rem);
+}
+
+.card {
+    min-width: 0;
+    border: 1px solid var(--borda);
+    border-radius: 1rem;
+    background: #fff;
+}
+
+.comanda-capa {
+    padding: clamp(1rem, 3vw, 1.5rem);
+    margin-bottom: 1rem;
+}
+
+.card-header, .comanda-meta, .badges, .rodape {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .5rem 1rem;
+}
+
+.card-header, .rodape {
+    justify-content: space-between;
+}
+
+.titulo, h2, p {
+    margin: 0;
+}
+
+.titulo {
+    font-size: clamp(1.4rem, 2vw, 1.85rem);
+    line-height: 1.1;
+    letter-spacing: -.05em;
+}
+
+h2 {
+    margin-bottom: .75rem;
+    font-size: 1.05rem;
+    letter-spacing: -.02em;
+}
+
+.subtitulo, .small, .atualizado, .item-meta {
+    color: var(--suave);
+    font-size: .875rem;
+}
+
+.comanda-meta {
+    margin-top: .65rem;
+}
+
+.badges {
+    gap: .35rem;
+}
+
+.badge {
+    display: inline-block;
+    padding: .24rem .65rem;
+    font-size: .8rem;
+    font-weight: 600;
+    border-radius: 2rem;
+}
+
+.badge-pendente {
+    background: #e7f1ff;
+    color: #604008;
+}
+
+.badge-pronto {
+    background: var(--destaque);
+    color: #333843;
+}
+
+.badge-pago {
+    background: #dce9fa;
+    color: #234e75;
+}
+
+.badge-cancelado {
+    background: #fae0db;
+    color: #8b3326;
+}
+
+.progresso-box {
+    margin-top: 1.15rem;
+    padding: .75rem;
+    border-radius: .75rem;
+    background: #fcf9f2;
+}
+
+.progresso-label, .item-top, .linha-total {
+    display: flex;
+    justify-content: space-between;
+    gap: .75rem;
+}
+
+.progresso-label {
+    margin-bottom: .55rem;
+    font-size: .85rem;
+}
+
+.progresso-barra {
+    height: .5rem;
+    border-radius: 1rem;
+    background: #dcdee3;
+    overflow: hidden;
+}
+
+.progresso-fill {
+    height: 100%;
+    background: var(--principal);
+    transition: width .25s ease;
+}
+
+.comanda-detalhes {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.card-body {
+    padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.item {
+    padding: .8rem 0;
+    border-top: 1px solid #e9eaec;
+}
+
+.item:last-child {
+    padding-bottom: 0;
+}
+
+.item-nome, .item-total {
+    font-weight: 600;
+}
+
+.item-nome, .item-meta {
+    overflow-wrap: anywhere;
+}
+
+.item-total, .linha-total strong {
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.item-pronto .item-meta {
+    color: var(--principal);
+}
+
+.linha-total {
+    padding: .25rem 0;
+    color: var(--suave);
+    font-size: .875rem;
+}
+
+.linha-total strong {
+    color: var(--texto);
+}
+
+.total-final {
+    padding-top: .75rem;
+    margin-top: .6rem;
+    align-items: baseline;
+    border-top: 1px solid var(--borda);
+    color: var(--texto);
+    font-size: 1rem;
+}
+
+.total-final strong {
+    font-size: 1.25rem;
+}
+
+.loading, .erro {
+    padding: 1rem;
+    border-radius: .75rem;
+    margin-bottom: .75rem;
+}
+
+.loading {
+    border: 1px solid var(--borda);
+    background: #fff;
+}
+
+.erro {
+    background: #fae0db;
+    color: #8b3326;
+}
+
+.rodape {
+    margin-top: 1rem;
+}
+
+.btn {
+    min-height: 44px;
+    padding: .5rem .85rem;
+    border: 1px solid var(--borda);
+    border-radius: .6rem;
+    background: #fff;
+    color: var(--principal);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background: var(--destaque);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--principal);
+    outline-offset: 3px;
+}
+
+.btn:disabled {
+    opacity: .65;
+    cursor: wait;
+}
+
+@media (max-width: 640px) {
+    .comanda-detalhes {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progresso-fill {
+        transition: none;
+    }
+}

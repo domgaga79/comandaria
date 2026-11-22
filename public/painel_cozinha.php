@@ -15,7 +15,7 @@ require __DIR__ . '/conexao.php';
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title>Comandaria Express - 🍳 Cozinha</title>
+<title>Cozinha | Comandaria Express</title>
 
 <meta property="og:title" content="Comandaria Express" />
 <meta property="og:description" content="Comandaria Express" />
@@ -26,311 +26,78 @@ require __DIR__ . '/conexao.php';
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background:#121212;
-    color:#fff;
-    padding:10px;
-    font-family:Arial, sans-serif;
-}
-
-#pedidos {
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-}
-
-.card {
-    width:230px;
-    background:#fff;
-    color:#111;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.25);
-    transition:.2s;
-    font-size:14px;
-}
-
-.card > .d-flex > strong {
-    font-size:16px;
-    line-height:1.2;
-}
-
-.card .small,
-.card .text-muted {
-    font-size:12px !important;
-}
-
-.card .btn.btn-sm {
-    font-size:13px;
-    line-height:1.2;
-    padding-top:.35rem;
-    padding-bottom:.35rem;
-}
-
-@media(max-width:600px){
-    .card{
-        width:100%;
-    }
-}
-
-.card.urgente {
-    border:3px solid red;
-    background:#ffe5e5;
-}
-
-.card.medio {
-    border:3px solid orange;
-    background:#fff4e0;
-}
-
-.card.normal {
-    border:2px solid #ddd;
-    background:#fff;
-}
-
-.card.sumindo {
-    opacity:0;
-    transform:scale(.92);
-    pointer-events:none;
-}
-
-.card.loading {
-    filter:grayscale(1);
-    opacity:.6;
-    pointer-events:none;
-}
-
-.item {
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:8px;
-    font-size:14px;
-    border-bottom:1px solid #eee;
-    padding:7px 0;
-}
-
-.item:last-child {
-    border-bottom:none;
-}
-
-.item-pronto {
-    opacity:.45;
-    text-decoration:line-through;
-}
-
-.item-info {
-    display:flex;
-    flex-direction:column;
-    width:100%;
-    min-width:0;
-}
-
-.item-actions {
-    display:flex;
-    align-items:center;
-    gap:8px;
-    padding-top:2px;
-}
-
-.btn-imprimir-item {
-    border:0;
-    border-radius:8px;
-    background:#0d6efd;
-    color:#fff;
-    font-size:15px;
-    line-height:1;
-    width:34px;
-    height:34px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    box-shadow:0 2px 6px rgba(13,110,253,.35);
-}
-
-.btn-imprimir-item:active {
-    transform:scale(.96);
-}
-
-.tempo {
-    font-size:12px;
-    font-weight:bold;
-}
-
-.progresso {
-    font-size:12px;
-    color:#666;
-}
-
-.categoria {
-    font-size:11px;
-    font-weight:bold;
-    text-transform:uppercase;
-    color:#777;
-}
-
-.novo {
-    animation: piscar .8s ease-in-out 1;
-}
-
-@keyframes piscar {
-    0% {
-        transform:scale(1);
-        box-shadow:0 0 0 rgba(255,0,0,0);
-    }
-
-    50% {
-        transform:scale(1.06);
-        box-shadow:0 0 20px rgba(255,0,0,.9);
-    }
-
-    100% {
-        transform:scale(1);
-        box-shadow:0 0 0 rgba(255,0,0,0);
-    }
-}
-
-#toast {
-    position:fixed;
-    bottom:20px;
-    right:20px;
-    padding:12px 16px;
-    border-radius:6px;
-    font-size:14px;
-    z-index:9999;
-    opacity:0;
-    transform:translateY(20px);
-    transition:all .25s ease;
-    background:#111;
-    color:#fff;
-}
-
-#toast.show {
-    opacity:1;
-    transform:translateY(0);
-}
-
-#toast.ok {
-    background:#198754;
-}
-
-#toast.erro {
-    background:#dc3545;
-}
-
-#toast.warn {
-    background:#ffc107;
-    color:#000;
-}
-
-input[type="checkbox"] {
-    cursor:pointer;
-}
-
-input[type="checkbox"][disabled] {
-    cursor:not-allowed;
-    opacity:.6;
-}
-
-body.locked {
-    opacity:.99;
-}
-
-.auto-print-box {
-    max-width:560px;
-    margin:0 auto 10px auto;
-    padding:8px 12px;
-    border-radius:12px;
-    background:rgba(255,255,255,.07);
-    border:1px solid rgba(255,255,255,.12);
-}
-
-.auto-print-box .form-check-input {
-    cursor:pointer;
-}
-
-.auto-print-box .form-check-label {
-    font-size:14px;
-}
-
-.auto-print-box .descricao {
-    font-size:12px;
-    color:rgba(255,255,255,.75);
-    line-height:1.25;
-}
-
-.cozinha-userbox {
-    font-size:14px;
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/cozinha.css?v=3">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
-
-<center>
-    <img src="images/topo_comandaria_cozinha.png" style="max-width:450px;width:100%">
-</center>
-
-<div class="text-center mb-2">
-    <div class="cozinha-userbox d-inline-flex align-items-center gap-2 px-3 py-1 rounded"
-         style="background:rgba(255,255,255,0.05);">
-
-        <span>
-            Bem-vindo,
-            <strong><?= htmlspecialchars($_SESSION['user_nome'] ?? '') ?></strong>
-        </span>
-
-        <a href="logout.php"
-           class="btn btn-sm btn-link text-warning p-0 ms-2">
-            sair
-        </a>
+<body class="cd-staff cd-kitchen">
+<?php $staffPage = 'painel_cozinha.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
+<header class="cozinha-topo">
+    <a class="cozinha-marca" href="<?= authTipo() === 'admin' ? 'dashboard.php' : 'painel_cozinha.php' ?>">
+        <img src="images/comandaria_logo.png" alt="" width="36" height="36">
+        Comandaria Express
+    </a>
+    <div class="cozinha-userbox">
+        <span><?= htmlspecialchars($_SESSION['user_nome'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
+        <a href="logout.php">Sair</a>
     </div>
-</div>
+</header>
 
-<div class="auto-print-box">
-    <div class="form-check form-switch mb-1">
-        <input
-            class="form-check-input"
-            type="checkbox"
-            role="switch"
-            id="autoPrintItensNovos"
-        >
-        <label class="form-check-label fw-semibold" for="autoPrintItensNovos">
-            Imprimir automaticamente quando chegar item novo
+<main class="cozinha-main">
+    <div class="cozinha-titulo">
+        <h1>Cozinha</h1>
+        <p id="conexao-cozinha" role="status" data-conexao="aguardando">Conectando…</p>
+    </div>
+    <div class="cozinha-controles">
+        <label class="cozinha-filtro">
+            <span>Filtrar pedido</span>
+            <select id="filtro" class="form-select"><option value="">Todos os pedidos</option></select>
         </label>
+        <div class="auto-print-box">
+            <div class="form-check form-switch">
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="autoPrintItensNovos"
+                    aria-describedby="descricao-auto-print"
+                >
+                <label class="form-check-label" for="autoPrintItensNovos">Impressão automática</label>
+            </div>
+            <small id="descricao-auto-print">Imprime itens novos e aumentos de quantidade.</small>
+        </div>
     </div>
 
-    <div class="descricao">
-        A impressão dispara apenas por chegada de item novo ou aumento da quantidade enviada.
-        Marcar item como pronto ou finalizar pedido não dispara impressão.
+    <div id="pedidos" class="cozinha-quadro">
+        <section class="cozinha-coluna" aria-labelledby="novos-titulo">
+            <div class="cozinha-coluna-topo">
+                <h2 id="novos-titulo">Novos</h2>
+                <span id="total-novos" class="cozinha-contagem">0</span>
+            </div>
+            <div id="fila-novos" class="cozinha-fila"></div>
+            <p class="cozinha-vazio">Aguardando novos pedidos.</p>
+        </section>
+        <section class="cozinha-coluna" aria-labelledby="preparo-titulo">
+            <div class="cozinha-coluna-topo">
+                <h2 id="preparo-titulo">Em preparo</h2>
+                <span id="total-preparo" class="cozinha-contagem">0</span>
+            </div>
+            <div id="fila-preparo" class="cozinha-fila"></div>
+            <p class="cozinha-vazio">Nenhum pedido iniciado.</p>
+        </section>
+        <section class="cozinha-coluna" aria-labelledby="prontos-titulo">
+            <div class="cozinha-coluna-topo">
+                <h2 id="prontos-titulo">Prontos</h2>
+                <span id="total-prontos" class="cozinha-contagem">0</span>
+            </div>
+            <div id="fila-prontos" class="cozinha-fila"></div>
+            <p class="cozinha-vazio">Nenhum pedido pronto.</p>
+        </section>
     </div>
-</div>
+</main>
 
-<center>
-    <select id="filtro" class="form-select mb-2" style="max-width:560px"></select>
-</center>
-
-<div id="pedidos"></div>
-
-<div id="toast"></div>
+<div id="toast" role="status"></div>
 
 <script>
 /* =========================
@@ -357,7 +124,10 @@ const state = {
 };
 
 const dom = {
-    cards: new Map()
+    cards: new Map(),
+    filas: Object.fromEntries(
+        ['novos', 'preparo', 'prontos'].map(etapa => [etapa, document.getElementById('fila-' + etapa)])
+    )
 };
 
 let intervalo = 3000;
@@ -435,6 +205,22 @@ const utils = {
 
     itemPronto(item){
         return this.qtdPronta(item) >= this.qtd(item);
+    },
+
+    etapaPedido(pedido){
+        const itens = pedido.itens || [];
+
+        if(itens.every(item => this.itemPronto(item))){
+            return 'prontos';
+        }
+
+        return itens.some(item => this.qtdPronta(item) > 0) ? 'preparo' : 'novos';
+    },
+
+    tituloPedido(pedido){
+        return pedido.tipo === 'mesa'
+            ? `Mesa ${pedido.identificador ?? pedido.referencia ?? pedido.mesa}`
+            : `Cliente ${pedido.identificador ?? pedido.referencia ?? pedido.cliente}`;
     },
 
     dinheiro(v){
@@ -787,7 +573,7 @@ function atualizarTempos(){
 
         const card = el.closest('.card');
 
-        if(!card || !el.dataset.ts) return;
+        if(!card || !el.dataset.ts || card.dataset.etapa === 'prontos') return;
 
         const min = utils.minutos(
             Number(el.dataset.ts)
@@ -796,7 +582,7 @@ function atualizarTempos(){
         if(Number(el.dataset.min) === min) return;
 
         el.dataset.min = min;
-        el.textContent = `🔥 ${min} min`;
+        el.textContent = `${min} min`;
 
         const classe = utils.tempoClass(min);
 
@@ -827,58 +613,31 @@ const render = {
 
         if(!select) return;
 
-        const pedidosPendentes = state.pedidos.filter(p =>
-            (p.itens || []).some(i => !utils.itemPronto(i))
-        );
+        const pedidosVisiveis = state.pedidos.filter(p => (p.itens || []).length > 0);
 
-        const options = pedidosPendentes.map(p => {
+        const options = pedidosVisiveis.map(p => `
+            <option value="${utils.pedidoId(p)}">
+                ${utils.escape(utils.tituloPedido(p))} · #${utils.pedidoId(p)}
+            </option>
+        `).join('');
 
-            const pedidoId = utils.pedidoId(p);
-
-            const label = p.tipo === 'mesa'
-                ? `Mesa ${p.identificador ?? p.referencia ?? p.mesa}`
-                : `Cliente ${p.identificador ?? p.referencia ?? p.cliente}`;
-
-            return `
-                <option value="${pedidoId}">
-                    ${utils.escape(label)}
-                </option>
-            `;
-        }).join('');
-
-        const html = '<option value="">Todos</option>' + options;
+        const html = '<option value="">Todos os pedidos</option>' + options;
 
         if(select.innerHTML !== html){
             select.innerHTML = html;
         }
 
-        if(
-            state.filtro &&
-            !pedidosPendentes.some(p => utils.pedidoId(p) === Number(state.filtro))
-        ){
+        if(state.filtro && !pedidosVisiveis.some(p => utils.pedidoId(p) === state.filtro)){
             state.filtro = null;
-            select.value = '';
         }
+
+        select.value = state.filtro ?? '';
     },
 
     pedidos(){
 
-        const container = document.getElementById('pedidos');
-
         const lista = state.pedidos
-            .filter(p => {
-                const pedidoId = utils.pedidoId(p);
-
-                if(state.filtro && pedidoId !== Number(state.filtro)){
-                    return false;
-                }
-
-                if(p.status === 'pago' || p.status === 'cancelado'){
-                    return false;
-                }
-
-                return (p.itens || []).some(i => !utils.itemPronto(i));
-            })
+            .filter(p => (!state.filtro || utils.pedidoId(p) === state.filtro) && (p.itens || []).length)
             .sort((a,b) => {
                 const da = new Date(a.created_at ?? a.data_criacao ?? 0);
                 const db = new Date(b.created_at ?? b.data_criacao ?? 0);
@@ -886,24 +645,7 @@ const render = {
                 return da - db;
             });
 
-        if(!lista.length){
-
-            container.innerHTML =
-                '<p class="text-center w-100">Nenhum pedido na cozinha.</p>';
-
-            for(const [, card] of dom.cards){
-                card.remove();
-            }
-
-            dom.cards.clear();
-
-            return;
-        }
-
-        if(container.querySelector('p')){
-            container.innerHTML = '';
-        }
-
+        const contagens = {novos: 0, preparo: 0, prontos: 0};
         const idsAtuais = new Set();
 
         lista.forEach(pedido => {
@@ -939,20 +681,23 @@ const render = {
 
                 dom.cards.set(id, card);
 
-                container.appendChild(card);
-
                 card.classList.add('novo');
 
                 setTimeout(() => {
                     card.classList.remove('novo');
-                }, 900);
-
-                return;
-            }
-
-            if(card._hash !== hash){
+                }, 800);
+            } else if(card._hash !== hash){
                 card._hash = hash;
                 this.atualizarCard(card, pedido);
+            }
+
+            const etapa = utils.etapaPedido(pedido);
+            card.dataset.etapa = etapa;
+
+            const fila = dom.filas[etapa];
+            const posicao = contagens[etapa]++;
+            if(fila.children[posicao] !== card){
+                fila.insertBefore(card, fila.children[posicao] || null);
             }
         });
 
@@ -962,6 +707,10 @@ const render = {
 
             card.remove();
             dom.cards.delete(id);
+        }
+
+        for(const [etapa, total] of Object.entries(contagens)){
+            document.getElementById('total-' + etapa).textContent = total;
         }
     },
 
@@ -973,50 +722,42 @@ const render = {
 
         const min = utils.minutos(data);
 
-        const card = document.createElement('div');
+        const card = document.createElement('article');
 
-        card.className = `card p-2 ${utils.tempoClass(min)}`;
+        card.className = `card ${utils.tempoClass(min)}`;
 
         card.dataset.id = pedidoId;
 
-        const titulo = pedido.tipo === 'mesa'
-            ? `Mesa ${pedido.identificador ?? pedido.referencia ?? pedido.mesa}`
-            : `Cliente ${pedido.identificador ?? pedido.referencia ?? pedido.cliente}`;
+        const titulo = utils.tituloPedido(pedido);
 
         const ts = new Date(data).getTime();
 
         card.innerHTML = `
-            <div class="d-flex justify-content-between align-items-center mb-1">
-                <strong>${utils.escape(titulo)}</strong>
+            <div class="cozinha-card-cabecalho">
+                <div>
+                    <h3>${utils.escape(titulo)}</h3>
+                    <span class="cozinha-card-numero">Pedido #${pedidoId}</span>
+                </div>
 
                 <span
                     class="tempo"
                     data-ts="${ts}"
                     data-min="${min}"
                 >
-                    🔥 ${min} min
+                    ${min} min
                 </span>
-            </div>
-
-            <div class="small text-muted mb-1">
-                Pedido #${pedidoId}
             </div>
 
             <div class="itens"></div>
 
-            <button
-                class="btn btn-sm btn-dark mt-2 w-100"
-                data-action="imprimir"
-            >
-                🖨️ Imprimir pedido
-            </button>
-
-            <button
-                class="btn btn-sm btn-success mt-2 w-100"
-                data-action="finalizar"
-            >
-                ✅ Finalizar pedido
-            </button>
+            <div class="cozinha-card-acoes">
+                <button class="cozinha-botao" type="button" data-action="imprimir">
+                    Imprimir pedido
+                </button>
+                <button class="cozinha-botao cozinha-botao-principal" type="button" data-action="finalizar">
+                    Finalizar pedido
+                </button>
+            </div>
         `;
 
         const itens = card.querySelector('.itens');
@@ -1108,6 +849,7 @@ const render = {
             pronta,
             finalizado,
             item.nome,
+            item.imagem_url,
             item.obs ?? item.observacao,
             item.ponto,
             item.categoria,
@@ -1136,22 +878,24 @@ const render = {
             ? `<small><b>Adicional:</b> ${qtdAdicionais}x ${valorAdicional > 0 ? 'R$ ' + utils.dinheiro(valorAdicional) + ' cada' : ''}</small>`
             : '';
 
+        const imagem = typeof item.imagem_url === 'string' && /^https:\/\//i.test(item.imagem_url)
+            ? `<img class="item-foto" src="${utils.escape(item.imagem_url)}" alt="" width="40" height="40"
+                   loading="lazy" referrerpolicy="no-referrer">`
+            : '';
+
         el.innerHTML = `
+            ${imagem}
             <div class="item-info">
                 <span class="categoria">
                     ${utils.escape(item.categoria ?? '')}
                 </span>
 
-                <strong>
-                    ${utils.escape(item.nome)}
-                    <span class="progresso">
-                        (${pronta}/${quantidade})
-                    </span>
-                </strong>
+                <strong>${quantidade}× ${utils.escape(item.nome)}</strong>
+                <span class="progresso">${finalizado ? 'Pronto' : `${pronta}/${quantidade} prontos`}</span>
 
                 ${
                     obs
-                        ? `<small><b>Obs:</b> ${utils.escape(obs)}</small>`
+                        ? `<small class="cozinha-obs"><b>Obs:</b> ${utils.escape(obs)}</small>`
                         : ''
                 }
 
@@ -1171,19 +915,23 @@ const render = {
                     data-action="imprimir-item"
                     data-item-id="${utils.itemId(item)}"
                     title="Imprimir somente este item"
+                    aria-label="Imprimir ${utils.escape(item.nome)}"
                 >
-                    🖨️
+                    <i class="bi bi-printer" aria-hidden="true" style="font-size: 1.25rem; line-height: 1"></i>
                 </button>
 
-                <input
-                    type="checkbox"
-                    data-item-id="${utils.itemId(item)}"
-                    ${finalizado ? 'checked disabled' : ''}
-                    title="Marcar uma unidade como pronta"
-                    style="transform:scale(1.35);"
-                >
+                <label class="cozinha-item-pronto" ${finalizado ? 'hidden' : ''}>
+                    <input
+                        type="checkbox"
+                        data-item-id="${utils.itemId(item)}"
+                        ${finalizado ? 'checked disabled' : ''}
+                        aria-label="Marcar mais uma unidade de ${utils.escape(item.nome)} como pronta"
+                    >
+                    <span aria-hidden="true">+1</span>
+                </label>
             </div>
         `;
+        el.querySelector('.item-foto')?.addEventListener('error', event => event.currentTarget.remove(), { once: true });
     }
 };
 
@@ -1290,29 +1038,22 @@ document.getElementById('pedidos')
 
                 while(restante > 0){
 
-                    await api.produzirItem(
-                        utils.itemId(item)
-                    );
+                    const resposta = await api.produzirItem(utils.itemId(item));
 
+                    if(!resposta.ok || !resposta.item){
+                        throw new Error('Resposta inválida');
+                    }
+
+                    item.quantidade_pronta = Number(resposta.item.quantidade_pronta ?? 0);
+                    item.status = resposta.item.status;
                     restante--;
                 }
             }
 
             toast('Pedido finalizado', 'ok');
 
-            card.classList.add('sumindo');
-
-            setTimeout(() => {
-
-                state.pedidos = state.pedidos.filter(
-                    p => utils.pedidoId(p) !== pedidoId
-                );
-
-                render.update();
-
-            }, 300);
-
-            state.ultimoHash = '';
+            pedido.status = 'pronto';
+            render.update();
 
             utils.vibrar(100);
 
@@ -1320,10 +1061,12 @@ document.getElementById('pedidos')
 
             console.error(err);
 
+            render.update();
+            toast('Erro ao finalizar', 'erro');
+        } finally {
             card.dataset.locked = '';
             card.classList.remove('loading');
-
-            toast('Erro ao finalizar', 'erro');
+            state.ultimoHash = '';
         }
 
         return;
@@ -1402,25 +1145,11 @@ document.getElementById('pedidos')
             .some(i => !utils.itemPronto(i));
 
         if(!aindaPendente){
-
             pedido.status = 'pronto';
-
-            card.classList.add('sumindo');
-
-            setTimeout(() => {
-
-                state.pedidos = state.pedidos.filter(
-                    p => utils.pedidoId(p) !== pedidoId
-                );
-
-                render.update();
-
-            }, 300);
-
             utils.vibrar(100);
-        } else {
-            render.update();
         }
+
+        render.update();
 
         state.ultimoHash = '';
 
@@ -1438,6 +1167,14 @@ document.getElementById('pedidos')
 /* =========================
    LOOP
 ========================= */
+function atualizarConexao(estado, mensagem){
+    const el = document.getElementById('conexao-cozinha');
+    if(el.dataset.conexao !== estado){
+        el.dataset.conexao = estado;
+        el.textContent = mensagem;
+    }
+}
+
 async function loop(){
 
     if(isLocked()){
@@ -1454,6 +1191,10 @@ async function loop(){
         if(!data || data.ok !== true){
             throw new Error('Resposta inválida');
         }
+
+        atualizarConexao('online', 'Ao vivo');
+        intervalo = 3000;
+        tentativasErro = 0;
 
         if(data.ultima){
             state.ultimoHash = data.ultima;
@@ -1522,12 +1263,10 @@ async function loop(){
 
         render.update();
 
-        intervalo = 3000;
-        tentativasErro = 0;
-
     } catch(err){
 
         console.error('Erro loop:', err);
+        atualizarConexao('offline', 'Reconectando…');
 
         tentativasErro++;
 

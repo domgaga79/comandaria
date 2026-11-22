@@ -76,7 +76,6 @@ function statusPrazoBadge($status): string {
         : 'warning text-dark';
 }
 
-$nomeUsuario = $_SESSION['user_nome'] ?? 'Administrador';
 
 $statusFiltro = $_GET['status'] ?? 'aberto';
 
@@ -391,386 +390,49 @@ if(!empty($idsPedidos)){
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
-<style>
-body {
-    background: #111;
-    color: #fff;
-    font-family: Arial, sans-serif;
-    min-height: 100vh;
-}
-
-.header {
-    text-align: center;
-    padding: 18px 10px 8px;
-}
-
-.header img {
-    max-width: 430px;
-    width: 100%;
-}
-
-.userbox {
-    text-align: center;
-    margin-bottom: 12px;
-}
-
-.userbox .inner {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 6px 14px;
-    border-radius: 999px;
-    background: rgba(255,255,255,.06);
-    font-size: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
-}
-
-.container-main {
-    max-width: 1220px;
-    margin: 0 auto;
-    padding: 10px;
-}
-
-.card-box {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    padding: 16px;
-    margin-bottom: 14px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.3);
-}
-
-.logout {
-    color: #ffc107;
-    text-decoration: none;
-}
-
-.logout:hover {
-    color: #ffda6a;
-}
-
-.grid-resumo {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 12px;
-    margin-bottom: 14px;
-}
-
-@media(min-width: 700px) {
-    .grid-resumo {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-.card-kpi {
-    background: #f8f9fa;
-    border-radius: 14px;
-    border-left: 5px solid #111;
-    padding: 15px;
-    color: #111;
-}
-
-.card-kpi.yellow {
-    border-color: #ffc107;
-}
-
-.card-kpi.green {
-    border-color: #198754;
-}
-
-.card-kpi.blue {
-    border-color: #0d6efd;
-}
-
-.card-kpi.dark {
-    border-color: #212529;
-}
-
-.card-kpi .label {
-    font-size: 13px;
-    color: #666;
-    font-weight: 700;
-}
-
-.card-kpi .value {
-    font-size: 24px;
-    line-height: 1.15;
-    font-weight: 900;
-    margin-top: 5px;
-}
-
-.contas-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    gap: 14px;
-}
-
-@media(min-width: 960px) {
-    .contas-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-.prazo-card {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    padding: 16px;
-    box-shadow: 0 4px 16px rgba(0,0,0,.26);
-    border-left: 6px solid #ffc107;
-}
-
-.prazo-card.pago {
-    border-left-color: #198754;
-}
-
-.prazo-top {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-}
-
-.prazo-title {
-    font-size: 18px;
-    font-weight: 900;
-    margin-bottom: 3px;
-}
-
-.prazo-meta {
-    color: #555;
-    font-size: 13px;
-    margin-top: 3px;
-}
-
-.prazo-total {
-    font-size: 24px;
-    font-weight: 900;
-    white-space: nowrap;
-    text-align: right;
-}
-
-.prazo-actions {
-    display: flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 14px;
-}
-
-.prazo-actions .btn {
-    font-weight: 800;
-}
-
-.recebimento-box {
-    margin-top: 14px;
-    border: 1px solid #e5e7eb;
-    border-radius: 12px;
-    padding: 12px;
-    background: #fafafa;
-}
-
-.recebimento-box .form-label {
-    font-size: 13px;
-    font-weight: 700;
-}
-
-.itens-details {
-    margin-top: 14px;
-    border-top: 1px dashed #bbb;
-    padding-top: 12px;
-}
-
-.itens-details summary {
-    cursor: pointer;
-    font-weight: 900;
-    color: #111;
-}
-
-.item-row {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 10px;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-}
-
-.item-row:last-child {
-    border-bottom: 0;
-}
-
-.item-name {
-    font-weight: 800;
-}
-
-.item-meta {
-    font-size: 12px;
-    color: #555;
-    margin-top: 3px;
-}
-
-.item-total {
-    font-weight: 900;
-    white-space: nowrap;
-    text-align: right;
-}
-
-.linha-total {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    font-weight: 800;
-    margin-top: 6px;
-}
-
-.linha-total.final {
-    border-top: 1px dashed #aaa;
-    margin-top: 10px;
-    padding-top: 10px;
-    font-size: 18px;
-}
-
-.badge-pill {
-    border-radius: 999px;
-    padding: 6px 10px;
-    font-size: 12px;
-}
-
-.alerta-vazio {
-    background: #fff;
-    color: #111;
-    border-radius: 16px;
-    padding: 24px;
-    text-align: center;
-    box-shadow: 0 4px 16px rgba(0,0,0,.25);
-}
-
-.card-box,
-.card-box h1,
-.card-box h2,
-.card-box h3,
-.card-box h4,
-.card-box h5,
-.card-box h6,
-.card-box label,
-.card-box .form-label,
-.card-box .table,
-.card-box .table td,
-.card-box .table th,
-.prazo-card,
-.prazo-card label {
-    color: #111 !important;
-}
-
-.card-box .text-muted,
-.prazo-meta,
-.item-meta {
-    color: #555 !important;
-}
-
-@media(max-width: 600px) {
-    .prazo-total {
-        width: 100%;
-        text-align: left;
-    }
-
-    .prazo-actions .btn {
-        width: 100%;
-    }
-
-    .item-row {
-        grid-template-columns: 1fr;
-    }
-
-    .item-total {
-        text-align: left;
-    }
-}
-img {
-  animation: pulsar 5s infinite;
-}
-
-@keyframes pulsar {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1);
-  }
-  90% {
-    transform: scale(0.95);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-</style>
+<link rel="stylesheet" href="assets/financeiro.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="assets/staff.css?v=2">
 </head>
 
-<body>
+<body class="cd-staff finance-page finance-prazo">
+<?php $staffPage = 'controle_prazo.php'; require __DIR__ . '/includes/staff_nav.php'; ?>
 
-<div class="header">
-    <img src="images/topo_comandaria_shake.png" alt="Comandaria Express">
-</div>
+<main id="conteudo" class="finance-workspace">
+    <header class="finance-heading">
+        <h1>Contas a prazo</h1>
+        <p>Consulte saldos, confira itens e registre recebimentos.</p>
+    </header>
 
-<div class="userbox">
-    <div class="inner">
-        <span>
-            Bem-vindo,
-            <strong><?= h($nomeUsuario) ?></strong>
-        </span>
-
-        <a href="dashboard.php" class="logout">
-            dashboard
-        </a>
-
-        <a href="logout.php" class="logout">
-            sair
-        </a>
-    </div>
-</div>
-
-<div class="container-main">
-
-    <div class="card-box">
-        <div class="d-flex justify-content-between align-items-center gap-2 flex-wrap mb-3">
-            <div>
-                <h3 class="mb-0">💳 Contas a Prazo</h3>
-
-                <div class="text-muted small">
-                    Controle operacional de contas em aberto, itens discriminados, impressão e baixa de recebimento.
-                </div>
-            </div>
-        </div>
-
+    <div class="card-box finance-filters">
         <?php if($feedback !== '' && $tipoFeedback !== ''): ?>
-            <div class="alert alert-<?= $tipoFeedback === 'ok' ? 'success' : 'danger' ?> mb-3">
+            <div role="status" class="alert alert-<?= $tipoFeedback === 'ok' ? 'success' : 'danger' ?> mb-3">
                 <?= h($feedback) ?>
             </div>
         <?php endif; ?>
 
-        <form method="GET" class="row g-2">
-            <div class="col-md-4">
-                <label class="form-label">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md">
+                <label for="prazo-busca" class="form-label">
                     Buscar cliente, mesa ou pedido
                 </label>
 
                 <input
                     type="text"
                     name="q"
+                    id="prazo-busca"
                     class="form-control"
                     value="<?= h($busca) ?>"
-                    placeholder="Ex.: Maurício, 74, mesa 3"
+                    placeholder="Nome, nº do pedido ou mesa"
                 >
             </div>
 
-            <div class="col-md-4">
-                <label class="form-label">
+            <div class="col-md">
+                <label for="prazo-status" class="form-label">
                     Status
                 </label>
 
-                <select name="status" class="form-select">
+                <select id="prazo-status" name="status" class="form-select">
                     <option value="aberto" <?= $statusFiltro === 'aberto' ? 'selected' : '' ?>>
                         Em aberto
                     </option>
@@ -783,8 +445,8 @@ img {
                 </select>
             </div>
 
-            <div class="col-md-4 d-flex align-items-end">
-                <button class="btn btn-dark w-100">
+            <div class="col-md-3 col-xl-2">
+                <button type="submit" class="btn btn-success w-100">
                     Filtrar
                 </button>
             </div>
@@ -836,7 +498,7 @@ img {
     </div>
 
     <?php if(empty($contas)): ?>
-        <div class="alerta-vazio">
+        <div class="alerta-vazio" role="status">
             Nenhuma conta a prazo encontrada para o filtro selecionado.
         </div>
     <?php else: ?>
@@ -860,9 +522,9 @@ img {
                 <div class="prazo-card <?= $pago ? 'pago' : '' ?>">
                     <div class="prazo-top">
                         <div>
-                            <div class="prazo-title">
+                            <h2 class="prazo-title">
                                 <?= h($origem) ?>
-                            </div>
+                            </h2>
 
                             <div class="prazo-meta">
                                 Pedido #<?= $numeroPedido ?>
@@ -891,9 +553,9 @@ img {
                         <a
                             class="btn btn-outline-dark"
                             href="imprimir_conta_prazo.php?pedido_id=<?= $pedidoId ?>"
-                            target="_blank"
+                            target="_blank" rel="noopener"
                         >
-                            🖨️ Imprimir conta
+                            Imprimir conta
                         </a>
                     </div>
 
@@ -908,11 +570,11 @@ img {
 
                                 <div class="row g-2 align-items-end">
                                     <div class="col-md-7">
-                                        <label class="form-label">
+                                        <label for="recebimento-<?= $pedidoId ?>" class="form-label">
                                             Forma de recebimento
                                         </label>
 
-                                        <select name="forma_recebimento" class="form-select" required>
+                                        <select id="recebimento-<?= $pedidoId ?>" name="forma_recebimento" class="form-select" required>
                                             <option value="">Selecione</option>
                                             <option value="dinheiro">Dinheiro</option>
                                             <option value="pix">Pix</option>
@@ -922,7 +584,7 @@ img {
 
                                     <div class="col-md-5">
                                         <button class="btn btn-success w-100">
-                                            ✅ Marcar como pago
+                                            Marcar como pago
                                         </button>
                                     </div>
                                 </div>
@@ -932,7 +594,7 @@ img {
 
                     <details class="itens-details">
                         <summary>
-                            Ver itens discriminados
+                            Itens e totais
                         </summary>
 
                         <div class="mt-2">
@@ -1017,7 +679,7 @@ img {
         </div>
     <?php endif; ?>
 
-</div>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
