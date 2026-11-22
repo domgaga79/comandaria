@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=10">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=11">
 </head>
 <body>
     <header class="site-header">
@@ -87,7 +87,7 @@ function landingEscape(string $value): string
             </div>
         </section>
 
-        <section class="section section-tinted" id="funcionalidades">
+        <section class="section section-features" id="funcionalidades">
             <div class="site-container">
                 <h2>Recursos para cada etapa do serviço</h2>
                 <div class="feature-grid">
@@ -103,12 +103,12 @@ function landingEscape(string $value): string
         </section>
 
         <section class="section site-container" id="diferenciais">
-            <div class="flow" data-reveal>
+            <div class="flow">
                 <h2>Como funciona no salão</h2>
                 <ol>
-                    <li><strong>Receba o pedido</strong><span>A equipe lança a comanda ou o cliente pede pelo QR Code da mesa.</span></li>
-                    <li><strong>Acompanhe o preparo</strong><span>A cozinha recebe os itens e informa quando estão prontos.</span></li>
-                    <li><strong>Feche a conta</strong><span>O caixa revisa os valores e registra os pagamentos.</span></li>
+                    <li data-reveal><i class="feature-icon bi bi-receipt" aria-hidden="true"></i><strong>Receba o pedido</strong><span>A equipe lança a comanda ou o cliente pede pelo QR Code da mesa.</span></li>
+                    <li data-reveal><i class="feature-icon bi bi-fire" aria-hidden="true"></i><strong>Acompanhe o preparo</strong><span>A cozinha recebe os itens e informa quando estão prontos.</span></li>
+                    <li data-reveal><i class="feature-icon bi bi-credit-card" aria-hidden="true"></i><strong>Feche a conta</strong><span>O caixa revisa os valores e registra os pagamentos.</span></li>
                 </ol>
             </div>
         </section>
