@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=9">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=10">
 </head>
 <body>
     <header class="site-header">
@@ -223,7 +223,7 @@ function landingEscape(string $value): string
                 let ordem = 0;
                 for (const entry of entries) {
                     if (!entry.isIntersecting) continue;
-                    entry.target.style.setProperty('--reveal-delay', Math.min(ordem++, 3) * 65 + 'ms');
+                    entry.target.style.setProperty('--reveal-delay', Math.min(ordem++, 3) * 150 + 'ms');
                     entry.target.classList.add('reveal-in');
                     observer.unobserve(entry.target);
                 }
