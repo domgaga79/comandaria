@@ -10,7 +10,7 @@ $mensagemPro = $landingAtRoot
 $linkWhatsappPro = $linkWhatsapp . rawurlencode($mensagemPro);
 $linkWhatsappDemo = $linkWhatsapp . rawurlencode('Olá, Bacuri Digital! Quero conhecer melhor a Comandaria Express.');
 $linkLogin = $landingAtRoot ? 'login.php' : '../login.php';
-$caminhoPublico = $landingAtRoot ? 'public/' : '../';
+$caminhoPublico = $landingAtRoot ? '' : '../';
 
 $recursos = [
     ['Atendimento e comandas', 'Lance itens com observações e adicionais e envie a comanda para a cozinha.'],
@@ -33,7 +33,7 @@ function landingEscape(string $value): string
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#f7f7f2">
+    <meta name="theme-color" content="#212529">
     <meta name="description" content="Comandaria Express: pedidos, mesas, cozinha, caixa e cardápio por QR Code para bares e restaurantes.">
     <meta property="og:locale" content="pt_BR">
     <meta property="og:type" content="website">
@@ -41,14 +41,14 @@ function landingEscape(string $value): string
     <meta property="og:description" content="Pedidos, mesas, cozinha e caixa em um só sistema.">
     <meta property="og:image" content="https://comandaria.bacuridigital.com/images/comandaria_logo_og_1200x630.png">
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
-    <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria_logo.png" type="image/png">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=2">
+    <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=3">
 </head>
 <body>
     <header class="site-header">
         <div class="site-container navbar" id="navbar">
             <a class="wordmark" href="#inicio">
-                <img src="<?= landingEscape($caminhoPublico) ?>images/comandaria_logo.png" alt="" width="40" height="40">
+                <img src="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" alt="" width="40" height="40">
                 Comandaria Express
             </a>
             <nav class="site-nav" id="siteNav" aria-label="Navegação principal">
@@ -65,22 +65,24 @@ function landingEscape(string $value): string
     </header>
 
     <main id="inicio">
-        <section class="site-container hero">
-            <div class="hero-copy">
-                <h1>Do pedido ao caixa, em um só lugar.</h1>
-                <p>Organize o atendimento, acompanhe o preparo e feche as contas em um sistema feito para bares, lanchonetes e restaurantes.</p>
-                <div class="actions">
-                    <?php if($landingAtRoot): ?>
-                        <a class="button button-primary" href="<?= landingEscape($linkLogin) ?>">Começar grátis</a>
-                    <?php else: ?>
-                        <a class="button button-primary" href="<?= landingEscape($linkWhatsappFree) ?>" target="_blank" rel="noopener">Começar grátis</a>
-                    <?php endif; ?>
-                    <a class="button button-outline" href="#planos">Ver planos</a>
+        <section class="hero-shell" aria-labelledby="hero-title">
+            <div class="site-container hero">
+                <div class="hero-copy">
+                    <h1 id="hero-title">Do pedido ao caixa, <em>em um só lugar.</em></h1>
+                    <p>Organize o atendimento, acompanhe o preparo e feche as contas em um sistema feito para bares, lanchonetes e restaurantes.</p>
+                    <div class="actions">
+                        <?php if($landingAtRoot): ?>
+                            <a class="button button-primary" href="<?= landingEscape($linkLogin) ?>">Começar grátis</a>
+                        <?php else: ?>
+                            <a class="button button-primary" href="<?= landingEscape($linkWhatsappFree) ?>" target="_blank" rel="noopener">Começar grátis</a>
+                        <?php endif; ?>
+                        <a class="button button-outline" href="#diferenciais">Veja como funciona <span aria-hidden="true">↓</span></a>
+                    </div>
                 </div>
+                <figure class="hero-image">
+                    <img src="<?= landingEscape($caminhoPublico) ?>images/operacao-restaurante.webp" width="1120" height="747" fetchpriority="high" alt="Atendente usando um tablet no balcão de um restaurante">
+                </figure>
             </div>
-            <figure class="hero-image">
-                <img src="<?= landingEscape($caminhoPublico) ?>images/operacao-restaurante.webp" width="1120" height="747" alt="Atendente usando um tablet no balcão de um restaurante">
-            </figure>
         </section>
 
         <section class="section section-tinted" id="funcionalidades">
@@ -138,7 +140,7 @@ function landingEscape(string $value): string
                             <ul>
                                 <li>Até 30 mesas cadastradas</li>
                                 <li>Até 1.000 pedidos por mês</li>
-                                <li>Upgrade direto, sem trocar de sistema</li>
+                                <li>Cadastro da equipe e controle de acessos</li>
                             </ul>
                         <?php endif; ?>
                         <div class="actions">
@@ -170,7 +172,7 @@ function landingEscape(string $value): string
     </main>
 
     <footer class="site-container site-footer">
-        <span>Comandaria Express</span>
+        <a class="wordmark" href="#inicio"><img src="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" width="28" height="28" alt=""> Comandaria Express</a>
         <span>© <?= date('Y') ?> Bacuri Digital</span>
     </footer>
 
