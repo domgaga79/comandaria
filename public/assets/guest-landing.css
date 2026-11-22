@@ -145,24 +145,35 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
     font-size: 1.15rem;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .is-typing { display: inline-grid; }
-    .typewriter-original, .typewriter-text { grid-area: 1 / 1; }
-    .typewriter-original { opacity: 0; }
-    .typewriter-text::after {
-        content: "";
-        display: inline-block;
-        width: 2px;
-        height: .8em;
-        background: currentColor;
-        vertical-align: -.02em;
-    }
-    .reveal-in {
-        animation: landing-reveal .65s cubic-bezier(.2, .7, .3, 1) var(--reveal-delay, 0ms) both;
-    }
+/* As classes só são aplicadas com movimento habilitado ou por ação do usuário. */
+.animation-replay {
+    padding: 7px 4px;
+    border: 0;
+    background: transparent;
+    color: #dee2e6;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font: inherit;
+    font-size: .85rem;
+    cursor: pointer;
+}
 
-    @keyframes landing-reveal {
-        from { opacity: .08; transform: translateY(22px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+.is-typing { display: inline-grid; }
+.typewriter-original, .typewriter-text { grid-area: 1 / 1; }
+.typewriter-original { opacity: 0; }
+.typewriter-text::after {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: .8em;
+    background: currentColor;
+    vertical-align: -.02em;
+}
+.reveal-in {
+    animation: landing-reveal .65s cubic-bezier(.2, .7, .3, 1) var(--reveal-delay, 0ms) both;
+}
+
+@keyframes landing-reveal {
+    from { opacity: .08; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
 }
