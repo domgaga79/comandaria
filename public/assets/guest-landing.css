@@ -270,6 +270,30 @@ main { overflow-x: clip; }
     transition: none;
 }
 
+/* O salto pelo menu chega com a grade visível e tem seu próprio encaixe. */
+.cartoes-animados .section-features:target .feature-card {
+    --entry-x: -26px;
+    --entry-angle: -5deg;
+    animation: landing-feature-entry .92s cubic-bezier(.2, .65, .3, 1)
+        calc(var(--entry-column, 0ms) + var(--entry-row, 0ms)) backwards;
+}
+
+.cartoes-animados .section-features:target .feature-card:nth-child(even) {
+    --entry-x: 26px;
+    --entry-angle: 5deg;
+}
+
+.cartoes-animados .section-features:target .feature-card:nth-child(4n + 2) { --entry-column: 70ms; }
+.cartoes-animados .section-features:target .feature-card:nth-child(4n + 3) { --entry-column: 140ms; }
+.cartoes-animados .section-features:target .feature-card:nth-child(4n + 4) { --entry-column: 210ms; }
+.cartoes-animados .section-features:target .feature-card:nth-child(n + 5) { --entry-row: 170ms; }
+
+@keyframes landing-feature-entry {
+    from { transform: translate(var(--entry-x), 52px) rotate(var(--entry-angle)) scale(.88); }
+    78% { transform: translateY(-6px); }
+    to { transform: var(--assembly-transform, none); }
+}
+
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
     .cartoes-animados .feature-card { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
     .feature-card:hover { translate: 0 -7px; border-color: #9ec5fe; box-shadow: 0 8px 24px #0d6efd15; }
