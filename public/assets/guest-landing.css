@@ -258,20 +258,20 @@ main { overflow-x: clip; }
         from { transform: scaleX(0); }
         to { transform: scaleX(1); }
     }
+}
 
-    [data-assemble] {
-        transform: var(--assembly-transform, none);
-        transition: transform .36s cubic-bezier(.2, .65, .3, 1);
-    }
+.cartoes-animados [data-assemble] {
+    transform: var(--assembly-transform, none);
+    transition: transform .36s cubic-bezier(.2, .65, .3, 1);
+}
 
-    [data-assemble]:focus-within {
-        transform: none;
-        transition: none;
-    }
+.cartoes-animados [data-assemble]:focus-within {
+    transform: none;
+    transition: none;
 }
 
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
-    .feature-card { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
+    .cartoes-animados .feature-card { transition: transform .36s cubic-bezier(.2, .65, .3, 1), translate .24s ease, box-shadow .24s ease, border-color .24s ease; }
     .feature-card:hover { translate: 0 -7px; border-color: #9ec5fe; box-shadow: 0 8px 24px #0d6efd15; }
     .section-features .feature-card:hover { border-color: var(--feature-accent, #83b7ff); box-shadow: 0 14px 25px #0006; }
 }

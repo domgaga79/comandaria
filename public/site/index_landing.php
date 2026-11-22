@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=16">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=17">
 </head>
 <body>
     <header class="site-header">
@@ -218,12 +218,14 @@ function landingEscape(string $value): string
 
         function encaixarCartoes() {
             const movimento = window.matchMedia('(prefers-reduced-motion: reduce)');
+            const animarPorLink = new URLSearchParams(window.location.search).get('animacao') === '1';
+            const pagina = document.querySelector('main');
             const grupos = document.querySelectorAll('.feature-grid, .flow ol, .plans');
             let quadro = 0;
 
             function atualizar() {
                 quadro = 0;
-                if (movimento.matches) return;
+                if (!pagina.classList.contains('cartoes-animados')) return;
 
                 const altura = window.innerHeight;
                 const largura = document.documentElement.clientWidth;
@@ -271,14 +273,21 @@ function landingEscape(string $value): string
             }
 
             function agendar() {
-                if (!quadro && !movimento.matches) quadro = requestAnimationFrame(atualizar);
+                if (!quadro && pagina.classList.contains('cartoes-animados')) {
+                    quadro = requestAnimationFrame(atualizar);
+                }
             }
 
-            atualizar();
+            function aplicarPreferencia() {
+                pagina.classList.toggle('cartoes-animados', animarPorLink || !movimento.matches);
+                atualizar();
+            }
+
+            aplicarPreferencia();
             window.addEventListener('scroll', agendar, {passive: true});
             window.addEventListener('resize', agendar);
             window.addEventListener('load', agendar, {once: true});
-            if (movimento.addEventListener) movimento.addEventListener('change', agendar);
+            if (movimento.addEventListener) movimento.addEventListener('change', aplicarPreferencia);
         }
 
         function animarBlocos() {
