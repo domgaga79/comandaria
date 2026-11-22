@@ -154,6 +154,11 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
     height: .8em;
     background: currentColor;
     vertical-align: -.02em;
+    animation: landing-caret .85s steps(1) infinite;
+}
+
+@keyframes landing-caret {
+    50% { opacity: 0; }
 }
 .reveal-in {
     animation: landing-reveal .65s cubic-bezier(.2, .7, .3, 1) var(--reveal-delay, 0ms) both;
@@ -166,8 +171,62 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
 
 @media (prefers-reduced-motion: reduce) {
     .reveal-in { animation-name: landing-fade; }
+    .typewriter-text::after { animation: none; }
     @keyframes landing-fade {
         from { opacity: .35; }
         to { opacity: 1; }
     }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .hero-intro h1,
+    .hero-intro .hero-copy p,
+    .hero-intro .actions {
+        animation: landing-reveal .6s cubic-bezier(.2, .7, .3, 1) both;
+    }
+
+    .hero-intro .hero-copy p { animation-delay: .14s; }
+    .hero-intro .actions { animation-delay: .24s; }
+
+    .hero-intro .hero-image {
+        animation: landing-preview .85s cubic-bezier(.2, .7, .3, 1) .15s both;
+    }
+
+    .hero-intro .is-typed {
+        position: relative;
+    }
+
+    .hero-intro .is-typed::after {
+        content: "";
+        position: absolute;
+        inset: auto 0 -.07em;
+        height: 2px;
+        background: currentColor;
+        transform-origin: left;
+        animation: landing-accent .55s ease-out both;
+    }
+
+    .feature-card.reveal-in .feature-icon {
+        animation: landing-icon .45s cubic-bezier(.25, 1.35, .55, 1) calc(var(--reveal-delay, 0ms) + 160ms) both;
+    }
+
+    @keyframes landing-preview {
+        from { opacity: .15; transform: translateY(20px) scale(.965); }
+        to { opacity: 1; transform: none; }
+    }
+
+    @keyframes landing-accent {
+        from { transform: scaleX(0); }
+        to { transform: scaleX(1); }
+    }
+
+    @keyframes landing-icon {
+        from { opacity: .35; transform: scale(.72); }
+        to { opacity: 1; transform: scale(1); }
+    }
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .feature-card { transition: box-shadow .22s ease, border-color .22s ease; }
+    .feature-card:hover { border-color: #9ec5fe; box-shadow: 0 8px 24px #0d6efd15; }
 }

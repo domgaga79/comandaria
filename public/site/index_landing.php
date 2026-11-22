@@ -43,7 +43,7 @@ function landingEscape(string $value): string
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=8">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=9">
 </head>
 <body>
     <header class="site-header">
@@ -210,7 +210,7 @@ function landingEscape(string $value): string
                     setTimeout(digitar, 105);
                 } else {
                     destaque.textContent = frase;
-                    destaque.classList.remove('is-typing');
+                    destaque.classList.replace('is-typing', 'is-typed');
                 }
             }
             setTimeout(digitar, 420);
@@ -232,6 +232,7 @@ function landingEscape(string $value): string
             document.querySelectorAll('[data-reveal]:not(.reveal-in)').forEach(bloco => observer.observe(bloco));
         }
 
+        document.querySelector('.hero').classList.add('hero-intro');
         animarTitulo();
         animarBlocos();
     </script>
