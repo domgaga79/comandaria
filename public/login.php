@@ -78,7 +78,7 @@ require_once __DIR__ . '/inc/seo.php';
 <title>Login - Comandaria Express</title>
 
 <?= ce_og_tags('Login - Comandaria Express', 'Acesse o sistema de comandas do Comandaria Express') ?>
-<link rel="icon" href="images/comandaria_logo.png" type="image/png">
+<link rel="icon" href="images/comandaria-marca.png" type="image/png">
 
 <meta name="theme-color" content="#f7f7f2">
 <link rel="stylesheet" href="assets/guest-access.css?v=3">
@@ -87,7 +87,7 @@ require_once __DIR__ . '/inc/seo.php';
     <main class="login-layout">
         <section class="login-card" aria-labelledby="login-title">
             <div class="login-brand">
-                <img src="images/comandaria_logo.png" width="52" height="52" alt="">
+                <img src="images/comandaria-marca.png" width="52" height="52" alt="">
                 <span>Comandaria Express</span>
             </div>
 

@@ -28,7 +28,7 @@ $staffCompany = authEmpresaNome();
 <nav class="cd-sidebar no-print" aria-label="Navegação principal">
     <div class="cd-sidebar-top">
         <a href="<?= htmlspecialchars($staffHome, ENT_QUOTES, 'UTF-8') ?>" class="cd-brand">
-            <span class="cd-brand-mark"><i class="bi bi-receipt" aria-hidden="true"></i></span>
+            <img class="cd-brand-mark" src="images/comandaria-marca.png" width="38" height="38" alt="">
             <span class="cd-brand-name">Comandaria<span> Express</span></span>
         </a>
         <button class="cd-menu-toggle" type="button" aria-controls="cd-sidebar-links" aria-expanded="false">
