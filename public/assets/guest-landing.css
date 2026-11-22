@@ -288,20 +288,20 @@ main { overflow-x: clip; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
-    @supports (animation-timeline: view()) and (animation-range: entry 0% cover 32%) {
+    @supports (animation-timeline: view()) and (animation-range: entry 0% cover 52%) {
         main .section :is(.feature-card, .flow li, .plan)[data-reveal] {
-            --assembly-x: calc(-1 * clamp(42px, 5vw, 76px));
-            --assembly-angle: -6deg;
-            --assembly-end: 30%;
+            --assembly-x: calc(-1 * clamp(60px, 8vw, 120px));
+            --assembly-angle: -12deg;
+            --assembly-end: 51%;
             animation: landing-assemble linear both;
             animation-timeline: view();
             animation-range: entry 0% cover var(--assembly-end);
         }
 
         main .section :is(.feature-card, .flow li, .plan)[data-reveal]:nth-child(even) {
-            --assembly-x: clamp(42px, 5vw, 76px);
-            --assembly-angle: 6deg;
-            --assembly-end: 36%;
+            --assembly-x: clamp(60px, 8vw, 120px);
+            --assembly-angle: 12deg;
+            --assembly-end: 59%;
         }
 
         main .section :is(.feature-card, .flow li, .plan)[data-reveal]:focus-within,
@@ -311,8 +311,10 @@ main { overflow-x: clip; }
 
         @keyframes landing-assemble {
             from {
-                transform: translate(var(--assembly-x), 52px) rotate(var(--assembly-angle)) scale(.88);
+                transform: translateX(var(--assembly-x)) rotate(var(--assembly-angle)) scale(.76);
             }
+            70% { transform: translateX(calc(var(--assembly-x) * .35)) rotate(calc(var(--assembly-angle) * .4)) scale(.9); }
+            90% { transform: translateX(calc(var(--assembly-x) * -.06)) rotate(calc(var(--assembly-angle) * -.12)) scale(1.015); }
             to { transform: none; }
         }
     }
