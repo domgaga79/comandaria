@@ -132,3 +132,37 @@ h3 { margin: 0 0 6px; line-height: 1.25; }
     .feature-grid { gap: 8px; }
     .feature-card h3 { overflow-wrap: anywhere; }
 }
+
+.feature-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 12px;
+    border-radius: 10px;
+    background: var(--primary-soft);
+    color: #084298;
+    font-size: 1.15rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .is-typing { display: inline-grid; }
+    .typewriter-original, .typewriter-text { grid-area: 1 / 1; }
+    .typewriter-original { opacity: 0; }
+    .typewriter-text::after {
+        content: "";
+        display: inline-block;
+        width: 2px;
+        height: .8em;
+        background: currentColor;
+        vertical-align: -.02em;
+    }
+    .reveal-in {
+        animation: landing-reveal .48s cubic-bezier(.2, .7, .3, 1) var(--reveal-delay, 0ms) both;
+    }
+
+    @keyframes landing-reveal {
+        from { opacity: .12; transform: translateY(14px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+}

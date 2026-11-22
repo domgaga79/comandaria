@@ -13,14 +13,14 @@ $linkLogin = $landingAtRoot ? 'login.php' : '../login.php';
 $caminhoPublico = $landingAtRoot ? '' : '../';
 
 $recursos = [
-    ['Atendimento e comandas', 'Lance itens com observações e adicionais e envie a comanda para a cozinha.'],
-    ['Gestão de mesas', 'Veja as mesas disponíveis e em atendimento e acompanhe as contas abertas.'],
-    ['Painel da cozinha', 'Organize a fila e atualize o preparo de cada pedido em tempo real.'],
-    ['Caixa e fechamento', 'Acompanhe os pagamentos e feche a conta com os valores conferidos.'],
-    ['Pedidos por QR Code', 'Ofereça um cardápio por mesa para o cliente pedir e acompanhar.'],
-    ['Produtos e adicionais', 'Edite o cardápio, categorias, preços e opções extras.'],
-    ['Relatórios operacionais', 'Consulte movimentações, pedidos e resultados do período.'],
-    ['Gestão por estabelecimento', 'Separe as operações de cada estabelecimento em sua própria conta.'],
+    ['receipt', 'Atendimento e comandas', 'Lance itens com observações e adicionais e envie a comanda para a cozinha.'],
+    ['grid', 'Gestão de mesas', 'Veja as mesas disponíveis e em atendimento e acompanhe as contas abertas.'],
+    ['fire', 'Painel da cozinha', 'Organize a fila e atualize o preparo de cada pedido em tempo real.'],
+    ['wallet2', 'Caixa e fechamento', 'Acompanhe os pagamentos e feche a conta com os valores conferidos.'],
+    ['qr-code', 'Pedidos por QR Code', 'Ofereça um cardápio por mesa para o cliente pedir e acompanhar.'],
+    ['box-seam', 'Produtos e adicionais', 'Edite o cardápio, categorias, preços e opções extras.'],
+    ['bar-chart', 'Relatórios operacionais', 'Consulte movimentações, pedidos e resultados do período.'],
+    ['buildings', 'Gestão por estabelecimento', 'Separe as operações de cada estabelecimento em sua própria conta.'],
 ];
 
 function landingEscape(string $value): string
@@ -42,7 +42,8 @@ function landingEscape(string $value): string
     <meta property="og:image" content="https://comandaria.bacuridigital.com/images/comandaria_logo_og_1200x630.png">
     <title>Comandaria Express | Pedidos, Mesas, Cozinha e Caixa</title>
     <link rel="icon" href="<?= landingEscape($caminhoPublico) ?>images/comandaria-marca.png" type="image/png">
-    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=3">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet" href="<?= landingEscape($caminhoPublico) ?>assets/guest-landing.css?v=4">
 </head>
 <body>
     <header class="site-header">
@@ -68,7 +69,7 @@ function landingEscape(string $value): string
         <section class="hero-shell" aria-labelledby="hero-title">
             <div class="site-container hero">
                 <div class="hero-copy">
-                    <h1 id="hero-title">Do pedido ao caixa, <em>em um só lugar.</em></h1>
+                    <h1 id="hero-title">Do pedido ao caixa, <em data-typewriter>em um só lugar.</em></h1>
                     <p>Organize o atendimento, acompanhe o preparo e feche as contas em um sistema feito para bares, lanchonetes e restaurantes.</p>
                     <div class="actions">
                         <?php if($landingAtRoot): ?>
@@ -89,8 +90,9 @@ function landingEscape(string $value): string
             <div class="site-container">
                 <h2>Recursos para cada etapa do serviço</h2>
                 <div class="feature-grid">
-                    <?php foreach($recursos as [$titulo, $descricao]): ?>
-                        <article class="feature-card">
+                    <?php foreach($recursos as [$icone, $titulo, $descricao]): ?>
+                        <article class="feature-card" data-reveal>
+                            <i class="feature-icon bi bi-<?= landingEscape($icone) ?>" aria-hidden="true"></i>
                             <h3><?= landingEscape($titulo) ?></h3>
                             <p><?= landingEscape($descricao) ?></p>
                         </article>
@@ -100,7 +102,7 @@ function landingEscape(string $value): string
         </section>
 
         <section class="section site-container" id="diferenciais">
-            <div class="flow">
+            <div class="flow" data-reveal>
                 <h2>Como funciona no salão</h2>
                 <ol>
                     <li><strong>Receba o pedido</strong><span>A equipe lança a comanda ou o cliente pede pelo QR Code da mesa.</span></li>
@@ -114,7 +116,7 @@ function landingEscape(string $value): string
             <div class="site-container">
                 <h2>Planos</h2>
                 <div class="plans">
-                    <article class="plan">
+                    <article class="plan" data-reveal>
                         <h3>FREE</h3>
                         <p class="price"><strong>R$ 0</strong> /mês</p>
                         <ul>
@@ -127,7 +129,7 @@ function landingEscape(string $value): string
                             <a class="button button-outline" href="<?= landingEscape($linkWhatsappFree) ?>" target="_blank" rel="noopener">Quero o FREE</a>
                         </div>
                     </article>
-                    <article class="plan plan-pro">
+                    <article class="plan plan-pro" data-reveal>
                         <h3>PRO</h3>
                         <p class="price"><strong><?= $landingAtRoot ? 'R$ 59,90' : 'R$ 129,90' ?></strong> /mês</p>
                         <?php if($landingAtRoot): ?>
@@ -154,14 +156,14 @@ function landingEscape(string $value): string
         <section class="section site-container" id="publico">
             <h2>Para bares, lanchonetes e restaurantes</h2>
             <div class="feature-grid audience">
-                <article class="feature-card"><h3>Bares</h3><p>Mantenha comandas e consumos por mesa em ordem durante o atendimento.</p></article>
-                <article class="feature-card"><h3>Lanchonetes</h3><p>Envie pedidos do balcão para a cozinha e acompanhe a retirada.</p></article>
-                <article class="feature-card"><h3>Restaurantes</h3><p>Conecte salão, cozinha e caixa durante todo o serviço.</p></article>
+                <article class="feature-card" data-reveal><i class="feature-icon bi bi-cup-straw" aria-hidden="true"></i><h3>Bares</h3><p>Mantenha comandas e consumos por mesa em ordem durante o atendimento.</p></article>
+                <article class="feature-card" data-reveal><i class="feature-icon bi bi-shop" aria-hidden="true"></i><h3>Lanchonetes</h3><p>Envie pedidos do balcão para a cozinha e acompanhe a retirada.</p></article>
+                <article class="feature-card" data-reveal><i class="feature-icon bi bi-shop-window" aria-hidden="true"></i><h3>Restaurantes</h3><p>Conecte salão, cozinha e caixa durante todo o serviço.</p></article>
             </div>
         </section>
 
         <section class="site-container">
-            <div class="contact">
+            <div class="contact" data-reveal>
                 <div>
                     <h2>Quer conhecer a Comandaria?</h2>
                     <p>Fale com a Bacuri Digital sobre sua operação.</p>
@@ -192,6 +194,46 @@ function landingEscape(string $value): string
         document.querySelectorAll('.site-nav a').forEach(link => {
             link.addEventListener('click', () => atualizarMenu(false));
         });
+        if (matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+            const destaque = document.querySelector('[data-typewriter]');
+            const frase = destaque.textContent;
+            const letras = Array.from(frase);
+            const textoDigitado = document.createElement('span');
+            textoDigitado.className = 'typewriter-text';
+            textoDigitado.setAttribute('aria-hidden', 'true');
+
+            const textoOriginal = document.createElement('span');
+            textoOriginal.className = 'typewriter-original';
+            textoOriginal.textContent = frase;
+            destaque.replaceChildren(textoOriginal, textoDigitado);
+            destaque.classList.add('is-typing');
+
+            let posicao = 0;
+            function digitar() {
+                posicao += 1;
+                textoDigitado.textContent = letras.slice(0, posicao).join('');
+                if (posicao < letras.length) {
+                    setTimeout(digitar, 58);
+                } else {
+                    destaque.textContent = frase;
+                    destaque.classList.remove('is-typing');
+                }
+            }
+            setTimeout(digitar, 180);
+
+            if ('IntersectionObserver' in window) {
+                const observer = new IntersectionObserver(entries => {
+                    entries.forEach((entry, indice) => {
+                        if (!entry.isIntersecting) return;
+                        entry.target.style.setProperty('--reveal-delay', Math.min(indice, 3) * 65 + 'ms');
+                        entry.target.classList.add('reveal-in');
+                        observer.unobserve(entry.target);
+                    });
+                }, { threshold: 0.12 });
+
+                document.querySelectorAll('[data-reveal]').forEach(bloco => observer.observe(bloco));
+            }
+        }
     </script>
 </body>
 </html>
